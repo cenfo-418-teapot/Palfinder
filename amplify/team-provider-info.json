@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-palfinder-dev-224623-authRole",
+      "UnauthRoleArn": "arn:aws:iam::802382637317:role/amplify-palfinder-dev-224623-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::802382637317:role/amplify-palfinder-dev-224623-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-palfinder-dev-224623-deployment",
+      "UnauthRoleName": "amplify-palfinder-dev-224623-unauthRole",
+      "StackName": "amplify-palfinder-dev-224623",
+      "StackId": "arn:aws:cloudformation:us-east-1:802382637317:stack/amplify-palfinder-dev-224623/d8b0ea90-36e0-11ec-bbaf-0a7fd7c86da5",
+      "AmplifyAppId": "d4b8xnoecljc5"
+    }
+  }
+}
