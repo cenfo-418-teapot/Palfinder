@@ -11,13 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
-            android:name=".views.user.SignUpActivity"
+            android:name=".views.user.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".views.HomeActivity"
-            android:exported="true" />
-        <activity
-            android:name=".views.user.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".views.MainActivity"
