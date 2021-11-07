@@ -31,6 +31,6 @@
     <string name="title_register">Register</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_confirm_sign_up">Check Your Email</string>
+    <string name="title_confirm_sign_up">Time to validate your account!</string>
     <string name="security_code">Security Code</string>
 </resources>

@@ -32,7 +32,7 @@ class SignUpFragment : Fragment() {
                     Log.e(TAG, "$user failed to register", it)
                 })
             } catch (e: IllegalStateException) {
-                Log.e(TAG, "Form Failed", e)
+                Log.e(TAG, "Form Validation Failed", e)
             }
         }
         view.tvConfirmNewAccount?.setOnClickListener {

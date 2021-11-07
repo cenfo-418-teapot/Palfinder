@@ -25,7 +25,7 @@ object AuthenticationService {
         user: String,
         password: String,
         onSuccess: (AuthSignInResult) -> Unit,
-        onError: (AuthException) -> Unit
+        onError: (AuthException) -> Unit,
     ) {
         Log.i(TAG, "Initiate Sign In Sequence")
         Amplify.Auth.signIn(user, password, onSuccess, onError)
@@ -36,11 +36,19 @@ object AuthenticationService {
         email: String,
         password: String,
         onSuccess: (AuthSignUpResult) -> Unit,
-        onError: (AuthException) -> Unit
+        onError: (AuthException) -> Unit,
     ) {
         val options = AuthSignUpOptions.builder()
             .userAttribute(AuthUserAttributeKey.email(), email)
             .build()
         Amplify.Auth.signUp(user, password, options, onSuccess, onError)
+    }
+
+    fun confirmSignUp(
+        username: String, code: String,
+        onSuccess: (AuthSignUpResult) -> Unit,
+        onError: (AuthException) -> Unit,
+    ) {
+        Amplify.Auth.confirmSignUp(username, code, onSuccess, onError)
     }
 }
