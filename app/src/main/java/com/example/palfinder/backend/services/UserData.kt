@@ -1,7 +1,5 @@
-package com.example.palfinder
+package com.example.palfinder.backend.services
 
-import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
@@ -10,7 +8,7 @@ object UserData {
 
     private const val TAG = "UserData"
 
-    private val _isSignedIn = MutableLiveData<Boolean>(false)
+    private val _isSignedIn = MutableLiveData<Boolean>()
     var isSignedIn: LiveData<Boolean> = _isSignedIn
 
     fun setSignedIn(newValue : Boolean) {

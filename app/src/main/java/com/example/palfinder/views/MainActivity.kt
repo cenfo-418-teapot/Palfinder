@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.amplifyframework.core.Amplify
 import com.example.palfinder.R
 import com.example.palfinder.views.user.LoginActivity
-import com.example.palfinder.views.user.LoginActivityOld
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
