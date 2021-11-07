@@ -1,6 +1,5 @@
 package com.example.palfinder.views.user
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService

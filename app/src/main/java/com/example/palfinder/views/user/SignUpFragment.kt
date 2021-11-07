@@ -27,6 +27,7 @@ class SignUpFragment : Fragment() {
                 val user = validForm()
                 AuthenticationService.signUp(user.username, user.email, user.password, {
                     Log.i(TAG, "User: $user was registered, result: ${it.user}")
+                    gotoConfirmSignUp(view)
                 }, {
                     Log.e(TAG, "$user failed to register", it)
                 })
@@ -34,7 +35,14 @@ class SignUpFragment : Fragment() {
                 Log.e(TAG, "Form Failed", e)
             }
         }
+        view.tvConfirmNewAccount?.setOnClickListener {
+            gotoConfirmSignUp(view)
+        }
         return view
+    }
+
+    private fun gotoConfirmSignUp(view: View) {
+        Navigation.findNavController(view).navigate(R.id.from_signUp_to_confirmSignUp)
     }
 
     private fun validForm(): UserForm {
@@ -53,12 +61,12 @@ class SignUpFragment : Fragment() {
         if (!equalPasswords) {
             tilConfirmPassword?.error = "Passwords do not match"
         }
-        check(user.isNotBlank()) {"User is blank"}
-        check(email.isNotBlank()) {"email is blank"}
-        check(password.isNotBlank()) {"password is blank"}
-        check(confirmPassword.isNotBlank()) {"Confirmation is blank"}
-        check(equalPasswords) { "Passwords are not the same"}
-        check(password.length >= 8) { "Password criteria was not met"}
+        check(user.isNotBlank()) { "User is blank" }
+        check(email.isNotBlank()) { "email is blank" }
+        check(password.isNotBlank()) { "password is blank" }
+        check(confirmPassword.isNotBlank()) { "Confirmation is blank" }
+        check(equalPasswords) { "Passwords are not the same" }
+        check(password.length >= 8) { "Password criteria was not met" }
         return UserForm(user, email, password)
     }
 

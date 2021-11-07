@@ -99,6 +99,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llRegisterActions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/container_margin"
@@ -108,7 +109,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1">
+        app:layout_constraintVertical_bias="0.8">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancel"
@@ -126,4 +127,15 @@
             android:layout_weight="1"
             android:text="@string/next_action_label" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvConfirmNewAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm new account"
+        android:textColor="@color/secondaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llRegisterActions" />
 </androidx.constraintlayout.widget.ConstraintLayout>
