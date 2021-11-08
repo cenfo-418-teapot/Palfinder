@@ -23,12 +23,10 @@ Se ingresa el siguiente comando
 ```
 amplify init
 ```
+
 El Amplify CLI van a solicitar el  **accessKeyId** y **secretAccessKey** para configurar los credenciales a utlizar con el amplify.
 
-    ![AmplifyCLI] https://miro.medium.com/max/2400/1*Cm0_40ttTgSylVDCBEKLkw.png)
-
-
-
+![AmplifyCLI] https://miro.medium.com/max/2400/1*Cm0_40ttTgSylVDCBEKLkw.png)
 
 El CLI va a consultar si deseamos utilizar un ambiente existente
 
