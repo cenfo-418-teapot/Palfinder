@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.palfinder.views.user.SignInFragment"
+        android:name="com.example.palfinder.views.auth.SignInFragment"
         android:label="SignInFragment">
         <action
             android:id="@+id/from_signIn_to_signUp"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.palfinder.views.user.SignUpFragment"
+        android:name="com.example.palfinder.views.auth.SignUpFragment"
         android:label="SignUpFragment">
         <action
             android:id="@+id/from_signUp_to_signIn"
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/confirmSignUpFragment"
-        android:name="com.example.palfinder.views.user.ConfirmSignUpFragment"
+        android:name="com.example.palfinder.views.auth.ConfirmSignUpFragment"
         android:label="fragment_confirm_sign_up"
         tools:layout="@layout/confirm_sign_up_fragment" >
         <action

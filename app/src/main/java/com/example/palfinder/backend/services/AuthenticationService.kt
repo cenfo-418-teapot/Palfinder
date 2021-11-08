@@ -11,14 +11,9 @@ import com.amplifyframework.core.Amplify
 object AuthenticationService {
     private const val TAG = "AuthenticationService"
 
-    fun signOut() {
+    fun signOut(onSuccess: () -> Unit, onError: (AuthException) -> Unit) {
         Log.i(TAG, "Initiate Sign Out Sequence")
-/*
-        Amplify.Auth.signOut(
-            { Log.i(TAG, "Signed out!") },
-            { error -> Log.e(TAG, "Sign Out failed", error) }
-        )
-*/
+        Amplify.Auth.signOut(onSuccess, onError)
     }
 
     fun signIn(

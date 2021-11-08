@@ -1,4 +1,4 @@
-package com.example.palfinder.views.user
+package com.example.palfinder.views.auth
 
 import android.os.Bundle
 import android.util.Log

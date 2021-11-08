@@ -1,4 +1,4 @@
-package com.example.palfinder.views.user
+package com.example.palfinder.views.auth
 
 import android.content.Intent
 import android.os.Bundle

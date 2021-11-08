@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
-            android:name=".views.user.LoginActivity"
+            android:name=".views.auth.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".views.HomeActivity"

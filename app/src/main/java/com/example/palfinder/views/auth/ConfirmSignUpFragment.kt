@@ -1,4 +1,4 @@
-package com.example.palfinder.views.user
+package com.example.palfinder.views.auth
 
 import android.os.Bundle
 import android.util.Log
@@ -11,12 +11,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.confirm_sign_up_fragment.*
 import kotlinx.android.synthetic.main.confirm_sign_up_fragment.view.*
 import kotlinx.android.synthetic.main.sign_up_fragment.view.btnCancel
 
 class ConfirmSignUpFragment : Fragment() {
-    private val _isConfirmed = MutableLiveData<Pair<Boolean, String>>()
+    private val _isConfirmed = MutableLiveData<Pair<Boolean, String?>>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,7 +30,7 @@ class ConfirmSignUpFragment : Fragment() {
         view.btnConfirm?.setOnClickListener {
             try {
                 val (username, securityCode) = validateForm()
-                AuthenticationService.confirmSignUp("", "",
+                AuthenticationService.confirmSignUp(username, securityCode,
                     { result ->
                         if (result.isSignUpComplete) {
                             val msg = "Confirm signUp succeeded"
@@ -50,13 +51,13 @@ class ConfirmSignUpFragment : Fragment() {
             } catch (e: IllegalStateException) {
                 val msg = "Form Validation Failed"
                 Log.e(TAG, msg, e)
-                _isConfirmed.postValue(Pair(false, msg))
+                _isConfirmed.postValue(Pair(false, null))
             }
         }
         _isConfirmed.observe(viewLifecycleOwner) {
             if (it.first) Navigation.findNavController(view).navigate(R.id.from_confirmSignUp_to_signIn)
-            else {
-                Toast.makeText(context, it.second, Toast.LENGTH_SHORT).show()
+            else if (it.second?.isNotBlank() == true) {
+                Snackbar.make(view, it.second!!, Snackbar.LENGTH_SHORT).show()
             }
         }
         return view
