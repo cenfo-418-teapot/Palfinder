@@ -7,12 +7,11 @@
 
     <TextView
         android:id="@+id/tvLogin"
-        style="@style/TextAppearance.AppCompat.Display2"
+        style="@style/view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_login"
         android:textAlignment="center"
-        android:textColor="@color/primaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +67,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="textPassword" />
+            <TextView
+                android:id="@+id/tvRecoverPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="textEnd"
+                android:text="@string/recover_password_label"
+                android:textColor="@color/secondaryDark"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 

@@ -34,4 +34,7 @@
     <string name="title_confirm_sign_up">Time to validate your account!</string>
     <string name="security_code">Security Code</string>
     <string name="log_out">Log out</string>
+    <string name="title_recover_password">Recover Password</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

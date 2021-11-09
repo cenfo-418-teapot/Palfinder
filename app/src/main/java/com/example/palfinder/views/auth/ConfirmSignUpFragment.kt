@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
@@ -41,13 +40,12 @@ class ConfirmSignUpFragment : Fragment() {
                             Log.i("AuthQuickstart", msg)
                             _isConfirmed.postValue(Pair(false, msg))
                         }
-                    },
-                    { error ->
-                        val msg = "Failed to confirm sign up"
-                        Log.e("AuthQuickstart", msg, error)
-                        _isConfirmed.postValue(Pair(false, msg))
                     }
-                )
+                ) { error ->
+                    val msg = "Failed to confirm sign up"
+                    Log.e("AuthQuickstart", msg, error)
+                    _isConfirmed.postValue(Pair(false, msg))
+                }
             } catch (e: IllegalStateException) {
                 val msg = "Form Validation Failed"
                 Log.e(TAG, msg, e)

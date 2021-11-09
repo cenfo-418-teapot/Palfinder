@@ -28,9 +28,9 @@ class SignUpFragment : Fragment() {
                 AuthenticationService.signUp(user.username, user.email, user.password, {
                     Log.i(TAG, "User: $user was registered, result: ${it.user}")
                     gotoConfirmSignUp(view)
-                }, {
+                }) {
                     Log.e(TAG, "$user failed to register", it)
-                })
+                }
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
             }

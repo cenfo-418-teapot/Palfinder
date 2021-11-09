@@ -16,9 +16,9 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
         btnLogout.setOnClickListener {
             AuthenticationService.signOut({
                 UserData.setSignedIn(false)
-            }, { error ->
+            }) { error ->
                 Log.e(TAG, "Failed to log out!", error)
-            })
+            }
         }
         UserData.isSignedIn.observe(this, {
             if (!it) {

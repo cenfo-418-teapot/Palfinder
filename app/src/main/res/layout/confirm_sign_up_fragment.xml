@@ -7,12 +7,11 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/TextAppearance.AppCompat.Display2"
+        style="@style/view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_confirm_sign_up"
         android:textAlignment="center"
-        android:textColor="@color/primaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
