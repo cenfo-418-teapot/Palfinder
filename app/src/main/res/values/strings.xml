@@ -37,4 +37,5 @@
     <string name="title_recover_password">Recover Password</string>
     <string name="verification_code">Verification Code</string>
     <string name="save_changes">Save Changes</string>
+    <string name="has_recovery_code">Already have a recovery code?</string>
 </resources>
