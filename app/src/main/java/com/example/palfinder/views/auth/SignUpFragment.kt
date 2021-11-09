@@ -6,13 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
+import com.amplifyframework.auth.AuthException
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
 import kotlinx.android.synthetic.main.sign_up_fragment.*
 import kotlinx.android.synthetic.main.sign_up_fragment.view.*
 
 class SignUpFragment : Fragment() {
+    private val _uniqueUsername = MutableLiveData<Boolean>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        _uniqueUsername.observe(this, {
+            tilUsername?.error = if (!it) "That username is taken" else null
+        })
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +38,10 @@ class SignUpFragment : Fragment() {
                     Log.i(TAG, "User: $user was registered, result: ${it.user}")
                     gotoConfirmSignUp(view)
                 }) {
-                    Log.e(TAG, "$user failed to register", it)
+                    when(it){
+                        is AuthException.UsernameExistsException -> _uniqueUsername.postValue(false)
+                        else -> Log.e(TAG, "$user failed to register", it)
+                    }
                 }
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
