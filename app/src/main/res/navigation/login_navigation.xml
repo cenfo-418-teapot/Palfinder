@@ -32,7 +32,7 @@
         android:id="@+id/confirmSignUpFragment"
         android:name="com.example.palfinder.views.auth.ConfirmSignUpFragment"
         android:label="fragment_confirm_sign_up"
-        tools:layout="@layout/confirm_sign_up_fragment" >
+        tools:layout="@layout/fragment_confirm_sign_up" >
         <action
             android:id="@+id/from_confirmSignUp_to_signIn"
             app:destination="@id/signInFragment"
