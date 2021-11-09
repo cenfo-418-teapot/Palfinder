@@ -22,7 +22,7 @@ class ConfirmSignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.confirm_sign_up_fragment, container, false)
+        val view = inflater.inflate(R.layout.fragment_confirm_sign_up, container, false)
         view.btnCancel?.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.from_confirmSignUp_to_signUp)
         }

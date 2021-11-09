@@ -27,7 +27,7 @@ class SignUpFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = layoutInflater.inflate(R.layout.sign_up_fragment, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_sign_up, container, false)
         view.btnCancel?.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.from_signUp_to_signIn)
         }
