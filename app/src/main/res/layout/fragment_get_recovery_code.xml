@@ -30,6 +30,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text" />
+        <TextView
+            android:id="@+id/tvHasCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"
+            android:text="@string/has_recovery_code"
+            android:textColor="@color/secondaryDark"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <Space
