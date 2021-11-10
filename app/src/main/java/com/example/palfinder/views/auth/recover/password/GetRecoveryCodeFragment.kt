@@ -13,11 +13,9 @@ import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.auth.AuthException
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
-import kotlinx.android.synthetic.main.fragment_get_recovery_code.*
 import kotlinx.android.synthetic.main.fragment_get_recovery_code.etUsername
 import kotlinx.android.synthetic.main.fragment_get_recovery_code.tilUsername
 import kotlinx.android.synthetic.main.fragment_get_recovery_code.view.*
-import kotlinx.android.synthetic.main.sign_up_fragment.*
 
 class GetRecoveryCodeFragment : Fragment() {
     lateinit var stepChange: OnStepChange

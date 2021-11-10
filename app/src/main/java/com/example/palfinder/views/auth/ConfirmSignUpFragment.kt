@@ -11,9 +11,8 @@ import androidx.navigation.Navigation
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.confirm_sign_up_fragment.*
-import kotlinx.android.synthetic.main.confirm_sign_up_fragment.view.*
-import kotlinx.android.synthetic.main.sign_up_fragment.view.btnCancel
+import kotlinx.android.synthetic.main.fragment_confirm_sign_up.*
+import kotlinx.android.synthetic.main.fragment_confirm_sign_up.view.*
 
 class ConfirmSignUpFragment : Fragment() {
     private val _isConfirmed = MutableLiveData<Pair<Boolean, String?>>()
