@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_navigation"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.example.palfinder.views.auth.SignInFragment"
+        android:label="SignInFragment">
+        <action
+            android:id="@+id/from_signIn_to_signUp"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.palfinder.views.auth.SignUpFragment"
+        android:label="SignUpFragment">
+        <action
+            android:id="@+id/from_signUp_to_signIn"
+            app:destination="@id/signInFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/from_signUp_to_confirmSignUp"
+            app:destination="@id/confirmSignUpFragment"
+            app:popUpTo="@id/confirmSignUpFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/confirmSignUpFragment"
+        android:name="com.example.palfinder.views.auth.ConfirmSignUpFragment"
+        android:label="fragment_confirm_sign_up"
+        tools:layout="@layout/confirm_sign_up_fragment" >
+        <action
+            android:id="@+id/from_confirmSignUp_to_signIn"
+            app:destination="@id/signInFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/from_confirmSignUp_to_signUp"
+            app:destination="@id/signUpFragment"
+            app:popUpTo="@id/signUpFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
