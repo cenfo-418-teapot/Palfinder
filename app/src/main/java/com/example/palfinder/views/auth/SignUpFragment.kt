@@ -11,8 +11,8 @@ import androidx.navigation.Navigation
 import com.amplifyframework.auth.AuthException
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
-import kotlinx.android.synthetic.main.sign_up_fragment.*
-import kotlinx.android.synthetic.main.sign_up_fragment.view.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.fragment_sign_up.view.*
 
 class SignUpFragment : Fragment() {
     private val _uniqueUsername = MutableLiveData<Boolean>()

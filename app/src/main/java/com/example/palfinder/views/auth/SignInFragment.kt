@@ -13,8 +13,8 @@ import com.example.palfinder.backend.services.AuthenticationService
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.views.HomeActivity
 import com.example.palfinder.views.auth.recover.password.RecoverPasswordActivity
-import kotlinx.android.synthetic.main.sign_in_fragment.*
-import kotlinx.android.synthetic.main.sign_in_fragment.view.*
+import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_in.view.*
 
 class SignInFragment : Fragment() {
     override fun onCreateView(
