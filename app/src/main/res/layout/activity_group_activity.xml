@@ -33,23 +33,23 @@
         app:layout_constraintEnd_toEndOf="@+id/friends_landscape"
         app:layout_constraintStart_toStartOf="@+id/friends_landscape"
         app:layout_constraintTop_toTopOf="@+id/friends_landscape"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.5"
+        />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/curved_top"
+        android:padding="@dimen/container_margin"
+        app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/friends_landscape"
         app:layout_constraintVertical_bias="1"
-        app:navGraph="@navigation/login_navigation"
-        android:padding="@dimen/container_margin"
-        />
+        app:navGraph="@navigation/groups_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

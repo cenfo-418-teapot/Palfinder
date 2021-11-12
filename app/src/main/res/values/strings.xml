@@ -37,4 +37,20 @@
     <string name="title_recover_password">Recover Password</string>
     <string name="verification_code">Verification Code</string>
     <string name="save_changes">Save Changes</string>
+    <!-- Groups List  -->
+    <string name="title_group_list">Groups</string>
+    <string name="no_groups_found">No groups found</string>
+    <string name="group_list_discover_lbl">Discover</string>
+    <string name="group_list_my_groups_lbl">My Groups</string>
+    <string name="group_list_my_suggested_subtitle">Suggested</string>
+
+    <!-- Groups Profile  -->
+    <string name="title_group_profile">Group</string>
+    <string name="group_profile_add_user_lbl">Add user</string>
+    <string name="group_profile_create_event_lbl">Create event</string>
+    <string name="group_profile_share_lbl">Share</string>
+    <string name="group_profile_privacy_subtitle">Privacy:</string>
+    <string name="group_profile_next_events_subtitle">Next Events</string>
+    <string name="group_profile_members_subtitle">Members</string>
+    <string name="group_profile_view_all_members">View all</string>
 </resources>
