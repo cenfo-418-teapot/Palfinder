@@ -50,9 +50,7 @@ class ConfirmSignUpFragment : Fragment() {
                     _isConfirmed.postValue(Pair(false, msg))
                 }
             } catch (e: IllegalStateException) {
-                val msg = "Form Validation Failed"
-                Log.e(TAG, msg, e)
-                _isConfirmed.postValue(Pair(true, msg))
+                _isConfirmed.postValue(Pair(false, null))
             }
         }
         _isConfirmed.observe(viewLifecycleOwner) {
