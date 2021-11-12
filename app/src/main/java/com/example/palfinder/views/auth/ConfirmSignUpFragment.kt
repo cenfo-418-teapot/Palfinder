@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
+import com.amplifyframework.auth.AuthException
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
 import com.google.android.material.snackbar.Snackbar
@@ -23,7 +24,7 @@ class ConfirmSignUpFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_confirm_sign_up, container, false)
         view.btnCancel?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.from_confirmSignUp_to_signUp)
+            Navigation.findNavController(view).navigate(R.id.action_confirmSignUpFragment_to_signUpFragment)
         }
         view.btnConfirm?.setOnClickListener {
             try {
@@ -41,18 +42,21 @@ class ConfirmSignUpFragment : Fragment() {
                         }
                     }
                 ) { error ->
-                    val msg = "Failed to confirm sign up"
+                    var msg = "Failed to confirm sign up"
+                    when(error) {
+                        is AuthException.NotAuthorizedException -> msg = "The code was already used."
+                    }
                     Log.e("AuthQuickstart", msg, error)
                     _isConfirmed.postValue(Pair(false, msg))
                 }
             } catch (e: IllegalStateException) {
                 val msg = "Form Validation Failed"
                 Log.e(TAG, msg, e)
-                _isConfirmed.postValue(Pair(false, null))
+                _isConfirmed.postValue(Pair(true, msg))
             }
         }
         _isConfirmed.observe(viewLifecycleOwner) {
-            if (it.first) Navigation.findNavController(view).navigate(R.id.from_confirmSignUp_to_signIn)
+            if (it.first) Navigation.findNavController(view).navigate(R.id.action_confirmSignUpFragment_to_signInFragment)
             else if (it.second?.isNotBlank() == true) {
                 Snackbar.make(view, it.second!!, Snackbar.LENGTH_SHORT).show()
             }

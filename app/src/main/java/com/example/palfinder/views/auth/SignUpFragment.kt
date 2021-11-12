@@ -29,7 +29,7 @@ class SignUpFragment : Fragment() {
     ): View? {
         val view = layoutInflater.inflate(R.layout.fragment_sign_up, container, false)
         view.btnCancel?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.from_signUp_to_signIn)
+            Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_signInFragment)
         }
         view.btnSignUp?.setOnClickListener {
             try {
@@ -54,7 +54,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun gotoConfirmSignUp(view: View) {
-        Navigation.findNavController(view).navigate(R.id.from_signUp_to_confirmSignUp)
+        Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_confirmSignUpFragment)
     }
 
     private fun validForm(): UserForm {

@@ -24,7 +24,7 @@ class SignInFragment : Fragment() {
     ): View? {
         val view = layoutInflater.inflate(R.layout.fragment_sign_in, container, false)
         view.btnSignUp?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.from_signIn_to_signUp)
+            Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_signUpFragment)
         }
         view.btnSignIn?.setOnClickListener {
             signIn()
