@@ -13,8 +13,8 @@ import com.example.palfinder.backend.services.AuthenticationService
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.views.HomeActivity
 import com.example.palfinder.views.auth.recover.password.RecoverPasswordActivity
-import kotlinx.android.synthetic.main.sign_in_fragment.*
-import kotlinx.android.synthetic.main.sign_in_fragment.view.*
+import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_in.view.*
 
 class SignInFragment : Fragment() {
     override fun onCreateView(
@@ -22,9 +22,9 @@ class SignInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = layoutInflater.inflate(R.layout.sign_in_fragment, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_sign_in, container, false)
         view.btnSignUp?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.from_signIn_to_signUp)
+            Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_signUpFragment)
         }
         view.btnSignIn?.setOnClickListener {
             signIn()

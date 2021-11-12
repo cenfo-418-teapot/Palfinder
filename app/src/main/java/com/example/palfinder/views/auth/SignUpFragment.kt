@@ -6,21 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
+import com.amplifyframework.auth.AuthException
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
-import kotlinx.android.synthetic.main.sign_up_fragment.*
-import kotlinx.android.synthetic.main.sign_up_fragment.view.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
+import kotlinx.android.synthetic.main.fragment_sign_up.view.*
 
 class SignUpFragment : Fragment() {
+    private val _uniqueUsername = MutableLiveData<Boolean>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        _uniqueUsername.observe(this, {
+            tilUsername?.error = if (!it) "That username is taken" else null
+        })
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = layoutInflater.inflate(R.layout.sign_up_fragment, container, false)
+        val view = layoutInflater.inflate(R.layout.fragment_sign_up, container, false)
         view.btnCancel?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.from_signUp_to_signIn)
+            Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_signInFragment)
         }
         view.btnSignUp?.setOnClickListener {
             try {
@@ -29,7 +38,10 @@ class SignUpFragment : Fragment() {
                     Log.i(TAG, "User: $user was registered, result: ${it.user}")
                     gotoConfirmSignUp(view)
                 }) {
-                    Log.e(TAG, "$user failed to register", it)
+                    when(it){
+                        is AuthException.UsernameExistsException -> _uniqueUsername.postValue(false)
+                        else -> Log.e(TAG, "$user failed to register", it)
+                    }
                 }
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
@@ -42,7 +54,7 @@ class SignUpFragment : Fragment() {
     }
 
     private fun gotoConfirmSignUp(view: View) {
-        Navigation.findNavController(view).navigate(R.id.from_signUp_to_confirmSignUp)
+        Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_confirmSignUpFragment)
     }
 
     private fun validForm(): UserForm {
