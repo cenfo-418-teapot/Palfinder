@@ -48,7 +48,7 @@
             app:startIconDrawable="@drawable/ic_person">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etName"
+                android:id="@+id/etUsertName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text" />
@@ -64,7 +64,7 @@
             app:startIconDrawable="@drawable/ic_security">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSecurityCode"
+                android:id="@+id/etRoles"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text" />
