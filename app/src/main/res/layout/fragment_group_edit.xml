@@ -10,6 +10,7 @@
         style="@style/view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto"
         android:text="@string/title_group_edit"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:fontFamily="@font/roboto"
             android:text="@string/hint_group_edit"
             android:textAlignment="center" />
 
@@ -52,6 +54,8 @@
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/roboto"
+                android:hintTextColor="#757575"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,33 +63,42 @@
             android:id="@+id/tilDescription"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:hint="@string/lbl_group_description"
             app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_baseline_text_snippet_24">
+            app:passwordToggleEnabled="false"
+            app:startIconDrawable="@drawable/ic_baseline_text_snippet_24"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDescription"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text" />
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:gravity=""
+                android:inputType="text|textMultiLine"
+                android:maxLines="10"
+                android:minLines="6"
+                android:scrollbars="vertical" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilTags"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/lbl_group_tags"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_baseline_label_24">
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/tilTags"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="@string/lbl_group_tags"-->
+<!--            app:errorEnabled="true"-->
+<!--            app:startIconDrawable="@drawable/ic_baseline_label_24">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etTags"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/etTags"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:fontFamily="@font/roboto"-->
+<!--                android:inputType="text" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilMembers"
@@ -100,6 +113,7 @@
                 android:id="@+id/etMembers"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/roboto"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -137,6 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
+            android:fontFamily="@font/roboto"
             android:text="@string/cancel_action_label" />
 
         <com.google.android.material.button.MaterialButton
@@ -144,6 +159,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/roboto"
             android:text="Confirm" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
