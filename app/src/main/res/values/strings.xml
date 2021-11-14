@@ -38,4 +38,7 @@
     <string name="verification_code">Verification Code</string>
     <string name="save_changes">Save Changes</string>
     <string name="has_recovery_code">Already have a recovery code?</string>
+    <string name="user_name">Mauricio Poveda</string>
+    <string name="user_description">Design, code and content, Knicks MixTape, Hip-Hop extraordinaire</string>
+    <string name="user_avatar_description">Avatar of the user</string>
 </resources>
