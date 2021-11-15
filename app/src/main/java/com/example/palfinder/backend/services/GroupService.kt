@@ -6,6 +6,7 @@ import android.util.Log
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Group
 import com.amplifyframework.storage.StorageAccessLevel
 import com.amplifyframework.storage.options.StorageDownloadFileOptions
 import com.amplifyframework.storage.options.StorageRemoveOptions
@@ -17,28 +18,28 @@ object GroupService {
 
     private const val TAG = "GroupService"
 
-    fun queryNotes() {
+    fun queryGroups() {
         Log.i(TAG, "Querying groups")
 
         Amplify.API.query(
-            ModelQuery.list(GroupAdmin::class.java),
+            ModelQuery.list(Group::class.java),
             { response ->
                 Log.i(TAG, "Queried")
                 for (groupData in response.data) {
                     Log.i(TAG, groupData.name)
                     // TODO should add all the groups at once instead of one by one (each add triggers a UI refresh)
-                    GroupAdmin.addNote(GroupAdmin.GroupModel.from(groupData))
+                    GroupAdmin.addGroup(GroupAdmin.GroupModel.from(groupData))
                 }
             },
             { error -> Log.e(TAG, "Query failure", error) }
         )
     }
 
-    fun createNote(GroupModel : GroupAdmin.GroupModel) {
+    fun createGroup(groupModel : GroupAdmin.GroupModel) {
         Log.i(TAG, "Creating groups")
 
         Amplify.API.mutate(
-            ModelMutation.create(GroupModel.data),
+            ModelMutation.create(groupModel.data),
             { response ->
                 Log.i(TAG, "Created")
                 if (response.hasErrors()) {
@@ -51,14 +52,24 @@ object GroupService {
         )
     }
 
-    fun deleteNote(GroupModel : GroupAdmin.GroupModel?) {
+    fun createTagRelation() {
+        // TODO: Write script for many to many new tag connection to the group
+    }
 
-        if (GroupModel == null) return
+    fun createUserRelation(){
+        // TODO: Write script for many to many new user connection to the group
+    }
 
-        Log.i(TAG, "Deleting Group $group")
+    // NO createEventRelation because events belong to a group
+
+    fun deleteGroup(tmpGroupModel : GroupAdmin.GroupModel?) {
+
+        if (tmpGroupModel == null) return
+
+        Log.i(TAG, "Deleting Group $tmpGroupModel")
 
         Amplify.API.mutate(
-            ModelMutation.delete(GroupModel.data),
+            ModelMutation.delete(tmpGroupModel. data),
             { response ->
                 Log.i(TAG, "Deleted")
                 if (response.hasErrors()) {
