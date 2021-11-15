@@ -42,5 +42,11 @@
         }
       }
     }
+  },
+  "storage": {
+    "palfinderMultimedia": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
