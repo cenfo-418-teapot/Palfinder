@@ -17,12 +17,6 @@
             android:layout_weight="1"
             android:contentDescription="@string/user_avatar_description"
             tools:srcCompat="@tools:sample/avatars" />
-<!--        <com.google.android.material.imageview.ShapeableImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:scaleType="fitCenter"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            tools:srcCompat="@tools:sample/avatars">-->
-<!--        </com.google.android.material.imageview.ShapeableImageView>-->
         <LinearLayout
             android:id="@+id/user_followers_container"
             android:layout_width="0dp"
