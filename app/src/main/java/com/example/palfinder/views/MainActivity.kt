@@ -12,15 +12,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
-        setContentView(R.layout.style_guide)
+        setContentView(R.layout.activity_main)
 
-//        Handler(mainLooper).postDelayed({
-//            if (Amplify.Auth.currentUser == null) {
-//                startActivity(Intent(this, LoginActivity::class.java))
-//            } else {
-//                startActivity(Intent(this, HomeActivity::class.java))
-//            }
-//            finish()
-//        },800)
+        Handler(mainLooper).postDelayed({
+            if (Amplify.Auth.currentUser == null) {
+                startActivity(Intent(this, LoginActivity::class.java))
+            } else {
+                startActivity(Intent(this, HomeActivity::class.java))
+            }
+            finish()
+        },800)
     }
 }
