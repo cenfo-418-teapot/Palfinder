@@ -27,18 +27,18 @@ object GroupService {
                 for (groupData in response.data) {
                     Log.i(TAG, groupData.name)
                     // TODO should add all the groups at once instead of one by one (each add triggers a UI refresh)
-                    GroupAdmin.addNote(GroupAdmin.Group.from(groupData))
+                    GroupAdmin.addNote(GroupAdmin.GroupModel.from(groupData))
                 }
             },
             { error -> Log.e(TAG, "Query failure", error) }
         )
     }
 
-    fun createNote(Group : GroupAdmin.Group) {
+    fun createNote(GroupModel : GroupAdmin.GroupModel) {
         Log.i(TAG, "Creating groups")
 
         Amplify.API.mutate(
-            ModelMutation.create(Group.data),
+            ModelMutation.create(GroupModel.data),
             { response ->
                 Log.i(TAG, "Created")
                 if (response.hasErrors()) {
@@ -51,14 +51,14 @@ object GroupService {
         )
     }
 
-    fun deleteNote(Group : GroupAdmin.Group?) {
+    fun deleteNote(GroupModel : GroupAdmin.GroupModel?) {
 
-        if (Group == null) return
+        if (GroupModel == null) return
 
         Log.i(TAG, "Deleting Group $group")
 
         Amplify.API.mutate(
-            ModelMutation.delete(Group.data),
+            ModelMutation.delete(GroupModel.data),
             { response ->
                 Log.i(TAG, "Deleted")
                 if (response.hasErrors()) {

@@ -4,6 +4,8 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.amplifyframework.datastore.generated.model.Group
+import com.amplifyframework.datastore.generated.model.State
 
 object GroupAdmin {
     private const val TAG = "UserData"
@@ -22,12 +24,12 @@ object GroupAdmin {
         tags: ArrayList<String>,
         eventIds: ArrayList<Int>,
         memberIds: ArrayList<Int>
-    ) : Group
+    ) : GroupModel
     {
-        return Group(id,name,description,tags,eventIds,memberIds,imageName)
+        return GroupModel(id,name,description,tags,eventIds,memberIds,imageName)
     }
 
-    private val _groups = MutableLiveData<MutableList<Group>>(mutableListOf())
+    private val _groups = MutableLiveData<MutableList<GroupModel>>(mutableListOf())
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
         this.postValue(this.value)
@@ -36,8 +38,8 @@ object GroupAdmin {
         this._groups.notifyObserver()
     }
 
-    fun groups() : LiveData<MutableList<Group>> = _groups
-    fun addGroup(n : Group) {
+    fun groups() : LiveData<MutableList<GroupModel>> = _groups
+    fun addGroup(n : GroupModel) {
         val notes = _groups.value
         if (notes != null) {
             notes.add(n)
@@ -46,7 +48,7 @@ object GroupAdmin {
             Log.e(TAG, "addNote : group collection is null !!")
         }
     }
-    fun deleteGroup(at: Int) : Group?  {
+    fun deleteGroup(at: Int) : GroupModel?  {
         val Group = _groups.value?.removeAt(at)
         _groups.notifyObserver()
         return Group
@@ -57,13 +59,14 @@ object GroupAdmin {
         _groups.notifyObserver()
     }
 
-    data class Group(
+    data class GroupModel(
         val id: String,
         val name: String,
         val description: String,
         val tags: ArrayList<String>,
         val eventIds: ArrayList<Int>,
         val memberIds: ArrayList<Int>,
+        val state: State,
         var imageName: String? = null)
     {
         override fun toString(): String = name
@@ -71,21 +74,21 @@ object GroupAdmin {
         // bitmap image
         var image : Bitmap? = null
         // return an API NoteData from this Group object
-        val data : GroupData
-            get() = GroupData.builder()
-                .id(this.id)
+        val data : Group
+            get() = Group.builder()
                 .name(this.name)
                 .description(this.description)
-                .tags(this.tags)// TODO: cambiar tipo de dato
-                .events(this.eventIds)
                 .image(this.imageName)
+                //.tags(this.tags)// TODO: obtener tags
+                //.events(this.eventIds)
+                .state(this.state)
                 .id(this.id)
                 .build()
 
         // static function to create a Group from a NoteData API object
         companion object {
-            fun from(groupData : GroupData) : Group {
-                val result = Group(groupData.id, groupData.name, groupData.description, groupData.image)
+            fun from(groupData : Group) : GroupModel {
+                val result = GroupModel(groupData.id, groupData.name, groupData.description, groupData.image)
 
                 if (groupData.image != null) {
                     GroupService.retrieveImage(groupData.image!!) {
