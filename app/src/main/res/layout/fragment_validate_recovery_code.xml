@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".views.auth.recover.password.GetRecoveryCodeFragment">
+    tools:context=".views.auth.recover.password.ValidateRecoveryCodeFragment">
 
     <TextView
         android:id="@+id/textView"
@@ -29,7 +29,7 @@
             android:id="@+id/etSecurityCode"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text" />
+            android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -73,8 +73,9 @@
         android:layout_weight="1" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSaveChanges"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/container_margin"
+        android:layout_margin="@dimen/activity_margin"
         android:text="@string/save_changes" />
 </LinearLayout>

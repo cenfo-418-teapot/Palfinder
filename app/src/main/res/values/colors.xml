@@ -2,13 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-
-    <!--    Palfinder Colors    -->
     <color name="primaryLight">#b47cff</color>
     <color name="primary">#6246EA</color>
     <color name="primaryDark">#3f1dcb</color>
     <color name="secondary">#D1D1E9</color>
     <color name="secondaryDark">#a094b7</color>
-    <color name="error">#E45858</color>
+    <color name="highlight">#E45858</color>
+    <color name="dark_gray">#2B2C34</color>
+    <color name="light_gray">#AAA</color>
+    <color name="error">#FF0000</color>
     <color name="dark">#2B2C34</color>
 </resources>
