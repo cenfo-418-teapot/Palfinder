@@ -14,6 +14,11 @@ import com.amplifyframework.storage.options.StorageUploadFileOptions
 import java.io.File
 import java.io.FileInputStream
 
+/**
+ * Object for Groups administration service
+ * to make graphql requests.
+ * @author Isaac Miranda
+ */
 object GroupService {
 
     private const val TAG = "GroupService"

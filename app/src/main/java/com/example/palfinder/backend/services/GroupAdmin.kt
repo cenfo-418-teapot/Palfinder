@@ -6,6 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.datastore.generated.model.*
 
+/**
+ * Object for Groups administration.
+ * @author Isaac Miranda
+ */
 object GroupAdmin {
     private const val TAG = "GroupAdmin"
 
