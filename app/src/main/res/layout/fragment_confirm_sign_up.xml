@@ -32,7 +32,7 @@
             android:id="@+id/tvInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="To validate your account, copy the code we sent to the email you specified"
+            android:text="@string/confirm_sign_up_msg"
             android:textAlignment="center"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             style="@style/TextAppearance.AppCompat.Medium"
