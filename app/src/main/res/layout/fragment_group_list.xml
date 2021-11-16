@@ -57,7 +57,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/group_list_discover_lbl"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                style="@style/Paragraph"
+                android:textColor="@color/dark_gray" />
 
         </LinearLayout>
 
@@ -82,7 +84,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/group_list_my_groups_lbl"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                style="@style/Paragraph"
+                android:textColor="@color/dark_gray" />
         </LinearLayout>
 
     </LinearLayout>
@@ -105,11 +109,12 @@
             android:id="@+id/tv_suggested_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Headline3"
+            style="@style/Headline2"
             android:paddingLeft="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="@string/group_list_my_suggested_subtitle" />
+            android:text="@string/group_list_my_suggested_subtitle"
+            android:textColor="@color/primary" />
 
         <ScrollView
             android:layout_width="match_parent"
