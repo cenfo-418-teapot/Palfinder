@@ -55,7 +55,7 @@
     <string name="group_profile_share_lbl">Share</string>
     <string name="group_profile_privacy_subtitle">Privacy:</string>
     <string name="group_profile_next_events_subtitle">Next Events</string>
-    <string name="group_profile_members_subtitle">Members</string>
+    <string name="group_profile_members_subtitle">All members</string>
     <string name="group_profile_view_all_members">View all</string>
 
     <!-- Group Users List -->
