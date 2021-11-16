@@ -4,5 +4,5 @@ package com.amplifyframework.datastore.generated.model;
 public enum State {
   PRIVATE,
   PUBLIC,
-  BLOQUED
+  BLOCKED
 }

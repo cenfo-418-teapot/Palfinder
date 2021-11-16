@@ -3,5 +3,5 @@ package com.amplifyframework.datastore.generated.model;
 @SuppressWarnings("all")
 public enum TagState {
   ALLOWED,
-  BLOQUED
+  BLOCKED
 }
