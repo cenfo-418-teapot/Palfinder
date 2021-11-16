@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/view_title"
+        style="@style/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_group_list"
@@ -21,6 +22,7 @@
 
     <TextView
         android:id="@+id/tvErrorMsg"
+        style="@style/Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/wrong_login_credentials"
@@ -103,13 +105,11 @@
             android:id="@+id/tv_suggested_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
+            style="@style/Headline3"
             android:paddingLeft="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
-            android:text="@string/group_list_my_suggested_subtitle"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:text="@string/group_list_my_suggested_subtitle" />
 
         <ScrollView
             android:layout_width="match_parent"

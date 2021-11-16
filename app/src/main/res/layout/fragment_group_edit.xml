@@ -7,10 +7,9 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/view_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
+        style="@style/Title"
         android:text="@string/title_group_edit"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,6 +22,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,11 +32,10 @@
 
         <TextView
             android:id="@+id/tvInfo"
-            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:fontFamily="@font/roboto"
+            style="@style/Paragraph"
             android:text="@string/hint_group_edit"
             android:textAlignment="center" />
 
@@ -135,7 +134,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/container_margin"
+        android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -146,12 +145,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancel"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_weight="1"
-            android:fontFamily="@font/roboto"
+            style="@style/ButtonGhost"
             android:text="@string/cancel_action_label" />
 
         <com.google.android.material.button.MaterialButton
@@ -159,7 +157,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="@font/roboto"
+            style="@style/ButtonPrimary"
             android:text="Confirm" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

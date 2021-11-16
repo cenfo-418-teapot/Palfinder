@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/view_title"
+        style="@style/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto"
@@ -24,7 +25,7 @@
         android:id="@+id/tvErrorMsg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
+        style="@style/Paragraph"
         android:text="@string/wrong_login_credentials"
         android:textAlignment="center"
         android:textColor="@color/error"
@@ -58,9 +59,10 @@
                 android:id="@+id/lbl_add_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
+                style="@style/Paragraph"
                 android:text="@string/group_profile_add_user_lbl"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/dark_gray"/>
 
         </LinearLayout>
 
@@ -84,9 +86,10 @@
                 android:id="@+id/lbl_create_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
+                style="@style/Paragraph"
                 android:text="@string/group_profile_create_event_lbl"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/dark_gray"/>
         </LinearLayout>
 
         <LinearLayout
@@ -109,9 +112,10 @@
                 android:id="@+id/lbl_share"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto"
+                style="@style/Paragraph"
                 android:text="@string/group_profile_share_lbl"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/dark_gray"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -127,26 +131,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#3B000000"
-            android:fontFamily="@font/roboto"
             android:paddingLeft="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
             android:text="@string/group_profile_privacy_subtitle"
             android:textAlignment="textStart"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            style="@style/Paragraph" />
 
         <TextView
             android:id="@+id/tv_next_events_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_bold"
             android:paddingLeft="20dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:text="@string/group_profile_next_events_subtitle"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            style="@style/Headline6"
+            android:textColor="@color/primary" />
         <ScrollView
             android:id="@+id/sv_next_events"
             android:layout_width="match_parent"
@@ -173,27 +174,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
                 android:paddingLeft="20dp"
                 android:paddingTop="15dp"
                 android:paddingBottom="15dp"
                 android:text="@string/group_profile_members_subtitle"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/Headline6"
+                android:textColor="@color/primary" />
 
             <TextView
                 android:id="@+id/tv_grup_view_all_members"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/roboto_bold"
                 android:paddingTop="15dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="15dp"
                 android:text="@string/group_profile_view_all_members"
                 android:textAlignment="textEnd"
-                android:textSize="14sp"
-                android:textStyle="normal" />
+                style="@style/Paragraph"
+                android:textColor="@color/primary"/>
         </LinearLayout>
         <ScrollView
             android:id="@+id/sv_group_members"
