@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         style="@style/Title"
         android:text="@string/title_group_edit"
+        android:layout_margin="@dimen/activity_margin"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,36 +98,36 @@
 <!--                android:inputType="text" />-->
 <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilMembers"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/lbl_group_members"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_baseline_person_add_alt_1_24">
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/tilMembers"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="@string/lbl_group_members"-->
+<!--            app:errorEnabled="true"-->
+<!--            app:startIconDrawable="@drawable/ic_baseline_person_add_alt_1_24">-->
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etMembers"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/Paragraph"
-                android:inputType="text" />
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/etMembers"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                style="@style/Paragraph"-->
+<!--                android:inputType="text" />-->
 
-        </com.google.android.material.textfield.TextInputLayout>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <LinearLayout
-                android:id="@+id/list_item_fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:text=">" />
-        </ScrollView>
+<!--            <LinearLayout-->
+<!--                android:id="@+id/list_item_fragment_container"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:orientation="vertical"-->
+<!--                android:padding="10dp"-->
+<!--                android:text=">" />-->
+<!--        </ScrollView>-->
     </LinearLayout>
 
     <LinearLayout
