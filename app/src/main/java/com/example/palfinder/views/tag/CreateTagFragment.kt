@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.lifecycle.MutableLiveData
 import com.example.palfinder.R
+import com.example.palfinder.components.TagExpandableListAdapter
 import kotlinx.android.synthetic.main.fragment_create_tag.view.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,6 +40,12 @@ class CreateTagFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_tag, container, false)
+        val key = "Selected Tags"
+        val selectedTags = mutableListOf("Music","Sports")
+        val data = HashMap<String, MutableList<String>>()
+        data[key] = selectedTags
+        val adapter = TagExpandableListAdapter(view.context, mutableListOf("Selected Tags"), data)
+        view.elvSelectedTags.setAdapter(adapter)
         return view
     }
 
