@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/groups_navigation"
+    app:startDestination="@id/groupListFragment">
+
+    <fragment
+        android:id="@+id/groupListFragment"
+        android:name="com.example.palfinder.views.groups.GroupListFragment"
+        android:label="fragment_group_list"
+        >
+        <action
+            android:id="@+id/action_groupListFragment_to_groupProfile"
+            app:destination="@id/groupProfile"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupProfile"
+        android:name="com.example.palfinder.views.groups.GroupProfile"
+        android:label="fragment_group_profile"
+        >
+        <action
+            android:id="@+id/action_groupProfile_to_groupUsersFragment"
+            app:destination="@id/groupUsersFragment" />
+        <action
+            android:id="@+id/action_groupProfile_to_groupEditFragment"
+            app:destination="@id/groupEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupUsersFragment"
+        android:name="com.example.palfinder.views.groups.GroupUsersFragment"
+        android:label="fragment_group_users"
+        >
+        <action
+            android:id="@+id/action_groupUsersFragment_to_groupAddUserFragment"
+            app:destination="@id/groupAddUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/groupAddUserFragment"
+        android:name="com.example.palfinder.views.groups.GroupAddUserFragment"
+        android:label="fragment_group_add_user"
+        />
+    <fragment
+        android:id="@+id/groupEditFragment"
+        android:name="com.example.palfinder.views.groups.GroupEditFragment"
+        android:label="fragment_group_edit" />
+</navigation>

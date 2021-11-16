@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
+            android:name=".views.groups.GroupActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.auth.recover.password.RecoverPasswordActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="true" />
@@ -31,6 +34,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
