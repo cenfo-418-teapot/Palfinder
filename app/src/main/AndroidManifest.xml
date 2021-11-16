@@ -15,6 +15,7 @@
             android:exported="false" />
         <activity
             android:name=".views.auth.recover.password.RecoverPasswordActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true" />
         <activity
             android:name=".views.auth.LoginActivity"
