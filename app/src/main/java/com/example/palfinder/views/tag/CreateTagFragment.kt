@@ -38,10 +38,6 @@ class CreateTagFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_create_tag, container, false)
-        val aetTag = view.aetTag
-        val tags = arrayListOf("guitar", "saxophone", "COD", "WOW", "football", "cooking")
-        aetTag.threshold = 2
-        aetTag.setAdapter(ArrayAdapter(view.context, android.R.layout.simple_list_item_1, tags))
         return view
     }
 

@@ -42,4 +42,9 @@
     <string name="user_description">Design, code and content, Knicks MixTape, Hip-Hop extraordinaire</string>
     <string name="user_avatar_description">Avatar of the user</string>
     <string name="confirm_sign_up_msg">To validate your account, copy the code we sent to the email you specified</string>
+    <string name="search_tag_label">Select a tag</string>
+    <string name="get_recovery_code_detail">Before we continue, type your username so we can send a verification code to your email account.</string>
+    <string name="send">Send</string>
+    <string name="confirm">Confirm</string>
+    <string name="password_helper_text">At least 8 characters, 1 uppercase and 1 special character</string>
 </resources>

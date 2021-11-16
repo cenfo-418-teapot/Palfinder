@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llSelectTag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:windowSoftInputMode="adjustPan|adjustResize"
     tools:context=".views.tag.CreateTagFragment">
+
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSelectTag"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:hint="@string/search_tag_label"
         app:errorEnabled="true"
-        android:id="@+id/tilSelectTag"
-        android:hint="Select a tag">
+        app:startIconDrawable="@drawable/ic_search">
 
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-            android:id="@+id/aetTag"
+        <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/text_margin"/>
-
+            android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

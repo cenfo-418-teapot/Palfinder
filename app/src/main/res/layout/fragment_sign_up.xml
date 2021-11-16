@@ -8,7 +8,7 @@
 
 
     <TextView
-        style="@style/view_title"
+        style="@style/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/password_label"
         app:errorEnabled="true"
-        app:helperText="At least 8 characters, 1 uppercase and 1 special character"
+        app:helperText="@string/password_helper_text"
         app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/ic_lock">
 
@@ -93,9 +93,9 @@
         android:layout_marginHorizontal="@dimen/activity_margin"
         android:orientation="horizontal">
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnCancel"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/ButtonGhost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -106,8 +106,9 @@
             android:layout_height="match_parent"
             android:layout_weight="0.2" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnSignUp"
+            style="@style/ButtonPrimary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -116,6 +117,7 @@
 
     <TextView
         android:id="@+id/tvConfirmNewAccount"
+        style="@style/Link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_margin"
