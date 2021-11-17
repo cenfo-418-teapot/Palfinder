@@ -73,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Primary Button"
-        style="@style/ButtonPrimary"/>
+        />
     <Button
         android:id="@+id/ButtonSecondary"
         android:layout_width="match_parent"
