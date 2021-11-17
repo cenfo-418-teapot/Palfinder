@@ -5,12 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.example.palfinder.R
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import kotlinx.android.synthetic.main.fragment_group_list.*
+import kotlinx.android.synthetic.main.fragment_group_list.view.*
 
 /**
  * A simple [Fragment] subclass.
@@ -18,16 +16,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class GroupListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -36,6 +27,9 @@ class GroupListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_group_list, container, false)
+        view.nav_discover_groups.setOnClickListener{ setFocus(view,1) }
+        view.nav_my_groups.setOnClickListener{ setFocus(view, 2) }
+        view.nav_create_group.setOnClickListener{ setFocus(view, 3) }
         return view
     }
 
@@ -43,25 +37,28 @@ class GroupListFragment : Fragment() {
 
     }
 
+    private fun setFocus(view: View, navOption: Int){
+        when(navOption) {
+            1 -> {
+                underline_discover_groups.visibility = View.VISIBLE
+                underline_my_groups.visibility = View.INVISIBLE
+                underline_create_group.visibility = View.INVISIBLE
+            }
+            2 -> {
+                underline_discover_groups.visibility = View.INVISIBLE
+                underline_my_groups.visibility = View.VISIBLE
+                underline_create_group.visibility = View.INVISIBLE
+            }
+            3 -> {
+                underline_discover_groups.visibility = View.INVISIBLE
+                underline_my_groups.visibility = View.INVISIBLE
+                underline_create_group.visibility = View.VISIBLE
+                Navigation.findNavController(view).navigate(R.id.action_groupListFragment_to_groupEditFragment)
+            }
+        }
+    }
+
     companion object {
         private const val TAG = "GroupListFragment"
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GroupListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GroupListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

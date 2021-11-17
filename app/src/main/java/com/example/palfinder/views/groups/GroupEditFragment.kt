@@ -1,16 +1,34 @@
 package com.example.palfinder.views.groups
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.amplifyframework.datastore.generated.model.State
 import com.example.palfinder.R
-import com.example.palfinder.views.auth.SignUpFragment
+import com.example.palfinder.backend.services.GroupAdmin
+import com.example.palfinder.backend.services.GroupService
+import com.google.android.material.shape.CornerFamily
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_group_edit.*
+import kotlinx.android.synthetic.main.fragment_group_edit.image
 import kotlinx.android.synthetic.main.fragment_group_edit.view.*
-import kotlinx.android.synthetic.main.fragment_sign_in.view.*
+import kotlinx.android.synthetic.main.fragment_group_edit.view.btnCancel
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.util.*
 
 //// TODO: Rename parameter arguments, choose names that match
 //// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,9 +41,10 @@ import kotlinx.android.synthetic.main.fragment_sign_in.view.*
  * create an instance of this fragment.
  */
 class GroupEditFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var noteImagePath : String? = null
+    private var noteImage : Bitmap? = null
+    private val success = MutableLiveData<Boolean>(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +55,45 @@ class GroupEditFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_edit, container, false)
         view.btnCancel?.setOnClickListener {
             goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+        }
+        view.captureImage.setOnClickListener {
+            val i = Intent(
+                Intent.ACTION_GET_CONTENT,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            startActivityForResult(i, SELECT_PHOTO)
+        }
+        // create rounded corners for the image
+        view.image.shapeAppearanceModel = view.image.shapeAppearanceModel
+            .toBuilder()
+            .setAllCorners(CornerFamily.ROUNDED, 150.0f)
+            .build()
+
+        view.btnConfirm?.setOnClickListener {
+            try {
+                val group = validForm()
+                if(success.value == true) {
+                    GroupService.createGroup(group)
+                    if (this.noteImagePath != null) {
+                        group.imageName = UUID.randomUUID().toString()
+                        //note.setImage(this.noteImage)
+                        group.image = this.noteImage
+
+                        // asynchronously store the image (and assume it will work)
+                        GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
+                    }
+                }
+            } catch (e: IllegalStateException) {
+                Log.e(GroupEditFragment.TAG, "Form Validation Failed", e)
+            }
         }
         return view
     }
@@ -51,17 +102,85 @@ class GroupEditFragment : Fragment() {
         Navigation.findNavController(tmpView).navigate(tmpIdElement)
     }
 
-//    private fun validForm(): GroupForm {
-//
-//    }
+    private fun validForm(): GroupAdmin.GroupModel {
+        val name = etName.text.toString()
+        val description = etDescription.toString()
+        val status = etState.toString()
 
-    private data class GroupForm(
-            val name: String,
-            val description: String,
-            val state: State,
-            var imageName: String? = null)
+        val requiredErrorMsg = "This field is required"
+        name.ifBlank { tilGroupName?.error = requiredErrorMsg }
+        description.ifBlank { tilDescription?.error = requiredErrorMsg }
+        status.ifBlank { tilState?.error = requiredErrorMsg }
+        if(this.noteImagePath == null) { tilState?.error = requiredErrorMsg }
 
-//    companion object {
+        return GroupAdmin.GroupModel(
+            UUID.randomUUID().toString(),
+            name,
+            description,
+            null,
+            null,
+            null,
+            State.valueOf(status.uppercase(Locale.getDefault())),
+            noteImagePath
+        )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, imageReturnedIntent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent)
+        Log.d(TAG, "Select photo activity result : $imageReturnedIntent")
+        when (requestCode) {
+            SELECT_PHOTO -> if (resultCode == AppCompatActivity.RESULT_OK) {
+                val selectedImageUri : Uri? = imageReturnedIntent!!.data
+
+                // read the stream to fill in the preview
+                var imageStream: InputStream? = activity?.contentResolver?.openInputStream(selectedImageUri!!)
+                val selectedImage = BitmapFactory.decodeStream(imageStream)
+                val ivPreview: ImageView = image
+                ivPreview.setImageBitmap(selectedImage)
+
+                // store the image to not recreate the Bitmap every time
+                this.noteImage = selectedImage
+
+                // read the stream to store to a file
+                imageStream = activity?.contentResolver?.openInputStream(selectedImageUri!!)
+                val tempFile = File.createTempFile("image", ".image")
+                copyStreamToFile(imageStream!!, tempFile)
+
+                // store the path to create a note
+                this.noteImagePath = tempFile.absolutePath
+
+                Log.d(TAG, "Selected image : ${tempFile.absolutePath}")
+            }
+        }
+    }
+
+
+    private fun resetInputErrorMsg() {
+        tilGroupName?.error = null
+        tilDescription?.error = null
+        tilState?.error = null
+        tilImage?.error = null
+    }
+
+    private fun copyStreamToFile(inputStream: InputStream, outputFile: File) {
+        inputStream.use { input ->
+            val outputStream = FileOutputStream(outputFile)
+            outputStream.use { output ->
+                val buffer = ByteArray(4 * 1024) // buffer size
+                while (true) {
+                    val byteCount = input.read(buffer)
+                    if (byteCount < 0) break
+                    output.write(buffer, 0, byteCount)
+                }
+                output.flush()
+                output.close()
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG = "GroupEditFragment"
+        private const val SELECT_PHOTO = 100
 //        /**
 //         * Use this factory method to create a new instance of
 //         * this fragment using the provided parameters.
@@ -79,5 +198,5 @@ class GroupEditFragment : Fragment() {
 //                    putString(ARG_PARAM2, param2)
 //                }
 //            }
-//    }
+    }
 }

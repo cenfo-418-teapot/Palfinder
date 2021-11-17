@@ -47,9 +47,9 @@ object GroupAdmin {
         val id: String,
         val name: String,
         val description: String,
-        val tags: List<TagGroup>,
-        val events: List<Event>,
-        val users: List<GroupMembers>,
+        val tags: List<TagGroup>?,
+        val events: List<Event>?,
+        val users: List<GroupMembers>?,
         val state: State,
         var imageName: String? = null)
     {
