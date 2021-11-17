@@ -11,9 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
-            android:name=".views.MainActivity2"
-            android:exported="false" />
-        <activity
             android:name=".views.groups.GroupActivity"
             android:exported="false" />
         <activity

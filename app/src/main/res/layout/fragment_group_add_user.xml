@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/view_title"
+        style="@style/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/title_group_user_add"
@@ -22,6 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
+        style="@style/Paragraph"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,7 +77,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/container_margin"
+        android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +88,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancel"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            style="@style/ButtonGhost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -98,6 +100,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="@style/ButtonPrimary"
             android:text="Confirm" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
