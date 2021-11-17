@@ -42,10 +42,12 @@
     <string name="user_description">Design, code and content, Knicks MixTape, Hip-Hop extraordinaire</string>
     <string name="user_avatar_description">Avatar of the user</string>
     <string name="confirm_sign_up_msg">To validate your account, copy the code we sent to the email you specified</string>
-    <string name="search_tag_label">Select a tag</string>
+    <string name="add_tag_label">Tag</string>
     <string name="get_recovery_code_detail">Before we continue, type your username so we can send a verification code to your email account.</string>
     <string name="send">Send</string>
     <string name="confirm">Confirm</string>
     <string name="password_helper_text">At least 8 characters, 1 uppercase and 1 special character</string>
     <string name="remove_tag_label">Remove Tag</string>
+    <string name="popular_tags">Popular Tags</string>
+    <string name="selected_label">Selected Items:</string>
 </resources>

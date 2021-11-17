@@ -11,15 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
-            android:name=".views.auth.recover.password.RecoverPasswordActivity"
-            android:windowSoftInputMode="adjustPan"
+            android:name=".views.tag.TagFormDemoActivity"
             android:exported="true" />
+        <activity
+            android:name=".views.auth.recover.password.RecoverPasswordActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".views.auth.LoginActivity"
             android:exported="true" />
         <activity
             android:name=".views.HomeActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".views.MainActivity"
             android:exported="true"
