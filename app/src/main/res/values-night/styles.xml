@@ -110,5 +110,12 @@
         <item name="android:textSize">@dimen/text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <!--  Outline   -->
+    <style name="OutlinePrimary">
+        <item name="android:background">@drawable/outline_rectangle</item>
+    </style>
+    <style name="OutlineSecondary">
+        <item name="android:background">@drawable/outline_rectangle_light</item>
+    </style>
 
 </resources>

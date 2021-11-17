@@ -46,7 +46,8 @@
     <string name="no_groups_found">No groups found</string>
     <string name="group_list_discover_lbl">Discover</string>
     <string name="group_list_my_groups_lbl">My Groups</string>
-    <string name="group_list_my_suggested_subtitle">Suggested</string>
+    <string name="group_list_add_group">Create group</string>
+    <string name="group_list_my_suggested_subtitle">Latest</string>
 
     <!-- Groups Profile  -->
     <string name="title_group_profile">Group</string>
@@ -70,9 +71,10 @@
     <!-- Edit and create group -->
     <string name="title_group_edit">Group administration</string>
     <string name="hint_group_edit">Groups allows you to share activities with people with similar interests</string>
-    <string name="lbl_group_name">Group name</string>
+    <string name="lbl_group_name">Name</string>
     <string name="lbl_group_tags">Tags</string>
     <string name="lbl_group_description">Description</string>
     <string name="lbl_group_members">Members</string>
-
+    <string name="lbl_status">Status</string>
+    <string name="btn_image">Add image</string>
 </resources>
