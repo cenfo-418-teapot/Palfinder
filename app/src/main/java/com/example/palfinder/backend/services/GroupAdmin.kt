@@ -50,7 +50,7 @@ object GroupAdmin {
         val tags: List<TagGroup>?,
         val events: List<Event>?,
         val users: List<GroupMembers>?,
-        val state: State,
+        val status: Status,
         var imageName: String? = null)
     {
         override fun toString(): String = name
@@ -63,7 +63,7 @@ object GroupAdmin {
                 .name(this.name)
                 .description(this.description)
                 .image(this.imageName)
-                .state(this.state)
+                .status(this.status)
                 .id(this.id)
                 .build()
 
@@ -77,7 +77,7 @@ object GroupAdmin {
                     groupData.tags,
                     groupData.events,
                     groupData.users,
-                    groupData.state,
+                    groupData.status,
                     groupData.image)
 
                 if (groupData.image != null) {

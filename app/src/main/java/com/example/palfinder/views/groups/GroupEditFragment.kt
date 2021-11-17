@@ -1,5 +1,6 @@
 package com.example.palfinder.views.groups
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -11,18 +12,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
-import com.amplifyframework.datastore.generated.model.State
+import com.amplifyframework.datastore.generated.model.Status
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
 import com.google.android.material.shape.CornerFamily
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_group_edit.*
-import kotlinx.android.synthetic.main.fragment_group_edit.image
+import kotlinx.android.synthetic.main.fragment_group_edit.iv_image
 import kotlinx.android.synthetic.main.fragment_group_edit.view.*
 import kotlinx.android.synthetic.main.fragment_group_edit.view.btnCancel
 import java.io.File
@@ -48,10 +50,6 @@ class GroupEditFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
     }
 
     override fun onCreateView(
@@ -72,7 +70,7 @@ class GroupEditFragment : Fragment() {
             startActivityForResult(i, SELECT_PHOTO)
         }
         // create rounded corners for the image
-        view.image.shapeAppearanceModel = view.image.shapeAppearanceModel
+        view.iv_image.shapeAppearanceModel = view.iv_image.shapeAppearanceModel
             .toBuilder()
             .setAllCorners(CornerFamily.ROUNDED, 150.0f)
             .build()
@@ -80,39 +78,60 @@ class GroupEditFragment : Fragment() {
         view.btnConfirm?.setOnClickListener {
             try {
                 val group = validForm()
-                if(success.value == true) {
-                    GroupService.createGroup(group)
-                    if (this.noteImagePath != null) {
-                        group.imageName = UUID.randomUUID().toString()
-                        //note.setImage(this.noteImage)
-                        group.image = this.noteImage
+                GroupService.createGroup(group)
+                if (this.noteImagePath != null) {
+                    group.imageName = UUID.randomUUID().toString()
+                    //note.setImage(this.noteImage)
+                    group.image = this.noteImage
 
-                        // asynchronously store the image (and assume it will work)
-                        GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
-                    }
+                    // asynchronously store the image (and assume it will work)
+                    GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
+                    goTo(view, R.id.action_groupEditFragment_to_groupListFragment )
                 }
             } catch (e: IllegalStateException) {
-                Log.e(GroupEditFragment.TAG, "Form Validation Failed", e)
+                Log.e(TAG, "Form Validation Failed", e)
             }
         }
+
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val statusArray = resources.getStringArray(R.array.status)
+        val adapter =  ArrayAdapter(
+            requireActivity() as Context,
+            R.layout.support_simple_spinner_dropdown_item,
+            statusArray
+        )
+        etState.setAdapter(adapter)
+    }
     private fun goTo(tmpView: View, tmpIdElement: Int) {
         Navigation.findNavController(tmpView).navigate(tmpIdElement)
     }
 
     private fun validForm(): GroupAdmin.GroupModel {
         val name = etName.text.toString()
-        val description = etDescription.toString()
-        val status = etState.toString()
-
+        val description = etDescription.text.toString()
+        val status = etState.text.toString()
+        var finalStatus = Status.PUBLIC
         val requiredErrorMsg = "This field is required"
+        resetInputErrorMsg()
         name.ifBlank { tilGroupName?.error = requiredErrorMsg }
         description.ifBlank { tilDescription?.error = requiredErrorMsg }
-        status.ifBlank { tilState?.error = requiredErrorMsg }
-        if(this.noteImagePath == null) { tilState?.error = requiredErrorMsg }
+        if (this.noteImagePath == null) {
+            tilState?.error = requiredErrorMsg
+        }
+        if (status.isBlank()) {
+            tilState?.error = requiredErrorMsg
+        } else {
+            finalStatus = Status.valueOf(status.uppercase())
+        }
 
+        check(name.isNotBlank()) { "Name is blank" }
+        check(description.isNotBlank()) { "Description is blank" }
+        check(status.isNotBlank()) { "Status is blank" }
+//        check(noteImagePath != null) { "Image no selected" }
         return GroupAdmin.GroupModel(
             UUID.randomUUID().toString(),
             name,
@@ -120,9 +139,8 @@ class GroupEditFragment : Fragment() {
             null,
             null,
             null,
-            State.valueOf(status.uppercase(Locale.getDefault())),
-            noteImagePath
-        )
+            finalStatus,
+            noteImagePath)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, imageReturnedIntent: Intent?) {
@@ -135,7 +153,7 @@ class GroupEditFragment : Fragment() {
                 // read the stream to fill in the preview
                 var imageStream: InputStream? = activity?.contentResolver?.openInputStream(selectedImageUri!!)
                 val selectedImage = BitmapFactory.decodeStream(imageStream)
-                val ivPreview: ImageView = image
+                val ivPreview: ImageView = iv_image
                 ivPreview.setImageBitmap(selectedImage)
 
                 // store the image to not recreate the Bitmap every time
@@ -179,6 +197,9 @@ class GroupEditFragment : Fragment() {
     }
 
     companion object {
+//        private const val COUNTRIES: String =  {
+//            "Belgium", "France", "Italy", "Germany", "Spain"
+//        };
         private const val TAG = "GroupEditFragment"
         private const val SELECT_PHOTO = 100
 //        /**

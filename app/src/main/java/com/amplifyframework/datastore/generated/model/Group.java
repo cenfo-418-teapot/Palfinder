@@ -31,13 +31,13 @@ public final class Group implements Model {
   public static final QueryField NAME = field("Group", "name");
   public static final QueryField DESCRIPTION = field("Group", "description");
   public static final QueryField IMAGE = field("Group", "image");
-  public static final QueryField STATE = field("Group", "state");
+  public static final QueryField STATUS = field("Group", "status");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="Event") @HasMany(associatedWith = "group", type = Event.class) List<Event> events = null;
   private final @ModelField(targetType="String") String image;
-  private final @ModelField(targetType="State") State state;
+  private final @ModelField(targetType="Status") Status status;
   private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "group", type = GroupMembers.class) List<GroupMembers> users = null;
   private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "group", type = TagGroup.class) List<TagGroup> tags = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
@@ -62,8 +62,8 @@ public final class Group implements Model {
       return image;
   }
   
-  public State getState() {
-      return state;
+  public Status getStatus() {
+      return status;
   }
   
   public List<GroupMembers> getUsers() {
@@ -82,12 +82,12 @@ public final class Group implements Model {
       return updatedOn;
   }
   
-  private Group(String id, String name, String description, String image, State state) {
+  private Group(String id, String name, String description, String image, Status status) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.image = image;
-    this.state = state;
+    this.status = status;
   }
   
   @Override
@@ -102,7 +102,7 @@ public final class Group implements Model {
               ObjectsCompat.equals(getName(), group.getName()) &&
               ObjectsCompat.equals(getDescription(), group.getDescription()) &&
               ObjectsCompat.equals(getImage(), group.getImage()) &&
-              ObjectsCompat.equals(getState(), group.getState()) &&
+              ObjectsCompat.equals(getStatus(), group.getStatus()) &&
               ObjectsCompat.equals(getCreatedOn(), group.getCreatedOn()) &&
               ObjectsCompat.equals(getUpdatedOn(), group.getUpdatedOn());
       }
@@ -115,7 +115,7 @@ public final class Group implements Model {
       .append(getName())
       .append(getDescription())
       .append(getImage())
-      .append(getState())
+      .append(getStatus())
       .append(getCreatedOn())
       .append(getUpdatedOn())
       .toString()
@@ -130,7 +130,7 @@ public final class Group implements Model {
       .append("name=" + String.valueOf(getName()) + ", ")
       .append("description=" + String.valueOf(getDescription()) + ", ")
       .append("image=" + String.valueOf(getImage()) + ", ")
-      .append("state=" + String.valueOf(getState()) + ", ")
+      .append("status=" + String.valueOf(getStatus()) + ", ")
       .append("createdOn=" + String.valueOf(getCreatedOn()) + ", ")
       .append("updatedOn=" + String.valueOf(getUpdatedOn()))
       .append("}")
@@ -164,7 +164,7 @@ public final class Group implements Model {
       name,
       description,
       image,
-      state);
+      status);
   }
   public interface NameStep {
     BuildStep name(String name);
@@ -176,7 +176,7 @@ public final class Group implements Model {
     BuildStep id(String id);
     BuildStep description(String description);
     BuildStep image(String image);
-    BuildStep state(State state);
+    BuildStep status(Status status);
   }
   
 
@@ -185,7 +185,7 @@ public final class Group implements Model {
     private String name;
     private String description;
     private String image;
-    private State state;
+    private Status status;
     @Override
      public Group build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -195,7 +195,7 @@ public final class Group implements Model {
           name,
           description,
           image,
-          state);
+          status);
     }
     
     @Override
@@ -218,8 +218,8 @@ public final class Group implements Model {
     }
     
     @Override
-     public BuildStep state(State state) {
-        this.state = state;
+     public BuildStep status(Status status) {
+        this.status = status;
         return this;
     }
     
@@ -235,12 +235,12 @@ public final class Group implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, String image, State state) {
+    private CopyOfBuilder(String id, String name, String description, String image, Status status) {
       super.id(id);
       super.name(name)
         .description(description)
         .image(image)
-        .state(state);
+        .status(status);
     }
     
     @Override
@@ -259,8 +259,8 @@ public final class Group implements Model {
     }
     
     @Override
-     public CopyOfBuilder state(State state) {
-      return (CopyOfBuilder) super.state(state);
+     public CopyOfBuilder status(Status status) {
+      return (CopyOfBuilder) super.status(status);
     }
   }
   

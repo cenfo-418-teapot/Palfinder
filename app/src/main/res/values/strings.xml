@@ -48,6 +48,7 @@
     <string name="group_list_my_groups_lbl">My Groups</string>
     <string name="group_list_add_group">Create group</string>
     <string name="group_list_my_suggested_subtitle">Latest</string>
+    <string name="group_profile_join">Join</string>
 
     <!-- Groups Profile  -->
     <string name="title_group_profile">Group</string>
@@ -77,4 +78,9 @@
     <string name="lbl_group_members">Members</string>
     <string name="lbl_status">Status</string>
     <string name="btn_image">Add image</string>
+    <string-array name="status">
+        <item>Private</item>
+        <item>Public</item>
+    </string-array>
+
 </resources>
