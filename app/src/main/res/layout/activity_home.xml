@@ -26,22 +26,26 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/ic_add_friend"
+                android:id="@+id/iv_user_profile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:scaleX="1.4"
                 android:scaleY="1.4"
-                app:srcCompat="@drawable/ic_baseline_person_add_alt_1_24" />
+                app:srcCompat="@drawable/ic_person" />
 
             <ImageView
-                android:id="@+id/ic_calendar"
+                android:id="@+id/iv_events"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -54,6 +58,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
@@ -66,6 +72,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
