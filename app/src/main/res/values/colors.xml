@@ -10,6 +10,8 @@
     <color name="highlight">#E45858</color>
     <color name="dark_gray">#2B2C34</color>
     <color name="light_gray">#AAA</color>
+    <color name="lighter_gray_2">#CCC</color>
+    <color name="lighter_gray_3">#DDD</color>
     <color name="error">#FF0000</color>
     <color name="dark">#2B2C34</color>
 </resources>
