@@ -56,11 +56,13 @@ class GroupListFragment : Fragment() {
                 underline_discover_groups.visibility = View.VISIBLE
                 underline_my_groups.visibility = View.INVISIBLE
                 underline_create_group.visibility = View.INVISIBLE
+                tv_suggested_subtitle.text = getString(R.string.group_list_my_suggested_subtitle)
             }
             2 -> {
                 underline_discover_groups.visibility = View.INVISIBLE
                 underline_my_groups.visibility = View.VISIBLE
                 underline_create_group.visibility = View.INVISIBLE
+                tv_suggested_subtitle.text = getString(R.string.group_list_my_groups_subtitle)
             }
             3 -> {
                 underline_discover_groups.visibility = View.INVISIBLE
