@@ -12,8 +12,10 @@
         >
         <action
             android:id="@+id/action_groupListFragment_to_groupProfile"
-            app:destination="@id/groupProfile"
-            app:popUpToInclusive="true" />
+            app:destination="@id/groupProfile" />
+        <action
+            android:id="@+id/action_groupListFragment_to_groupEditFragment"
+            app:destination="@id/groupEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/groupProfile"
@@ -35,14 +37,28 @@
         <action
             android:id="@+id/action_groupUsersFragment_to_groupAddUserFragment"
             app:destination="@id/groupAddUserFragment" />
+        <action
+            android:id="@+id/action_groupUsersFragment_to_groupProfile"
+            app:destination="@id/groupProfile" />
     </fragment>
     <fragment
         android:id="@+id/groupAddUserFragment"
         android:name="com.example.palfinder.views.groups.GroupAddUserFragment"
         android:label="fragment_group_add_user"
-        />
+        >
+        <action
+            android:id="@+id/action_groupAddUserFragment_to_groupUsersFragment2"
+            app:destination="@id/groupUsersFragment" />
+    </fragment>
     <fragment
         android:id="@+id/groupEditFragment"
         android:name="com.example.palfinder.views.groups.GroupEditFragment"
-        android:label="fragment_group_edit" />
+        android:label="fragment_group_edit" >
+        <action
+            android:id="@+id/action_groupEditFragment_to_groupListFragment"
+            app:destination="@id/groupListFragment" />
+        <action
+            android:id="@+id/action_groupEditFragment_to_groupProfile"
+            app:destination="@id/groupProfile" />
+    </fragment>
 </navigation>

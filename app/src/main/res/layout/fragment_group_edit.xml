@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".views.groups.GroupActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
 
     <TextView
@@ -11,6 +15,7 @@
         android:layout_height="wrap_content"
         style="@style/Title"
         android:text="@string/title_group_edit"
+        android:layout_margin="@dimen/activity_margin"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -18,144 +23,204 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
-        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintVertical_bias="0.1">
 
-        <TextView
-            android:id="@+id/tvInfo"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            style="@style/Paragraph"
-            android:text="@string/hint_group_edit"
-            android:textAlignment="center" />
+            android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
+            android:orientation="vertical">
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilGroupName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/lbl_group_name"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_baseline_group_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text"
-                style="@style/Paragraph" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilDescription"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:hint="@string/lbl_group_description"
-            app:errorEnabled="true"
-            app:passwordToggleEnabled="false"
-            app:startIconDrawable="@drawable/ic_baseline_text_snippet_24"
-            >
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etDescription"
+            <TextView
+                android:id="@+id/tvInfo"
+                style="@style/Paragraph"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text|textMultiLine"
-                android:maxLines="10"
-                android:minLines="6"
-                android:scrollbars="vertical"
-                style="@style/Paragraph" />
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/hint_group_edit"
+                android:textAlignment="center" />
 
-        </com.google.android.material.textfield.TextInputLayout>
 
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/tilTags"-->
-<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="@string/lbl_group_tags"-->
-<!--            app:errorEnabled="true"-->
-<!--            app:startIconDrawable="@drawable/ic_baseline_label_24">-->
-
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/etTags"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:fontFamily="@font/roboto"-->
-<!--                android:inputType="text" />-->
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilMembers"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/lbl_group_members"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_baseline_person_add_alt_1_24">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etMembers"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilGroupName"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/Paragraph"
-                android:inputType="text" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:hint="@string/lbl_group_name"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_baseline_group_24">
 
-        </com.google.android.material.textfield.TextInputLayout>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etName"
+                    style="@style/Paragraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDescription"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:hint="@string/lbl_group_description"
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="false"
+                app:startIconDrawable="@drawable/ic_baseline_text_snippet_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDescription"
+                    style="@style/Paragraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text|textMultiLine"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:scrollbars="vertical" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilState"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:hint="@string/lbl_status"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_baseline_remove_red_eye_24">
+
+                <AutoCompleteTextView
+                    android:inputType="none"
+                    android:id="@+id/etState"
+                    style="@style/Paragraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dropDownWidth="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--        <com.google.android.material.textfield.TextInputLayout-->
+            <!--            android:id="@+id/tilTags"-->
+            <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:hint="@string/lbl_group_tags"-->
+            <!--            app:errorEnabled="true"-->
+            <!--            app:startIconDrawable="@drawable/ic_baseline_label_24">-->
+
+            <!--            <com.google.android.material.textfield.TextInputEditText-->
+            <!--                android:id="@+id/etTags"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:fontFamily="@font/roboto"-->
+            <!--                android:inputType="text" />-->
+            <!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+            <!--        <com.google.android.material.textfield.TextInputLayout-->
+            <!--            android:id="@+id/tilMembers"-->
+            <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:hint="@string/lbl_group_members"-->
+            <!--            app:errorEnabled="true"-->
+            <!--            app:startIconDrawable="@drawable/ic_baseline_person_add_alt_1_24">-->
+
+            <!--            <com.google.android.material.textfield.TextInputEditText-->
+            <!--                android:id="@+id/etMembers"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                style="@style/Paragraph"-->
+            <!--                android:inputType="text" />-->
+
+            <!--        </com.google.android.material.textfield.TextInputLayout>-->
+            <!--        <ScrollView-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content">-->
+
+            <!--            <LinearLayout-->
+            <!--                android:id="@+id/list_item_fragment_container"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:gravity="center_horizontal"-->
+            <!--                android:orientation="vertical"-->
+            <!--                android:padding="10dp"-->
+            <!--                android:text=">" />-->
+            <!--        </ScrollView>-->
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilImage"
+                style="@style/OutlineSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:hint="@string/lbl_status"
+                app:errorEnabled="true"
+                app:startIconDrawable="@drawable/ic_baseline_image_24">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/ic_baseline_image_24" />
+
+                <Button
+                    android:id="@+id/captureImage"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
+                    android:gravity="center"
+                    android:text="@string/btn_image" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
-                android:id="@+id/list_item_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:text=">" />
-        </ScrollView>
-    </LinearLayout>
+                android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintVertical_bias="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
-        android:orientation="horizontal"
-        android:weightSum="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCancel"
+                    style="@style/ButtonGhost"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1"
+                    android:text="@string/cancel_action_label" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCancel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            style="@style/ButtonGhost"
-            android:text="@string/cancel_action_label" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnConfirm"
+                    style="@style/ButtonPrimary"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Confirm" />
+            </LinearLayout>
+        </LinearLayout>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnConfirm"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            style="@style/ButtonPrimary"
-            android:text="Confirm" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>

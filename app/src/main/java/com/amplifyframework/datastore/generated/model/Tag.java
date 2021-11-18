@@ -29,11 +29,11 @@ public final class Tag implements Model {
   public static final QueryField ID = field("Tag", "id");
   public static final QueryField NAME = field("Tag", "name");
   public static final QueryField USES = field("Tag", "uses");
-  public static final QueryField STATE = field("Tag", "state");
+  public static final QueryField STATUS = field("Tag", "status");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="Int") Integer uses;
-  private final @ModelField(targetType="TagState", isRequired = true) TagState state;
+  private final @ModelField(targetType="TagStatus", isRequired = true) TagStatus status;
   private final @ModelField(targetType="TagUser") @HasMany(associatedWith = "tag", type = TagUser.class) List<TagUser> users = null;
   private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "tag", type = TagGroup.class) List<TagGroup> groups = null;
   private final @ModelField(targetType="TagEvent") @HasMany(associatedWith = "tag", type = TagEvent.class) List<TagEvent> events = null;
@@ -51,8 +51,8 @@ public final class Tag implements Model {
       return uses;
   }
   
-  public TagState getState() {
-      return state;
+  public TagStatus getStatus() {
+      return status;
   }
   
   public List<TagUser> getUsers() {
@@ -75,11 +75,11 @@ public final class Tag implements Model {
       return updatedOn;
   }
   
-  private Tag(String id, String name, Integer uses, TagState state) {
+  private Tag(String id, String name, Integer uses, TagStatus status) {
     this.id = id;
     this.name = name;
     this.uses = uses;
-    this.state = state;
+    this.status = status;
   }
   
   @Override
@@ -93,7 +93,7 @@ public final class Tag implements Model {
       return ObjectsCompat.equals(getId(), tag.getId()) &&
               ObjectsCompat.equals(getName(), tag.getName()) &&
               ObjectsCompat.equals(getUses(), tag.getUses()) &&
-              ObjectsCompat.equals(getState(), tag.getState()) &&
+              ObjectsCompat.equals(getStatus(), tag.getStatus()) &&
               ObjectsCompat.equals(getCreatedOn(), tag.getCreatedOn()) &&
               ObjectsCompat.equals(getUpdatedOn(), tag.getUpdatedOn());
       }
@@ -105,7 +105,7 @@ public final class Tag implements Model {
       .append(getId())
       .append(getName())
       .append(getUses())
-      .append(getState())
+      .append(getStatus())
       .append(getCreatedOn())
       .append(getUpdatedOn())
       .toString()
@@ -119,7 +119,7 @@ public final class Tag implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("name=" + String.valueOf(getName()) + ", ")
       .append("uses=" + String.valueOf(getUses()) + ", ")
-      .append("state=" + String.valueOf(getState()) + ", ")
+      .append("status=" + String.valueOf(getStatus()) + ", ")
       .append("createdOn=" + String.valueOf(getCreatedOn()) + ", ")
       .append("updatedOn=" + String.valueOf(getUpdatedOn()))
       .append("}")
@@ -151,15 +151,15 @@ public final class Tag implements Model {
     return new CopyOfBuilder(id,
       name,
       uses,
-      state);
+      status);
   }
   public interface NameStep {
-    StateStep name(String name);
+    StatusStep name(String name);
   }
   
 
-  public interface StateStep {
-    BuildStep state(TagState state);
+  public interface StatusStep {
+    BuildStep status(TagStatus status);
   }
   
 
@@ -170,10 +170,10 @@ public final class Tag implements Model {
   }
   
 
-  public static class Builder implements NameStep, StateStep, BuildStep {
+  public static class Builder implements NameStep, StatusStep, BuildStep {
     private String id;
     private String name;
-    private TagState state;
+    private TagStatus status;
     private Integer uses;
     @Override
      public Tag build() {
@@ -183,20 +183,20 @@ public final class Tag implements Model {
           id,
           name,
           uses,
-          state);
+          status);
     }
     
     @Override
-     public StateStep name(String name) {
+     public StatusStep name(String name) {
         Objects.requireNonNull(name);
         this.name = name;
         return this;
     }
     
     @Override
-     public BuildStep state(TagState state) {
-        Objects.requireNonNull(state);
-        this.state = state;
+     public BuildStep status(TagStatus status) {
+        Objects.requireNonNull(status);
+        this.status = status;
         return this;
     }
     
@@ -218,10 +218,10 @@ public final class Tag implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, Integer uses, TagState state) {
+    private CopyOfBuilder(String id, String name, Integer uses, TagStatus status) {
       super.id(id);
       super.name(name)
-        .state(state)
+        .status(status)
         .uses(uses);
     }
     
@@ -231,8 +231,8 @@ public final class Tag implements Model {
     }
     
     @Override
-     public CopyOfBuilder state(TagState state) {
-      return (CopyOfBuilder) super.state(state);
+     public CopyOfBuilder status(TagStatus status) {
+      return (CopyOfBuilder) super.status(status);
     }
     
     @Override
