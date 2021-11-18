@@ -10,14 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/user_avatar"
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:id="@+id/user_avatar"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:contentDescription="@string/user_avatar_description"-->
+<!--            app:shapeAppearanceOverlay="@style/CicularMask"-->
+<!--            tools:srcCompat="@tools:sample/avatars" />-->
+
+
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/user_avatar_description"
-            app:shapeAppearanceOverlay="@style/CicularMask"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_height="100dp"
+            android:layout_weight="1.5"
+            tools:srcCompat="@drawable/user_profile_avatar" />
 
         <LinearLayout
             android:id="@+id/user_followers_container"
