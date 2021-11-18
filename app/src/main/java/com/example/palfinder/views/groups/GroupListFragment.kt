@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import android.widget.ArrayAdapter
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -46,7 +47,7 @@ class GroupListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(group_list)
-        GroupService.updateGroups(true)
+        GroupService.updateGroups()
     }
 
     private fun setFocus(view: View, navOption: Int){
@@ -72,8 +73,8 @@ class GroupListFragment : Fragment() {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         // add a touch gesture handler to manager the swipe to delete gesture
-//        val itemTouchHelper = ItemTouchHelper(SwipeCallback(this))
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
+        val itemTouchHelper = ItemTouchHelper(GroupSwipeCallback(activity as AppCompatActivity))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
         // update individual cell when the Group data are modified
         GroupAdmin.groups().observe(viewLifecycleOwner, Observer<MutableList<GroupAdmin.GroupModel>> { groups ->
             Log.d(TAG, "Note observer received ${groups.size} groups")

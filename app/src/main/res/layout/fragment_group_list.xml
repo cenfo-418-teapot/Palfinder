@@ -176,7 +176,16 @@
             android:paddingBottom="20dp"
             android:text="@string/group_list_my_suggested_subtitle"
             android:textColor="@color/primary" />
-
+        <TextView
+            android:id="@+id/tv_no_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Paragraph"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/group_list_no_groups"
+            android:visibility="gone"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

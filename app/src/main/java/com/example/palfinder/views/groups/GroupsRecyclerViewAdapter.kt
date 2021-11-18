@@ -22,7 +22,6 @@ class GroupsRecyclerViewAdapter(
             .inflate(R.layout.group_item, parent, false)
 
         view.iv_image?.setOnClickListener {
-            GroupService.updateGroups(false)
             Navigation.findNavController(view)
                 .navigate(R.id.action_groupListFragment_to_groupProfile)
         }

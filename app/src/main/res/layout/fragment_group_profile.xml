@@ -153,6 +153,7 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="10dp"
+                android:minHeight="200dp"
                 android:text=">" />
         </ScrollView>
         <LinearLayout
