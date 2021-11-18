@@ -62,6 +62,7 @@
     <string name="group_list_add_group">Create group</string>
     <string name="group_list_my_suggested_subtitle">Latest</string>
     <string name="group_profile_join">Join</string>
+    <string name="search_group_hint">Find a group</string>
 
     <!-- Groups Profile  -->
     <string name="title_group_profile">Group</string>
@@ -91,6 +92,7 @@
     <string name="lbl_group_members">Members</string>
     <string name="lbl_status">Status</string>
     <string name="btn_image">Add image</string>
+    <string name="group_image">Group image</string>
     <string-array name="status">
         <item>Private</item>
         <item>Public</item>

@@ -5,9 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
+import com.example.palfinder.backend.services.GroupService
+import kotlinx.android.synthetic.main.group_item.view.*
 import java.util.*
 
 class GroupsRecyclerViewAdapter(
@@ -17,6 +20,12 @@ class GroupsRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.group_item, parent, false)
+
+        view.iv_image?.setOnClickListener {
+            GroupService.updateGroups(false)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_groupListFragment_to_groupProfile)
+        }
         return ViewHolder(view)
     }
 

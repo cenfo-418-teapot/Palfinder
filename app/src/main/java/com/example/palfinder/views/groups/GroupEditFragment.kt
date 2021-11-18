@@ -60,7 +60,7 @@ class GroupEditFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_edit, container, false)
         view.btnCancel?.setOnClickListener {
-            GroupService.updateGroups()
+            GroupService.updateGroups(false)
             goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
         }
         view.captureImage.setOnClickListener {
@@ -85,10 +85,10 @@ class GroupEditFragment : Fragment() {
 
                     // asynchronously store the image (and assume it will work)
                     GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
-                    GroupService.updateGroups()
-                    goTo(view, R.id.action_groupEditFragment_to_groupListFragment )
                 }
                 GroupService.createGroup(group)
+                GroupService.updateGroups(false)
+                goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
             }

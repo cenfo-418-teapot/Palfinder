@@ -152,12 +152,12 @@
     </LinearLayout>
 
     <SearchView
+        android:id="@+id/sv_group_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         style="@style/OutlinePrimary">
-
     </SearchView>
 
     <!-- fragments container -->

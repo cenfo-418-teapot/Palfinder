@@ -1,11 +1,15 @@
 package com.example.palfinder.views.groups
 
+import android.app.SearchManager
+import android.content.ComponentName
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.SearchView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -42,11 +46,7 @@ class GroupListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(group_list)
-        GroupService.updateGroups()
-    }
-
-    private fun loadData(){
-
+        GroupService.updateGroups(true)
     }
 
     private fun setFocus(view: View, navOption: Int){
