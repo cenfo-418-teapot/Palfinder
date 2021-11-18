@@ -21,28 +21,6 @@ object EventManager {
     }
 
 
-
-    fun events() : LiveData<MutableList<EventModel>> = _events
-    fun addGroup(n : EventModel) {
-        val tmpEvents = _events.value
-        if (tmpEvents != null) {
-            tmpEvents.add(n)
-            _events.notifyObserver()
-        } else {
-            Log.e(TAG, "addGroup : group collection is null !!")
-        }
-    }
-    fun deleteGroup(at: Int) : EventModel?  {
-        val group = _events.value?.removeAt(at)
-        _events.notifyObserver()
-        return group
-    }
-
-    fun resetGroups() {
-        _events.value?.clear()  //used when signing out
-        _events.notifyObserver()
-    }
-
     data class EventModel(
         val id: String,
         val name: String,
@@ -58,7 +36,7 @@ object EventManager {
 
         // bitmap image
         var image : Bitmap? = null
-        // return an API GroupData from this Group object
+        // return an API GroupData from this Event object
         val data : Event
             get() = Event.builder()
                 .name(this.name)
@@ -71,7 +49,7 @@ object EventManager {
                 .id(this.id)
                 .build()
 
-        // static function to create a Group from a GroupData API object
+        // static function to create a Event from a Event API object
         companion object {
             fun from(eventData : Event) : EventModel {
                 val result = EventModel(
@@ -86,6 +64,17 @@ object EventManager {
                     eventData.image)
 
                 return result
+            }
+        }
+
+        fun events() : LiveData<MutableList<EventModel>> = _events
+        fun addEvent(n : EventModel) {
+            val tmpEvents = _events.value
+            if (tmpEvents != null) {
+                tmpEvents.add(n)
+                _events.notifyObserver()
+            } else {
+                Log.e(TAG, "addGroup : Event collection is null !!")
             }
         }
     }
