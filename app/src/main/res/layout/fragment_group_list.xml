@@ -171,7 +171,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/Headline2"
-            android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:paddingTop="20dp"
             android:paddingBottom="20dp"
@@ -184,13 +183,11 @@
             tools:ignore="SpeakableTextPresentCheck">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/item_list"
+                android:id="@+id/group_list"
                 android:name="com.example.myapplication.ItemListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="8dp"
                 app:layoutManager="LinearLayoutManager"
                 tools:context=".views.groups.GroupActivity"
                 tools:listitem="@layout/group_item" />

@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="150dp"
     android:orientation="horizontal"
     android:paddingVertical="16dp">
 
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="100dp"
-        android:layout_height="60dp"
-        android:padding="8dp"
+        android:layout_height="80dp"
+        android:layout_gravity="top"
+        android:padding="4dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_image_24" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:orientation="vertical">
@@ -28,54 +31,76 @@
 
             <TextView
                 android:id="@+id/tv_name"
+                style="@style/Headline5"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Title"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:maxLength="20"
-                style="@style/Headline5" />
-
-            <TextView
-                android:id="@+id/tv_description"
+                android:text="Title" />
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Text"
-                android:maxLength="30"
-                style="@style/Paragraph" />
+                android:layout_height="0dp"
+                android:layout_weight="2">
+                <TextView
+                    android:id="@+id/tv_description"
+                    style="@style/Paragraph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Text" />
+            </ScrollView>
+
 
         </LinearLayout>
 
     </LinearLayout>
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_status"
+                style="@style/Paragraph"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/group_profile_privacy_subtitle"
-                style="@style/Paragraph" />
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/group_profile_privacy_subtitle" />
 
-            <Button
-                android:id="@+id/btnJoin"
-                style="@style/ButtonPrimary"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:text="@string/group_profile_join" />
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <Button
+                    android:id="@+id/btnJoin"
+                    style="@style/ButtonPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/group_profile_join"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

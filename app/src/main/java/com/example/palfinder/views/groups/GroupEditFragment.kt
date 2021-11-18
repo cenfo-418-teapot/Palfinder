@@ -81,11 +81,11 @@ class GroupEditFragment : Fragment() {
                 GroupService.createGroup(group)
                 if (this.noteImagePath != null) {
                     group.imageName = UUID.randomUUID().toString()
-                    //note.setImage(this.noteImage)
                     group.image = this.noteImage
 
                     // asynchronously store the image (and assume it will work)
                     GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
+                    GroupAdmin.addGroup(group)
                     goTo(view, R.id.action_groupEditFragment_to_groupListFragment )
                 }
             } catch (e: IllegalStateException) {

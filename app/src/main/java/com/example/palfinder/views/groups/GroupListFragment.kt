@@ -1,12 +1,18 @@
 package com.example.palfinder.views.groups
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.palfinder.R
+import com.example.palfinder.backend.services.GroupAdmin
+import com.example.palfinder.backend.services.GroupService
 import kotlinx.android.synthetic.main.fragment_group_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.view.*
 
@@ -33,6 +39,12 @@ class GroupListFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView(group_list)
+        GroupService.updateGroups()
+    }
+
     private fun loadData(){
 
     }
@@ -57,6 +69,20 @@ class GroupListFragment : Fragment() {
             }
         }
     }
+
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        // add a touch gesture handler to manager the swipe to delete gesture
+//        val itemTouchHelper = ItemTouchHelper(SwipeCallback(this))
+//        itemTouchHelper.attachToRecyclerView(recyclerView)
+        // update individual cell when the Group data are modified
+        GroupAdmin.groups().observe(viewLifecycleOwner, Observer<MutableList<GroupAdmin.GroupModel>> { groups ->
+            Log.d(TAG, "Note observer received ${groups.size} groups")
+
+            // let's create a RecyclerViewAdapter that manages the individual cells
+            recyclerView.adapter = GroupsRecyclerViewAdapter(groups)
+        })
+    }
+
 
     companion object {
         private const val TAG = "GroupListFragment"

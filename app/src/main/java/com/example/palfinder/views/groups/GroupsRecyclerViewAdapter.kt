@@ -27,7 +27,8 @@ class GroupsRecyclerViewAdapter(
         val finalName = item?.name
         val finalDescription = item?.description
         val finalImage = item?.image
-        if(finalStatus.isNotBlank()) finalStatus = finalStatus.replaceFirstChar {
+        if(finalStatus.isNotBlank())
+            finalStatus = finalStatus.lowercase().replaceFirstChar {
             if (it.isLowerCase()) it.titlecase(
                 Locale.getDefault()
             ) else it.toString()
