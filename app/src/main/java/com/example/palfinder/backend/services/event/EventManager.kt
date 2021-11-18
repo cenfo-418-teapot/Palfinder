@@ -36,7 +36,7 @@ object EventManager {
 
         // bitmap image
         var image : Bitmap? = null
-        // return an API GroupData from this Event object
+        // return an API EventData from this Event object
         val data : Event
             get() = Event.builder()
                 .name(this.name)
@@ -74,7 +74,7 @@ object EventManager {
                 tmpEvents.add(n)
                 _events.notifyObserver()
             } else {
-                Log.e(TAG, "addGroup : Event collection is null !!")
+                Log.e(TAG, "addEvent : Event collection is null !!")
             }
         }
     }
