@@ -81,6 +81,8 @@ class GroupListFragment : Fragment() {
 
             // let's create a RecyclerViewAdapter that manages the individual cells
             recyclerView.adapter = GroupsRecyclerViewAdapter(groups)
+            if(groups.size > 0) tv_no_groups.visibility = View.GONE
+            else tv_no_groups.visibility = View.VISIBLE
         })
     }
 
