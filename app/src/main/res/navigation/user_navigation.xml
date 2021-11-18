@@ -3,20 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_navigation"
-    app:startDestination="@id/fragment_user_profile">
+    app:startDestination="@id/userProfileDetailFragment2">
 
     <fragment
-        android:id="@+id/fragment_user_profile_edit"
-        android:name="com.example.palfinder.fragment_user_profile_edit"
-        android:label="fragment_user_profile_edit"
-        tools:layout="@layout/fragment_user_profile_edit" />
-    <fragment
-        android:id="@+id/fragment_user_profile"
-        android:name="com.example.palfinder.fragment_user_profile"
-        android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile_detail" >
+        android:id="@+id/userProfileDetailFragment2"
+        android:name="com.example.palfinder.views.user.UserProfileDetailFragment"
+        android:label="UserProfileDetailFragment" >
         <action
-            android:id="@+id/action_fragment_user_profile_to_fragment_user_profile_edit"
-            app:destination="@id/fragment_user_profile_edit" />
+            android:id="@+id/action_userProfileDetailFragment2_to_userProfileEditFragment"
+            app:destination="@id/userProfileEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileEditFragment"
+        android:name="com.example.palfinder.views.user.UserProfileEditFragment"
+        android:label="UserProfileEditFragment" >
+        <action
+            android:id="@+id/action_userProfileEditFragment_to_userProfileDetailFragment2"
+            app:destination="@id/userProfileDetailFragment2" />
     </fragment>
 </navigation>
