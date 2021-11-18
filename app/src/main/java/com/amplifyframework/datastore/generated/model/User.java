@@ -36,7 +36,7 @@ public final class User implements Model {
   public static final QueryField LAST_NAME = field("User", "lastName");
   public static final QueryField PHONE_NUMBER = field("User", "phoneNumber");
   public static final QueryField PHOTO = field("User", "photo");
-  public static final QueryField STATE = field("User", "state");
+  public static final QueryField STATUS = field("User", "status");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String email;
   private final @ModelField(targetType="String", isRequired = true) String username;
@@ -45,7 +45,7 @@ public final class User implements Model {
   private final @ModelField(targetType="String", isRequired = true) String lastName;
   private final @ModelField(targetType="String") String phoneNumber;
   private final @ModelField(targetType="String") String photo;
-  private final @ModelField(targetType="State", isRequired = true) State state;
+  private final @ModelField(targetType="Status", isRequired = true) Status status;
   private final @ModelField(targetType="Friend") @HasMany(associatedWith = "friend", type = Friend.class) List<Friend> friends = null;
   private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "user", type = GroupMembers.class) List<GroupMembers> groups = null;
   private final @ModelField(targetType="EventMembers") @HasMany(associatedWith = "user", type = EventMembers.class) List<EventMembers> events = null;
@@ -84,8 +84,8 @@ public final class User implements Model {
       return photo;
   }
   
-  public State getState() {
-      return state;
+  public Status getStatus() {
+      return status;
   }
   
   public List<Friend> getFriends() {
@@ -112,7 +112,7 @@ public final class User implements Model {
       return updatedOn;
   }
   
-  private User(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, State state) {
+  private User(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, Status status) {
     this.id = id;
     this.email = email;
     this.username = username;
@@ -121,7 +121,7 @@ public final class User implements Model {
     this.lastName = lastName;
     this.phoneNumber = phoneNumber;
     this.photo = photo;
-    this.state = state;
+    this.status = status;
   }
   
   @Override
@@ -140,7 +140,7 @@ public final class User implements Model {
               ObjectsCompat.equals(getLastName(), user.getLastName()) &&
               ObjectsCompat.equals(getPhoneNumber(), user.getPhoneNumber()) &&
               ObjectsCompat.equals(getPhoto(), user.getPhoto()) &&
-              ObjectsCompat.equals(getState(), user.getState()) &&
+              ObjectsCompat.equals(getStatus(), user.getStatus()) &&
               ObjectsCompat.equals(getCreatedOn(), user.getCreatedOn()) &&
               ObjectsCompat.equals(getUpdatedOn(), user.getUpdatedOn());
       }
@@ -157,7 +157,7 @@ public final class User implements Model {
       .append(getLastName())
       .append(getPhoneNumber())
       .append(getPhoto())
-      .append(getState())
+      .append(getStatus())
       .append(getCreatedOn())
       .append(getUpdatedOn())
       .toString()
@@ -176,7 +176,7 @@ public final class User implements Model {
       .append("lastName=" + String.valueOf(getLastName()) + ", ")
       .append("phoneNumber=" + String.valueOf(getPhoneNumber()) + ", ")
       .append("photo=" + String.valueOf(getPhoto()) + ", ")
-      .append("state=" + String.valueOf(getState()) + ", ")
+      .append("status=" + String.valueOf(getStatus()) + ", ")
       .append("createdOn=" + String.valueOf(getCreatedOn()) + ", ")
       .append("updatedOn=" + String.valueOf(getUpdatedOn()))
       .append("}")
@@ -218,7 +218,7 @@ public final class User implements Model {
       lastName,
       phoneNumber,
       photo,
-      state);
+      status);
   }
   public interface EmailStep {
     UsernameStep email(String email);
@@ -236,12 +236,12 @@ public final class User implements Model {
   
 
   public interface LastNameStep {
-    StateStep lastName(String lastName);
+    StatusStep lastName(String lastName);
   }
   
 
-  public interface StateStep {
-    BuildStep state(State state);
+  public interface StatusStep {
+    BuildStep status(Status status);
   }
   
 
@@ -254,13 +254,13 @@ public final class User implements Model {
   }
   
 
-  public static class Builder implements EmailStep, UsernameStep, NameStep, LastNameStep, StateStep, BuildStep {
+  public static class Builder implements EmailStep, UsernameStep, NameStep, LastNameStep, StatusStep, BuildStep {
     private String id;
     private String email;
     private String username;
     private String name;
     private String lastName;
-    private State state;
+    private Status status;
     private String description;
     private String phoneNumber;
     private String photo;
@@ -277,7 +277,7 @@ public final class User implements Model {
           lastName,
           phoneNumber,
           photo,
-          state);
+          status);
     }
     
     @Override
@@ -302,16 +302,16 @@ public final class User implements Model {
     }
     
     @Override
-     public StateStep lastName(String lastName) {
+     public StatusStep lastName(String lastName) {
         Objects.requireNonNull(lastName);
         this.lastName = lastName;
         return this;
     }
     
     @Override
-     public BuildStep state(State state) {
-        Objects.requireNonNull(state);
-        this.state = state;
+     public BuildStep status(Status status) {
+        Objects.requireNonNull(status);
+        this.status = status;
         return this;
     }
     
@@ -345,13 +345,13 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, State state) {
+    private CopyOfBuilder(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, Status status) {
       super.id(id);
       super.email(email)
         .username(username)
         .name(name)
         .lastName(lastName)
-        .state(state)
+        .status(status)
         .description(description)
         .phoneNumber(phoneNumber)
         .photo(photo);
@@ -378,8 +378,8 @@ public final class User implements Model {
     }
     
     @Override
-     public CopyOfBuilder state(State state) {
-      return (CopyOfBuilder) super.state(state);
+     public CopyOfBuilder status(Status status) {
+      return (CopyOfBuilder) super.status(status);
     }
     
     @Override

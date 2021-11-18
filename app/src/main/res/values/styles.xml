@@ -135,4 +135,11 @@
         <item name="chipStrokeWidth">@dimen/space_unit</item>
     </style>
 
+    <!--  Outline   -->
+    <style name="OutlinePrimary">
+        <item name="android:background">@drawable/outline_rectangle</item>
+    </style>
+    <style name="OutlineSecondary">
+        <item name="android:background">@drawable/outline_rectangle_dark</item>
+    </style>
 </resources>
