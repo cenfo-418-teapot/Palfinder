@@ -101,8 +101,6 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <!-- Card View -->
-
     <!-- User Profile specific styles -->
     <style name="user_name">
         <item name="android:paddingTop">8sp</item>
@@ -118,4 +116,11 @@
         <item name="android:background">@drawable/outline_rectangle_light</item>
     </style>
 
+    <style name="Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="closeIconTint">@color/primaryLight</item>
+        <item name="android:checked">true</item>
+        <item name="closeIconEnabled">true</item>
+        <item name="closeIconVisible">true</item>
+        <item name="android:closeIcon">@drawable/ic_label_off</item>
+    </style>
 </resources>

@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/textView"
-        style="@style/TextAppearance.AppCompat.Medium"
+        style="@style/Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/password_label"
         app:errorEnabled="true"
-        app:helperText="At least 8 characters, 1 uppercase and 1 special character"
+        app:helperText="@string/password_helper_text"
         app:passwordToggleEnabled="true"
         app:startIconDrawable="@drawable/ic_lock">
 
@@ -74,6 +74,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveChanges"
+        style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_margin"
