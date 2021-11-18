@@ -19,6 +19,7 @@
         android:label="UserProfileEditFragment" >
         <action
             android:id="@+id/action_userProfileEditFragment_to_userProfileDetailFragment2"
-            app:destination="@id/userProfileDetailFragment2" />
+            app:destination="@id/userProfileDetailFragment2"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
