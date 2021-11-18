@@ -72,7 +72,7 @@
     <string name="group_profile_share_lbl">Share</string>
     <string name="group_profile_privacy_subtitle">Privacy:</string>
     <string name="group_profile_next_events_subtitle">Next Events</string>
-    <string name="group_profile_members_subtitle">All members</string>
+    <string name="group_profile_members_subtitle">Members</string>
     <string name="group_profile_view_all_members">View all</string>
 
     <!-- Group Users List -->
@@ -98,5 +98,24 @@
         <item>Private</item>
         <item>Public</item>
     </string-array>
+
+    <!-- Events List  -->
+    <string name="title_event_list">Event List</string>
+
+    <!-- Add Event  -->
+    <string name="title_event_create">Add Event</string>
+    <string name="text_event_create">Please fill all fields</string>
+
+    <!-- Create Event  -->
+    <string name="text_event_description">Description</string>
+    <string name="text_event_date">Date</string>
+    <string name="text_event_location">Location</string>
+    <string name="text_event_price">Price</string>
+    <string name="text_event_name">Name</string>
+
+
+    !-- Btn Actions -->
+    <string name="btn_create">Create</string>
+    <string name="btn_cancel">Cancel</string>
 
 </resources>
