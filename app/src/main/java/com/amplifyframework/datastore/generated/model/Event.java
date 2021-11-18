@@ -34,6 +34,7 @@ public final class Event implements Model {
   public static final QueryField IMAGE = field("Event", "image");
   public static final QueryField LOCATION = field("Event", "location");
   public static final QueryField WHEN = field("Event", "when");
+  public static final QueryField STATUS = field("Event", "status");
   public static final QueryField GROUP = field("Event", "groupID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
@@ -41,6 +42,7 @@ public final class Event implements Model {
   private final @ModelField(targetType="String") String image;
   private final @ModelField(targetType="String") String location;
   private final @ModelField(targetType="AWSDateTime", isRequired = true) Temporal.DateTime when;
+  private final @ModelField(targetType="Status") Status status;
   private final @ModelField(targetType="Group") @BelongsTo(targetName = "groupID", type = Group.class) Group group;
   private final @ModelField(targetType="EventMembers") @HasMany(associatedWith = "event", type = EventMembers.class) List<EventMembers> members = null;
   private final @ModelField(targetType="TagEvent") @HasMany(associatedWith = "event", type = TagEvent.class) List<TagEvent> tags = null;
@@ -70,6 +72,10 @@ public final class Event implements Model {
       return when;
   }
   
+  public Status getStatus() {
+      return status;
+  }
+  
   public Group getGroup() {
       return group;
   }
@@ -90,13 +96,14 @@ public final class Event implements Model {
       return updatedOn;
   }
   
-  private Event(String id, String name, String description, String image, String location, Temporal.DateTime when, Group group) {
+  private Event(String id, String name, String description, String image, String location, Temporal.DateTime when, Status status, Group group) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.image = image;
     this.location = location;
     this.when = when;
+    this.status = status;
     this.group = group;
   }
   
@@ -114,6 +121,7 @@ public final class Event implements Model {
               ObjectsCompat.equals(getImage(), event.getImage()) &&
               ObjectsCompat.equals(getLocation(), event.getLocation()) &&
               ObjectsCompat.equals(getWhen(), event.getWhen()) &&
+              ObjectsCompat.equals(getStatus(), event.getStatus()) &&
               ObjectsCompat.equals(getGroup(), event.getGroup()) &&
               ObjectsCompat.equals(getCreatedOn(), event.getCreatedOn()) &&
               ObjectsCompat.equals(getUpdatedOn(), event.getUpdatedOn());
@@ -129,6 +137,7 @@ public final class Event implements Model {
       .append(getImage())
       .append(getLocation())
       .append(getWhen())
+      .append(getStatus())
       .append(getGroup())
       .append(getCreatedOn())
       .append(getUpdatedOn())
@@ -146,6 +155,7 @@ public final class Event implements Model {
       .append("image=" + String.valueOf(getImage()) + ", ")
       .append("location=" + String.valueOf(getLocation()) + ", ")
       .append("when=" + String.valueOf(getWhen()) + ", ")
+      .append("status=" + String.valueOf(getStatus()) + ", ")
       .append("group=" + String.valueOf(getGroup()) + ", ")
       .append("createdOn=" + String.valueOf(getCreatedOn()) + ", ")
       .append("updatedOn=" + String.valueOf(getUpdatedOn()))
@@ -173,6 +183,7 @@ public final class Event implements Model {
       null,
       null,
       null,
+      null,
       null
     );
   }
@@ -184,6 +195,7 @@ public final class Event implements Model {
       image,
       location,
       when,
+      status,
       group);
   }
   public interface NameStep {
@@ -202,6 +214,7 @@ public final class Event implements Model {
     BuildStep description(String description);
     BuildStep image(String image);
     BuildStep location(String location);
+    BuildStep status(Status status);
     BuildStep group(Group group);
   }
   
@@ -213,6 +226,7 @@ public final class Event implements Model {
     private String description;
     private String image;
     private String location;
+    private Status status;
     private Group group;
     @Override
      public Event build() {
@@ -225,6 +239,7 @@ public final class Event implements Model {
           image,
           location,
           when,
+          status,
           group);
     }
     
@@ -261,6 +276,12 @@ public final class Event implements Model {
     }
     
     @Override
+     public BuildStep status(Status status) {
+        this.status = status;
+        return this;
+    }
+    
+    @Override
      public BuildStep group(Group group) {
         this.group = group;
         return this;
@@ -278,13 +299,14 @@ public final class Event implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, String image, String location, Temporal.DateTime when, Group group) {
+    private CopyOfBuilder(String id, String name, String description, String image, String location, Temporal.DateTime when, Status status, Group group) {
       super.id(id);
       super.name(name)
         .when(when)
         .description(description)
         .image(image)
         .location(location)
+        .status(status)
         .group(group);
     }
     
@@ -311,6 +333,11 @@ public final class Event implements Model {
     @Override
      public CopyOfBuilder location(String location) {
       return (CopyOfBuilder) super.location(location);
+    }
+    
+    @Override
+     public CopyOfBuilder status(Status status) {
+      return (CopyOfBuilder) super.status(status);
     }
     
     @Override
