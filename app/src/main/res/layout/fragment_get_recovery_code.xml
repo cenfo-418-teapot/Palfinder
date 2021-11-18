@@ -2,18 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".views.auth.recover.password.GetRecoveryCodeFragment">
 
     <TextView
         android:id="@+id/textView"
-        style="@style/TextAppearance.AppCompat.Medium"
+        style="@style/Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="Before we continue, type your username so we can send a verification code to your email account."
+        android:text="@string/get_recovery_code_detail"
         android:textAlignment="center" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -30,13 +30,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text" />
+
         <TextView
             android:id="@+id/tvHasCode"
+            style="@style/Link"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd"
             android:text="@string/has_recovery_code"
-            android:textColor="@color/secondaryDark"/>
+            android:textAlignment="textEnd" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Space
@@ -50,5 +51,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_margin"
         android:enabled="false"
-        android:text="Send" />
+        android:text="@string/send" />
 </LinearLayout>

@@ -114,10 +114,9 @@
     </style>
 
     <!-- Card View -->
-    <style name="CardDefault" parent="CardView">
-        <item name="cardElevation">3dp</item>
+    <style name="CardDefault" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">2dp</item>
         <item name="cardPreventCornerOverlap">true</item>
-        <item name="cardCornerRadius">@dimen/spacing_xlarge</item>
         <item name="contentPadding">@dimen/spacing_medium</item>
     </style>
 
@@ -126,5 +125,23 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <!-- Chips-->
+    <style name="Chip" parent="Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@drawable/chip_bg</item>
+        <item name="android:textColor">@drawable/chip_txt</item>
+    </style>
+
+    <style name="Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="closeIconTint">@color/primaryDark</item>
+        <item name="android:checked">true</item>
+        <item name="closeIconEnabled">true</item>
+        <item name="closeIconVisible">true</item>
+        <item name="android:closeIcon">@drawable/ic_label_off</item>
+    </style>
+
+    <style name="Chip.Default" parent="Chip">
+        <item name="chipStrokeColor">@color/secondary</item>
+        <item name="chipStrokeWidth">@dimen/space_unit</item>
+    </style>
 
 </resources>

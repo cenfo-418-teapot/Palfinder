@@ -1,70 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_container"
     style="@style/container">
 
     <TextView
+        style="@style/Paragraph"
         android:layout_width="match_parent"
-        android:layout_marginBottom="8dp"
         android:layout_height="wrap_content"
-        android:text="Typography"
-        style="@style/Paragraph"/>
+        android:layout_marginBottom="8dp"
+        android:text="Typography" />
+
     <TextView
         android:id="@+id/Title"
+        style="@style/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
-        style="@style/Title" />
+        android:text="Title" />
+
     <TextView
         android:id="@+id/Headline1"
+        style="@style/Headline1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Headline 1"
-        style="@style/Headline1" />
+        android:text="Headline 1" />
+
     <TextView
         android:id="@+id/Headline2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Headline 2"
-        style="@style/Headline2" />
+        style="@style/Headline2"/>
+
     <TextView
         android:id="@+id/Headline3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Headline 3"
         style="@style/Headline3" />
+
     <TextView
         android:id="@+id/Headline4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Headline 4"
         style="@style/Headline4" />
+
     <TextView
         android:id="@+id/Headline5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Headline 5"
         style="@style/Headline5" />
+
     <TextView
         android:id="@+id/Headline6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Headline 6"
         style="@style/Headline6" />
+
     <TextView
         android:id="@+id/TextSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="This is a paragraph"
         style="@style/Paragraph" />
+
     <TextView
         android:id="@+id/Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="This is a small text"
         style="@style/TextSmall" />
+
     <TextView
         android:id="@+id/TextXSmall"
         android:layout_width="match_parent"
@@ -73,8 +81,13 @@
         style="@style/TextXSmall" />
 
     <TextView
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/Link"
+        style="@style/Link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is a link" />
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Buttons"
@@ -86,16 +99,19 @@
         android:layout_height="wrap_content"
         android:text="Primary Button"
         style="@style/ButtonPrimary" />
+
     <Button
         android:id="@+id/ButtonSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Secondary Button"
         style="@style/ButtonSecondary" />
+
     <Button
         android:id="@+id/ButtonTertiary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tertiary Button"
         style="@style/ButtonGhost" />
+
 </LinearLayout>

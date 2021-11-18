@@ -7,17 +7,17 @@
     android:orientation="vertical"
     tools:context=".views.HomeActivity">
 
-    <Button
-        android:id="@+id/btnTagFormDemo"
-        style="@style/ButtonSecondary"
+    <TextView
+        android:id="@+id/tvTagList"
+        style="@style/Headline1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_tag_label" />
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btnLogout"
-        style="@style/ButtonPrimary"
+    <fragment
+        android:id="@+id/aetTag"
+        android:name="com.example.palfinder.components.TagInputFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/log_out" />
+        tools:layout="@layout/fragment_input_tag" />
+
 </LinearLayout>
