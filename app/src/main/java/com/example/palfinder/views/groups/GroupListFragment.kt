@@ -1,11 +1,16 @@
 package com.example.palfinder.views.groups
 
+import android.app.SearchManager
+import android.content.ComponentName
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import android.widget.ArrayAdapter
+import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
@@ -45,10 +50,6 @@ class GroupListFragment : Fragment() {
         GroupService.updateGroups()
     }
 
-    private fun loadData(){
-
-    }
-
     private fun setFocus(view: View, navOption: Int){
         when(navOption) {
             1 -> {
@@ -72,14 +73,16 @@ class GroupListFragment : Fragment() {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         // add a touch gesture handler to manager the swipe to delete gesture
-//        val itemTouchHelper = ItemTouchHelper(SwipeCallback(this))
-//        itemTouchHelper.attachToRecyclerView(recyclerView)
+        val itemTouchHelper = ItemTouchHelper(GroupSwipeCallback(activity as AppCompatActivity))
+        itemTouchHelper.attachToRecyclerView(recyclerView)
         // update individual cell when the Group data are modified
         GroupAdmin.groups().observe(viewLifecycleOwner, Observer<MutableList<GroupAdmin.GroupModel>> { groups ->
             Log.d(TAG, "Note observer received ${groups.size} groups")
 
             // let's create a RecyclerViewAdapter that manages the individual cells
             recyclerView.adapter = GroupsRecyclerViewAdapter(groups)
+            if(groups.size > 0) tv_no_groups.visibility = View.GONE
+            else tv_no_groups.visibility = View.VISIBLE
         })
     }
 

@@ -38,6 +38,10 @@ object GroupAdmin {
         return group
     }
 
+    fun getGroup(at: Int): GroupModel? {
+        return _groups.value?.get(at)
+    }
+
     fun resetGroups() {
         this._groups.value?.clear()  //used when signing out
         _groups.notifyObserver()
