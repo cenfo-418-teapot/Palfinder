@@ -60,6 +60,7 @@ class GroupEditFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_edit, container, false)
         view.btnCancel?.setOnClickListener {
+            GroupService.updateGroups()
             goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
         }
         view.captureImage.setOnClickListener {
@@ -70,24 +71,24 @@ class GroupEditFragment : Fragment() {
             startActivityForResult(i, SELECT_PHOTO)
         }
         // create rounded corners for the image
-        view.iv_image.shapeAppearanceModel = view.iv_image.shapeAppearanceModel
-            .toBuilder()
-            .setAllCorners(CornerFamily.ROUNDED, 150.0f)
-            .build()
+//        view.iv_image.shapeAppearanceModel = view.iv_image.shapeAppearanceModel
+//            .toBuilder()
+//            .setAllCorners(CornerFamily.ROUNDED, 150.0f)
+//            .build()
 
         view.btnConfirm?.setOnClickListener {
             try {
                 val group = validForm()
-                GroupService.createGroup(group)
                 if (this.noteImagePath != null) {
                     group.imageName = UUID.randomUUID().toString()
                     group.image = this.noteImage
 
                     // asynchronously store the image (and assume it will work)
                     GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
-                    GroupAdmin.addGroup(group)
+                    GroupService.updateGroups()
                     goTo(view, R.id.action_groupEditFragment_to_groupListFragment )
                 }
+                GroupService.createGroup(group)
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
             }
@@ -139,8 +140,7 @@ class GroupEditFragment : Fragment() {
             null,
             null,
             null,
-            finalStatus,
-            noteImagePath)
+            finalStatus)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, imageReturnedIntent: Intent?) {

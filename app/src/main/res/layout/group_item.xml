@@ -9,9 +9,10 @@
     <ImageView
         android:id="@+id/iv_image"
         android:layout_width="100dp"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:layout_gravity="top"
-        android:padding="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_image_24" />
 
@@ -40,12 +41,14 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2">
+                android:layout_weight="1">
                 <TextView
                     android:id="@+id/tv_description"
                     style="@style/Paragraph"
+                    android:maxLength="50"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:text="Text" />
             </ScrollView>
 
