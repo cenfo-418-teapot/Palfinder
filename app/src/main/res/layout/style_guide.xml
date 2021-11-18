@@ -26,45 +26,59 @@
 
     <TextView
         android:id="@+id/Headline2"
-        style="@style/Headline2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Headline 2" />
+        android:text="Headline 2"
+        style="@style/Headline2"/>
 
     <TextView
         android:id="@+id/Headline3"
-        style="@style/Headline3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Headline 3" />
+        android:text="Headline 3"
+        style="@style/Headline3" />
 
     <TextView
         android:id="@+id/Headline4"
-        style="@style/Headline4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Headline 4" />
+        android:text="Headline 4"
+        style="@style/Headline4" />
 
     <TextView
         android:id="@+id/Headline5"
-        style="@style/Headline5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Headline 5" />
+        android:text="Headline 5"
+        style="@style/Headline5" />
 
     <TextView
         android:id="@+id/Headline6"
-        style="@style/Headline6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Headline 6" />
+        android:text="Headline 6"
+        style="@style/Headline6" />
+
+    <TextView
+        android:id="@+id/TextSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is a paragraph"
+        style="@style/Paragraph" />
 
     <TextView
         android:id="@+id/Paragraph"
-        style="@style/Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="This is a paragraph" />
+        android:text="This is a small text"
+        style="@style/TextSmall" />
+
+    <TextView
+        android:id="@+id/TextXSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="This is a smaller text"
+        style="@style/TextXSmall" />
 
     <TextView
         android:id="@+id/Link"
@@ -74,31 +88,30 @@
         android:text="This is a link" />
 
     <TextView
-        style="@style/Paragraph"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:text="Buttons" />
+        android:text="Buttons"
+        style="@style/Paragraph" />
 
     <Button
         android:id="@+id/ButtonPrimary"
-        style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Primary Button" />
+        android:text="Primary Button"
+        style="@style/ButtonPrimary" />
 
     <Button
         android:id="@+id/ButtonSecondary"
-        style="@style/ButtonSecondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Secondary Button" />
+        android:text="Secondary Button"
+        style="@style/ButtonSecondary" />
 
     <Button
         android:id="@+id/ButtonTertiary"
-        style="@style/ButtonGhost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tertiary Button" />
+        android:text="Tertiary Button"
+        style="@style/ButtonGhost" />
+
 </LinearLayout>

@@ -76,6 +76,18 @@
         <item name="android:textColor">@color/dark_gray</item>
     </style>
 
+    <style name="TextSmall">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
+    <style name="TextXSmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/dark_gray</item>
+    </style>
+
     <style name="Link">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">normal</item>
@@ -108,12 +120,9 @@
         <item name="contentPadding">@dimen/spacing_medium</item>
     </style>
 
-    <!-- User Profile specific styles -->
-    <style name="user_name">
-        <item name="android:paddingTop">8sp</item>
-        <item name="android:paddingBottom">8sp</item>
-        <item name="android:textSize">@dimen/text_size</item>
-        <item name="android:textStyle">bold</item>
+    <!-- User Profile View -->
+    <style name="CicularMask">
+        <item name="cornerSize">50%</item>
     </style>
 
     <!-- Chips-->
