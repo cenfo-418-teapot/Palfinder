@@ -6,8 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.core.model.temporal.Temporal
 import com.amplifyframework.datastore.generated.model.*
-import com.example.palfinder.backend.services.group.GroupAdmin
-import com.example.palfinder.backend.services.group.GroupService
 
 object EventManager {
     private const val TAG = "EventManager"
@@ -87,14 +85,6 @@ object EventManager {
                     eventData.status,
                     eventData.image)
 
-                if (eventData.image != null) {
-                    GroupService.retrieveImage(eventData.image!!) {
-                        result.image = it
-
-                        // force a UI update
-                        with(GroupAdmin) { notifyObserver() }
-                    }
-                }
                 return result
             }
         }
