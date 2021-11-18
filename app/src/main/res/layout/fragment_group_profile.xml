@@ -5,7 +5,6 @@
     tools:context=".views.groups.GroupActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +12,6 @@
         style="@style/Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/roboto"
         android:text="@string/title_group_profile"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -126,23 +124,19 @@
 
         <TextView
             android:id="@+id/tv_privacy_subtitle"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#3B000000"
-            android:paddingLeft="20dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
+            android:padding="20dp"
             android:text="@string/group_profile_privacy_subtitle"
-            android:textAlignment="textStart"
+            android:textAlignment="textEnd"
             style="@style/Paragraph" />
 
         <TextView
             android:id="@+id/tv_next_events_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="20dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
+            android:padding="15dp"
             android:text="@string/group_profile_next_events_subtitle"
             style="@style/Headline6"
             android:textColor="@color/primary" />
@@ -159,6 +153,7 @@
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
                 android:padding="10dp"
+                android:minHeight="200dp"
                 android:text=">" />
         </ScrollView>
         <LinearLayout
@@ -172,9 +167,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingLeft="20dp"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:padding="15dp"
                 android:text="@string/group_profile_members_subtitle"
                 style="@style/Headline6"
                 android:textColor="@color/primary" />
@@ -184,9 +177,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="15dp"
-                android:paddingEnd="20dp"
-                android:paddingBottom="15dp"
+                android:padding="15dp"
                 android:text="@string/group_profile_view_all_members"
                 android:textAlignment="textEnd"
                 style="@style/Paragraph"

@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import com.example.palfinder.R
+import kotlinx.android.synthetic.main.fragment_group_edit.view.*
+import kotlinx.android.synthetic.main.fragment_group_profile.view.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,7 +38,11 @@ class GroupProfile : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_group_profile, container, false)
+        val view =  inflater.inflate(R.layout.fragment_group_profile, container, false)
+        view.tv_grup_view_all_members?.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_groupProfile_to_groupUsersFragment)
+        }
+        return view
     }
 
     companion object {

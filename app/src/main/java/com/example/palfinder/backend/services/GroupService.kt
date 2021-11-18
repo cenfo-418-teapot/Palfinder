@@ -13,6 +13,8 @@ import com.amplifyframework.storage.options.StorageRemoveOptions
 import com.amplifyframework.storage.options.StorageUploadFileOptions
 import java.io.File
 import java.io.FileInputStream
+import java.io.IOException
+import java.lang.Exception
 
 /**
  * Object for Groups administration service
@@ -24,14 +26,15 @@ object GroupService {
     private const val TAG = "GroupService"
 
     fun updateGroups() {
-        val notes = GroupAdmin.groups().value
-        val isEmpty = notes?.isEmpty() ?: false
+        val groupList = GroupAdmin.groups().value
+        val isEmpty = groupList?.isEmpty() ?: false
 
         // query notes when signed in and we do not have Notes yet
-        if (isEmpty ) {
+        if (isEmpty) {
             this.queryGroups()
         } else {
             GroupAdmin.resetGroups()
+            this.queryGroups()
         }
     }
 
@@ -84,18 +87,24 @@ object GroupService {
         if (tmpGroupModel == null) return
 
         Log.i(TAG, "Deleting Group $tmpGroupModel")
-
+        val data = tmpGroupModel.data
         Amplify.API.mutate(
-            ModelMutation.delete(tmpGroupModel. data),
+            ModelMutation.delete(data),
             { response ->
                 Log.i(TAG, "Deleted")
                 if (response.hasErrors()) {
-                    Log.e(TAG, response.errors.first().message)
+                    response.errors.iterator().forEach {
+                        Log.e(TAG, it.message)
+                    }
+//                    throw IOException("You can't delete the group ${data.name}")
                 } else {
                     Log.i(TAG, "Deleted Group $response")
                 }
             },
-            { error -> Log.e(TAG, "Delete failed", error) }
+            {
+                error -> Log.e(TAG, "Delete failed", error)
+//                throw IOException("You can't delete the group ${data.name}")
+            }
         )
     }
     fun storeImage(filePath: String, key: String) {
