@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getColor
 import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +29,7 @@ class GroupSwipeCallback(private val activity: AppCompatActivity): ItemTouchHelp
         R.drawable.ic_baseline_delete_sweep_24
     )
     private val background: ColorDrawable = ColorDrawable(Color.RED)
-//    private val background: ColorDrawable = ColorDrawable(Color.parseColor("#" +R.color.error.toHexString()))
+//    private val background: ColorDrawable = ColorDrawable(getColor(activity,R.color.error))
 
     override fun onChildDraw(
         c: Canvas,

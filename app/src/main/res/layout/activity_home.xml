@@ -35,8 +35,8 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:scaleX="1.4"
-                android:scaleY="1.4"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
                 app:srcCompat="@drawable/ic_person" />
 
             <ImageView
@@ -54,7 +54,7 @@
                 app:srcCompat="@drawable/ic_baseline_calendar_today_24" />
 
             <ImageView
-                android:id="@+id/ic_notifications"
+                android:id="@+id/iv_notifications"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -65,7 +65,21 @@
                 android:paddingBottom="10dp"
                 android:scaleX="1.4"
                 android:scaleY="1.4"
-                app:srcCompat="@drawable/ic_baseline_notifications_none_24" />
+                app:srcCompat="@drawable/ic_baseline_notifications_24" />
+
+            <ImageView
+                android:id="@+id/iv_demo_tags"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scaleX="1.4"
+                android:scaleY="1.4"
+                app:srcCompat="@drawable/ic_baseline_label_24" />
 
             <ImageView
                 android:id="@+id/btnLogout"
