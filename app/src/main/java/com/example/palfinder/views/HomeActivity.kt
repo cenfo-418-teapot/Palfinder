@@ -10,6 +10,7 @@ import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.views.auth.LoginActivity
 import com.example.palfinder.views.events.EventActivity
 import com.example.palfinder.views.tag.TagFormDemoActivity
+import com.example.palfinder.views.user.SearchUserDemoActivity
 import com.example.palfinder.views.user.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -23,6 +24,9 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             }) { error ->
                 Log.e(TAG, "Failed to log out!", error)
             }
+        }
+        ivSearchUser.setOnClickListener{
+            startActivity(Intent(this, SearchUserDemoActivity::class.java))
         }
         iv_user_profile.setOnClickListener{
             startActivity(Intent(this, UserProfileActivity::class.java))
