@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.auth.LoginActivity">
+
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:id="@+id/friends_landscape"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHeight_percent=".25"
+        android:src="@drawable/friends_landscape"
+        app:altSrc="@color/primaryDark"
+        android:scaleType="centerCrop"
+        app:crossfade=".2"
+        app:overlay="true"
+        app:warmth="0.7" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:contentDescription="@string/palfinder_logo"
+        android:src="@drawable/ic_palfinder_logo"
+        app:layout_constraintBottom_toTopOf="@+id/fragmentContainerView"
+        app:layout_constraintEnd_toEndOf="@+id/friends_landscape"
+        app:layout_constraintStart_toStartOf="@+id/friends_landscape"
+        app:layout_constraintTop_toTopOf="@+id/friends_landscape"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        app:defaultNavHost="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/curved_top"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/friends_landscape"
+        app:layout_constraintVertical_bias="1"
+        app:navGraph="@navigation/login_navigation"
+        android:padding="@dimen/activity_margin"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

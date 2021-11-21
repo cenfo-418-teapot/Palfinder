@@ -9,4 +9,114 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_login">Login</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_up">Sign up</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="user_name">Mauricio Poveda</string>
+    <string name="user_description">Design, code and content, Knicks MixTape, Hip-Hop extraordinaire</string>
+    <string name="user_avatar_description">Avatar of the user</string>
+
+    <!-- Authentication -->
+    <string name="username_label">Username</string>
+    <string name="password_label">Password</string>
+    <string name="next_action_label">Continue</string>
+    <string name="palfinder_logo">Palfinder Logo</string>
+    <string name="recover_password_label">Forgot password?</string>
+    <string name="wrong_login_credentials">It seems like the login information is incorrect</string>
+    <string name="confirm_password_label">Confirm Password</string>
+    <string name="email_label">Email</string>
+    <string name="cancel_action_label">Cancel</string>
+    <string name="no_account_msg">Don\'t have an account?</string>
+    <string name="title_register">Register</string>
+    <string name="title_confirm_sign_up">Time to validate your account!</string>
+    <string name="security_code">Security Code</string>
+    <string name="log_out">Log out</string>
+    <string name="title_recover_password">Recover Password</string>
+    <string name="verification_code">Verification Code</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="has_recovery_code">Already have a recovery code?</string>
+    <string name="confirm_sign_up_msg">To validate your account, copy the code we sent to the email you specified</string>
+    <string name="get_recovery_code_detail">Before we continue, type your username so we can send a verification code to your email account.</string>
+    <string name="send">Send</string>
+    <string name="confirm">Confirm</string>
+    <string name="password_helper_text">At least 8 characters, 1 uppercase and 1 special character</string>
+
+    <!-- Tags -->
+    <string name="add_tag_label">Tag</string>
+    <string name="remove_tag_label">Remove Tag</string>
+    <string name="popular_tags">Popular Tags</string>
+    <string name="selected_label">Selected Items:</string>
+
+    <!-- Groups List  -->
+    <string name="title_group_list">Groups</string>
+    <string name="no_groups_found">No groups found</string>
+    <string name="group_list_discover_lbl">Discover</string>
+    <string name="group_list_my_groups_lbl">My Groups</string>
+    <string name="group_list_add_group">Create group</string>
+    <string name="group_list_my_suggested_subtitle">Latest</string>
+    <string name="group_list_my_groups_subtitle">My Groups</string>
+    <string name="group_profile_join">Join</string>
+    <string name="search_group_hint">Find a group</string>
+    <string name="group_list_no_groups">There are currently no groups.</string>
+
+    <!-- Groups Profile  -->
+    <string name="title_group_profile">Group</string>
+    <string name="group_profile_add_user_lbl">Add user</string>
+    <string name="group_profile_create_event_lbl">Create event</string>
+    <string name="group_profile_share_lbl">Share</string>
+    <string name="group_profile_privacy_subtitle">Privacy:</string>
+    <string name="group_profile_next_events_subtitle">Next Events</string>
+    <string name="group_profile_members_subtitle">Members</string>
+    <string name="group_profile_view_all_members">View all</string>
+
+    <!-- Group Users List -->
+    <string name="title_group_user_list">Group members</string>
+
+    <!--  Add Group Member  -->
+    <string name="title_group_user_add">Group member administration</string>
+    <string name="hint_group_user_add">Adding a user to your group. Select from the available ones.</string>
+    <string name="lbl_roles">Role</string>
+    <string name="lbl_username">Username</string>
+
+    <!-- Edit and create group -->
+    <string name="title_group_edit">Group administration</string>
+    <string name="hint_group_edit">Groups allows you to share activities with people with similar interests</string>
+    <string name="lbl_group_name">Name</string>
+    <string name="lbl_group_tags">Tags</string>
+    <string name="lbl_group_description">Description</string>
+    <string name="lbl_group_members">Members</string>
+    <string name="lbl_status">Status</string>
+    <string name="btn_image">Add image</string>
+    <string name="group_image">Group image</string>
+    <string-array name="status">
+        <item>Private</item>
+        <item>Public</item>
+    </string-array>
+
+    <!-- Events List  -->
+    <string name="title_event_list">Event List</string>
+
+    <!-- Add Event  -->
+    <string name="title_event_create">Add Event</string>
+    <string name="text_event_create">Please fill all fields</string>
+
+    <!-- Create Event  -->
+    <string name="text_event_description">Description</string>
+    <string name="text_event_date">Date</string>
+    <string name="text_event_location">Location</string>
+    <string name="text_event_price">Price</string>
+    <string name="text_event_name">Name</string>
+
+
+    !-- Btn Actions -->
+    <string name="btn_create">Create</string>
+    <string name="btn_cancel">Cancel</string>
+
 </resources>

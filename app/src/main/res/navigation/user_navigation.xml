@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_navigation"
+    app:startDestination="@id/userProfileDetailFragment2">
+
+    <fragment
+        android:id="@+id/userProfileDetailFragment2"
+        android:name="com.example.palfinder.views.user.UserProfileDetailFragment"
+        android:label="UserProfileDetailFragment" >
+        <action
+            android:id="@+id/action_userProfileDetailFragment2_to_userProfileEditFragment"
+            app:destination="@id/userProfileEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userProfileEditFragment"
+        android:name="com.example.palfinder.views.user.UserProfileEditFragment"
+        android:label="UserProfileEditFragment" >
+        <action
+            android:id="@+id/action_userProfileEditFragment_to_userProfileDetailFragment2"
+            app:destination="@id/userProfileDetailFragment2"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

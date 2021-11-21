@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".views.groups.GroupActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_group_list"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0" />
+
+    <TextView
+        android:id="@+id/tvErrorMsg"
+        style="@style/Paragraph"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/wrong_login_credentials"
+        android:textAlignment="center"
+        android:textColor="@color/error"
+        android:visibility="invisible" />
+
+    <LinearLayout
+        android:id="@+id/menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:id="@+id/nav_discover_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ic_discover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scaleX="2"
+                android:scaleY="2"
+                app:srcCompat="@drawable/ic_baseline_list_24" />
+
+            <TextView
+                android:id="@+id/lbl_discover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/group_list_discover_lbl"
+                android:textAlignment="center"
+                style="@style/Paragraph" />
+
+            <View
+                android:id="@+id/underline_discover_groups"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/primary"
+                android:layout_marginTop="3dp">
+            </View>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_my_groups"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ic_my_groups"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scaleX="2"
+                android:scaleY="2"
+                app:srcCompat="@drawable/ic_baseline_group_24" />
+
+            <TextView
+                android:id="@+id/lbl_my_groups"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/group_list_my_groups_lbl"
+                android:textAlignment="center"
+                style="@style/Paragraph"/>
+
+            <View
+                android:id="@+id/underline_my_groups"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/primary"
+                android:layout_marginTop="3dp"
+                android:visibility="invisible">
+
+            </View>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_create_group"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:id="@+id/ic_create_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:scaleX="2"
+                android:scaleY="2"
+                app:srcCompat="@drawable/ic_baseline_group_add_24" />
+
+            <TextView
+                android:id="@+id/lbl_create_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/group_list_add_group"
+                android:textAlignment="center"
+                style="@style/Paragraph"/>
+
+            <View
+                android:id="@+id/underline_create_group"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/primary"
+                android:layout_marginTop="3dp"
+                android:visibility="invisible">
+            </View>
+        </LinearLayout>
+    </LinearLayout>
+
+    <SearchView
+        android:id="@+id/sv_group_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        style="@style/OutlinePrimary">
+    </SearchView>
+
+    <!-- fragments container -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_suggested_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Headline2"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/group_list_my_suggested_subtitle"
+            android:textColor="@color/primary" />
+        <TextView
+            android:id="@+id/tv_no_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Paragraph"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/group_list_no_groups"
+            android:visibility="gone"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/group_list"
+                android:name="com.example.myapplication.ItemListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                app:layoutManager="LinearLayoutManager"
+                tools:context=".views.groups.GroupActivity"
+                tools:listitem="@layout/group_item" />
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>
