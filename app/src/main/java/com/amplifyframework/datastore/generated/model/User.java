@@ -45,7 +45,7 @@ public final class User implements Model {
   private final @ModelField(targetType="String", isRequired = true) String lastName;
   private final @ModelField(targetType="String") String phoneNumber;
   private final @ModelField(targetType="String") String photo;
-  private final @ModelField(targetType="Status", isRequired = true) Status status;
+  private final @ModelField(targetType="UserStatus", isRequired = true) UserStatus status;
   private final @ModelField(targetType="Friend") @HasMany(associatedWith = "friend", type = Friend.class) List<Friend> friends = null;
   private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "user", type = GroupMembers.class) List<GroupMembers> groups = null;
   private final @ModelField(targetType="EventMembers") @HasMany(associatedWith = "user", type = EventMembers.class) List<EventMembers> events = null;
@@ -84,7 +84,7 @@ public final class User implements Model {
       return photo;
   }
   
-  public Status getStatus() {
+  public UserStatus getStatus() {
       return status;
   }
   
@@ -112,7 +112,7 @@ public final class User implements Model {
       return updatedOn;
   }
   
-  private User(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, Status status) {
+  private User(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, UserStatus status) {
     this.id = id;
     this.email = email;
     this.username = username;
@@ -241,7 +241,7 @@ public final class User implements Model {
   
 
   public interface StatusStep {
-    BuildStep status(Status status);
+    BuildStep status(UserStatus status);
   }
   
 
@@ -260,7 +260,7 @@ public final class User implements Model {
     private String username;
     private String name;
     private String lastName;
-    private Status status;
+    private UserStatus status;
     private String description;
     private String phoneNumber;
     private String photo;
@@ -309,7 +309,7 @@ public final class User implements Model {
     }
     
     @Override
-     public BuildStep status(Status status) {
+     public BuildStep status(UserStatus status) {
         Objects.requireNonNull(status);
         this.status = status;
         return this;
@@ -345,7 +345,7 @@ public final class User implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, Status status) {
+    private CopyOfBuilder(String id, String email, String username, String description, String name, String lastName, String phoneNumber, String photo, UserStatus status) {
       super.id(id);
       super.email(email)
         .username(username)
@@ -378,7 +378,7 @@ public final class User implements Model {
     }
     
     @Override
-     public CopyOfBuilder status(Status status) {
+     public CopyOfBuilder status(UserStatus status) {
       return (CopyOfBuilder) super.status(status);
     }
     
