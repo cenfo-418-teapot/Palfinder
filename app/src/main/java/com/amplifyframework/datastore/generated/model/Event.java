@@ -42,7 +42,7 @@ public final class Event implements Model {
   private final @ModelField(targetType="String") String image;
   private final @ModelField(targetType="String") String location;
   private final @ModelField(targetType="AWSDateTime", isRequired = true) Temporal.DateTime when;
-  private final @ModelField(targetType="Status") Status status;
+  private final @ModelField(targetType="EventStatus", isRequired = true) EventStatus status;
   private final @ModelField(targetType="Group") @BelongsTo(targetName = "groupID", type = Group.class) Group group;
   private final @ModelField(targetType="EventMembers") @HasMany(associatedWith = "event", type = EventMembers.class) List<EventMembers> members = null;
   private final @ModelField(targetType="TagEvent") @HasMany(associatedWith = "event", type = TagEvent.class) List<TagEvent> tags = null;
@@ -72,7 +72,7 @@ public final class Event implements Model {
       return when;
   }
   
-  public Status getStatus() {
+  public EventStatus getStatus() {
       return status;
   }
   
@@ -96,7 +96,7 @@ public final class Event implements Model {
       return updatedOn;
   }
   
-  private Event(String id, String name, String description, String image, String location, Temporal.DateTime when, Status status, Group group) {
+  private Event(String id, String name, String description, String image, String location, Temporal.DateTime when, EventStatus status, Group group) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -204,7 +204,12 @@ public final class Event implements Model {
   
 
   public interface WhenStep {
-    BuildStep when(Temporal.DateTime when);
+    StatusStep when(Temporal.DateTime when);
+  }
+  
+
+  public interface StatusStep {
+    BuildStep status(EventStatus status);
   }
   
 
@@ -214,19 +219,18 @@ public final class Event implements Model {
     BuildStep description(String description);
     BuildStep image(String image);
     BuildStep location(String location);
-    BuildStep status(Status status);
     BuildStep group(Group group);
   }
   
 
-  public static class Builder implements NameStep, WhenStep, BuildStep {
+  public static class Builder implements NameStep, WhenStep, StatusStep, BuildStep {
     private String id;
     private String name;
     private Temporal.DateTime when;
+    private EventStatus status;
     private String description;
     private String image;
     private String location;
-    private Status status;
     private Group group;
     @Override
      public Event build() {
@@ -251,9 +255,16 @@ public final class Event implements Model {
     }
     
     @Override
-     public BuildStep when(Temporal.DateTime when) {
+     public StatusStep when(Temporal.DateTime when) {
         Objects.requireNonNull(when);
         this.when = when;
+        return this;
+    }
+    
+    @Override
+     public BuildStep status(EventStatus status) {
+        Objects.requireNonNull(status);
+        this.status = status;
         return this;
     }
     
@@ -276,12 +287,6 @@ public final class Event implements Model {
     }
     
     @Override
-     public BuildStep status(Status status) {
-        this.status = status;
-        return this;
-    }
-    
-    @Override
      public BuildStep group(Group group) {
         this.group = group;
         return this;
@@ -299,14 +304,14 @@ public final class Event implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, String image, String location, Temporal.DateTime when, Status status, Group group) {
+    private CopyOfBuilder(String id, String name, String description, String image, String location, Temporal.DateTime when, EventStatus status, Group group) {
       super.id(id);
       super.name(name)
         .when(when)
+        .status(status)
         .description(description)
         .image(image)
         .location(location)
-        .status(status)
         .group(group);
     }
     
@@ -318,6 +323,11 @@ public final class Event implements Model {
     @Override
      public CopyOfBuilder when(Temporal.DateTime when) {
       return (CopyOfBuilder) super.when(when);
+    }
+    
+    @Override
+     public CopyOfBuilder status(EventStatus status) {
+      return (CopyOfBuilder) super.status(status);
     }
     
     @Override
@@ -333,11 +343,6 @@ public final class Event implements Model {
     @Override
      public CopyOfBuilder location(String location) {
       return (CopyOfBuilder) super.location(location);
-    }
-    
-    @Override
-     public CopyOfBuilder status(Status status) {
-      return (CopyOfBuilder) super.status(status);
     }
     
     @Override
