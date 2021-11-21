@@ -22,6 +22,7 @@ class SignUpFragment : Fragment() {
             tilUsername?.error = if (!it) "That username is taken" else null
         })
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +30,8 @@ class SignUpFragment : Fragment() {
     ): View? {
         val view = layoutInflater.inflate(R.layout.fragment_sign_up, container, false)
         view.btnCancel?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_signInFragment)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_signUpFragment_to_signInFragment)
         }
         view.btnSignUp?.setOnClickListener {
             try {
@@ -38,7 +40,7 @@ class SignUpFragment : Fragment() {
                     Log.i(TAG, "User: $user was registered, result: ${it.user}")
                     gotoConfirmSignUp(view)
                 }) {
-                    when(it){
+                    when (it) {
                         is AuthException.UsernameExistsException -> _uniqueUsername.postValue(false)
                         else -> Log.e(TAG, "$user failed to register", it)
                     }
@@ -54,7 +56,8 @@ class SignUpFragment : Fragment() {
     }
 
     private fun gotoConfirmSignUp(view: View) {
-        Navigation.findNavController(view).navigate(R.id.action_signUpFragment_to_confirmSignUpFragment)
+        Navigation.findNavController(view)
+            .navigate(R.id.action_signUpFragment_to_confirmSignUpFragment)
     }
 
     private fun validForm(): UserForm {

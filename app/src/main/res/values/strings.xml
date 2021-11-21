@@ -119,5 +119,6 @@
     <string name="btn_create">Create</string>
     <string name="btn_cancel">Cancel</string>
     <string name="search_user_hint">Search User</string>
+    <string name="title_activity_initial_account_setup">InitialAccountSetup</string>
 
 </resources>

@@ -11,6 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
+            android:name=".views.user.InitialAccountSetup"
+            android:exported="true"
+            android:label="@string/title_activity_initial_account_setup"
+            android:theme="@style/Theme.Palfinder.NoActionBar" />
+        <activity
             android:name=".views.user.SearchUserDemoActivity"
             android:exported="true" />
         <activity
