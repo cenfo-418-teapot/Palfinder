@@ -29,7 +29,7 @@ object EventManager {
         val date: Temporal.DateTime?,
         val group: Group?,
         val members: List<EventMembers>?,
-        val status: Status,
+        val status: EventStatus,
         var imageName: String? = null)
     {
         override fun toString(): String = name
@@ -41,9 +41,9 @@ object EventManager {
             get() = Event.builder()
                 .name(this.name)
                 .`when`(this.date)
+                .status(this.status)
                 .description(this.description)
                 .image(this.imageName)
-                .status(this.status)
                 .group(this.group)
                 .location(this.location)
                 .id(this.id)
