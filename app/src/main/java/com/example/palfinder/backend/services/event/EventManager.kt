@@ -10,7 +10,6 @@ import com.amplifyframework.datastore.generated.model.*
 object EventManager {
     private const val TAG = "EventManager"
 
-
     private val _events = MutableLiveData<MutableList<EventManager.EventModel>>(mutableListOf())
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
@@ -20,7 +19,6 @@ object EventManager {
         _events.notifyObserver()
     }
 
-
     data class EventModel(
         val id: String,
         val name: String,
@@ -29,7 +27,7 @@ object EventManager {
         val date: Temporal.DateTime?,
         val group: Group?,
         val members: List<EventMembers>?,
-        val status: Status,
+        val status: EventStatus,
         var imageName: String? = null)
     {
         override fun toString(): String = name
@@ -41,9 +39,9 @@ object EventManager {
             get() = Event.builder()
                 .name(this.name)
                 .`when`(this.date)
+                .status(this.status)
                 .description(this.description)
                 .image(this.imageName)
-                .status(this.status)
                 .group(this.group)
                 .location(this.location)
                 .id(this.id)

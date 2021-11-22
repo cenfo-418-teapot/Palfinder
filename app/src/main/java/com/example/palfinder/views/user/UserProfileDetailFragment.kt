@@ -35,6 +35,12 @@ class UserProfileDetailFragment : Fragment() {
         view.user_profile_edit_cta?.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_userProfileDetailFragment2_to_userProfileEditFragment)
         }
+
+        //        val user = UserData._currentUser.value.name
+        view.test_string.text = user.email
+
+//        Log.d("Test: ", user.description())
+        
 //        view.btnSignIn?.setOnClickListener {
 //            signIn()
 //        }
