@@ -33,11 +33,11 @@ class ConfirmSignUpFragment : Fragment() {
                     { result ->
                         if (result.isSignUpComplete) {
                             val msg = "Confirm signUp succeeded"
-                            Log.i("AuthQuickstart", msg)
+                            Log.i(TAG, msg)
                             _isConfirmed.postValue(Pair(true, msg))
                         } else {
                             val msg = "Confirm sign up not complete"
-                            Log.i("AuthQuickstart", msg)
+                            Log.i(TAG, msg)
                             _isConfirmed.postValue(Pair(false, msg))
                         }
                     }
@@ -46,7 +46,7 @@ class ConfirmSignUpFragment : Fragment() {
                     when(error) {
                         is AuthException.NotAuthorizedException -> msg = "The code was already used."
                     }
-                    Log.e("AuthQuickstart", msg, error)
+                    Log.e(TAG, msg, error)
                     _isConfirmed.postValue(Pair(false, msg))
                 }
             } catch (e: IllegalStateException) {

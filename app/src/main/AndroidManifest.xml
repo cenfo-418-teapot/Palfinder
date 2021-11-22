@@ -11,6 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
+            android:name=".views.user.InitialAccountSetup"
+            android:exported="true"
+            android:label="@string/title_activity_initial_account_setup"
+            android:theme="@style/Theme.Palfinder.NoActionBar" />
+        <activity
+            android:name=".views.user.SearchUserDemoActivity"
+            android:exported="true" />
+        <activity
             android:name=".views.events.EventActivity"
             android:exported="false" />
         <activity
@@ -33,7 +41,7 @@
         <activity
             android:name=".views.user.UserProfileActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan|adjustResize"></activity>
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".views.MainActivity"
             android:exported="true"
