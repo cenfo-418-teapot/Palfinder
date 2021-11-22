@@ -5,7 +5,6 @@
     tools:context=".views.groups.GroupActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
     android:orientation="vertical">
 
     <TextView
@@ -152,12 +151,12 @@
     </LinearLayout>
 
     <SearchView
+        android:id="@+id/sv_group_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         style="@style/OutlinePrimary">
-
     </SearchView>
 
     <!-- fragments container -->
@@ -176,7 +175,16 @@
             android:paddingBottom="20dp"
             android:text="@string/group_list_my_suggested_subtitle"
             android:textColor="@color/primary" />
-
+        <TextView
+            android:id="@+id/tv_no_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Paragraph"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:text="@string/group_list_no_groups"
+            android:visibility="gone"/>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

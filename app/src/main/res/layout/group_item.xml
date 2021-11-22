@@ -14,7 +14,8 @@
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_image_24" />
+        android:src="@drawable/ic_baseline_image_24"
+        android:contentDescription="@string/group_image" />
 
     <LinearLayout
         android:layout_width="0dp"

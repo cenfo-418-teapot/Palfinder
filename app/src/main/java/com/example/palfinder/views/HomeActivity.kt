@@ -8,7 +8,9 @@ import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.views.auth.LoginActivity
-import com.example.palfinder.views.groups.GroupActivity
+import com.example.palfinder.views.events.EventActivity
+import com.example.palfinder.views.tag.TagFormDemoActivity
+import com.example.palfinder.views.user.UserProfileActivity
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity(R.layout.activity_home) {
@@ -22,7 +24,15 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 Log.e(TAG, "Failed to log out!", error)
             }
         }
-
+        iv_user_profile.setOnClickListener{
+            startActivity(Intent(this, UserProfileActivity::class.java))
+        }
+        iv_events.setOnClickListener{
+            startActivity(Intent(this, EventActivity::class.java))
+        }
+        iv_demo_tags.setOnClickListener{
+            startActivity(Intent(this, TagFormDemoActivity::class.java))
+        }
         UserData.isSignedIn.observe(this, {
             if (!it) {
                 startActivity(Intent(this, LoginActivity::class.java))

@@ -27,7 +27,8 @@
             app:destination="@id/groupUsersFragment" />
         <action
             android:id="@+id/action_groupProfile_to_groupEditFragment"
-            app:destination="@id/groupEditFragment" />
+            app:destination="@id/groupEditFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/groupUsersFragment"
