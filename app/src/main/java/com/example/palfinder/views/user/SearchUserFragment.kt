@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.amplifyframework.datastore.generated.model.Status
 import com.amplifyframework.datastore.generated.model.User
+import com.amplifyframework.datastore.generated.model.UserStatus
 import com.example.palfinder.R
 import kotlinx.android.synthetic.main.fragment_search_user.*
 import kotlinx.android.synthetic.main.fragment_search_user.view.*
@@ -51,7 +52,7 @@ class SearchUserFragment : Fragment() {
         for (i in 1..10) {
             val user =
                 User.builder().email("demo$i@mail.com").username("snsotomdemo$i").name("Sebastian")
-                    .lastName("Soto #$i").status(Status.BLOCKED).build()
+                    .lastName("Soto #$i").status(UserStatus.COMPLETE).build()
             userList.add(user)
         }
     }

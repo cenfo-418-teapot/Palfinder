@@ -8,14 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.amplifyframework.api.graphql.model.ModelMutation
-import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.Status
-import com.amplifyframework.datastore.generated.model.User
+import com.amplifyframework.datastore.generated.model.UserStatus
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
 import com.example.palfinder.backend.services.UserData
+import com.example.palfinder.backend.services.UserService
 import com.example.palfinder.views.HomeActivity
 import com.example.palfinder.views.auth.recover.password.RecoverPasswordActivity
 import com.example.palfinder.views.user.InitialAccountSetup
@@ -77,21 +75,30 @@ class SignInFragment : Fragment() {
 
     private fun onUserLogin() {
 //        First see if the user exists in dynamo
-        Amplify.API.query(
-            ModelQuery.get(User::class.java, Amplify.Auth.currentUser.userId),
+        UserService.getUserByUsername(Amplify.Auth.currentUser.username,
             {
 //        If it doesn't, create a new object
-                if (it.data == null) {
-                    Log.i(TAG, "User ${it.data} already in the DB")
-                    Log.i(TAG, "First Login from the user, will register in the DB")
-                    Amplify.Auth.fetchUserAttributes(
-                        { attrs ->
-                            val email = attrs.find { it.key.keyString == "email" }?.value
-                            createUserProfile(email ?: "unknown")
-                        },
-                        { error -> Log.e(TAG, "Failed to get user attributes", error) }
-                    )
-                } else startActivity(Intent(activity, HomeActivity::class.java))
+                val items =it.data.items as ArrayList
+                when {
+                    items.size == 0 -> {
+                        Log.i(TAG, "First Login from the user, will register in the DB")
+                        Amplify.Auth.fetchUserAttributes(
+                            { attrs ->
+                                val email = attrs.find { value -> value.key.keyString == "email" }?.value
+                                createUserProfile(email ?: "unknown")
+                            },
+                            { error -> Log.e(TAG, "Failed to get user attributes", error) }
+                        )
+                    }
+                    items.stream().findFirst().get().status == UserStatus.INCOMPLETE -> {
+                        val uid = items.stream().findFirst().get().id
+                        val i = Intent(activity, InitialAccountSetup::class.java)
+                        i.putExtra("uid", uid)
+                        startActivity(i)
+                        activity?.finish()
+                    }
+                    else -> startActivity(Intent(activity, HomeActivity::class.java))
+                }
             },
             { Log.e(TAG, "Failed to get user by id", it) }
         )
@@ -99,19 +106,14 @@ class SignInFragment : Fragment() {
 
     private fun createUserProfile(email: String) {
         val currentUser = Amplify.Auth.currentUser
-        val user: User =
-            User.builder().email(email).username(currentUser.username).name("")
-                .lastName("").status(Status.PUBLIC).build()
-        Amplify.API.mutate(
-            ModelMutation.create(user),
+        UserService.createIncompleteUser(currentUser.username, email,
             {
                 val i = Intent(activity, InitialAccountSetup::class.java)
                 i.putExtra("uid", it.data.id)
                 startActivity(i)
                 activity?.finish()
-            },
-            { Log.e(TAG, "Failed to create user in dynamo", it) }
-        )
+            }
+        ) { Log.e(TAG, "Failed to create user in dynamo", it) }
     }
 
     companion object {
