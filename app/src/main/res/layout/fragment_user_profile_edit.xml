@@ -48,10 +48,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username"
-            app:startIconDrawable="@drawable/ic_baseline_badge_24">
+            android:hint="Bio"
+            app:startIconDrawable="@drawable/ic_text">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/username"
+                android:id="@+id/bio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -60,10 +60,10 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Bio"
-            app:startIconDrawable="@drawable/ic_text">
+            android:hint="Avatar"
+            app:startIconDrawable="@drawable/ic_baseline_add_a_photo_24">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/bio"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </com.google.android.material.textfield.TextInputLayout>

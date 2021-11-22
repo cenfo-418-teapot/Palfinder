@@ -36,8 +36,14 @@ class UserProfileDetailFragment : Fragment() {
             Navigation.findNavController(view).navigate(R.id.action_userProfileDetailFragment2_to_userProfileEditFragment)
         }
 
-        //        val user = UserData._currentUser.value.name
-        view.test_string.text = user.email
+        val name = UserData.currentUser.value?.name
+//        val lastName = UserData.currentUser.value?.lastName
+        val bio = UserData.currentUser.value?.description
+        val username = UserData.currentUser.value?.username
+
+        view.user_name.text = name
+        view.user_description.text = bio
+        view.user_username.text = username
 
 //        Log.d("Test: ", user.description())
         
