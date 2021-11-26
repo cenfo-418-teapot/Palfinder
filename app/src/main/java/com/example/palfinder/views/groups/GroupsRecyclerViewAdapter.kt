@@ -31,19 +31,11 @@ class GroupsRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values?.get(position)
 
-        var finalStatus = item?.status.toString()
         val finalName = item?.name
         val finalDescription = item?.description
         val finalImage = item?.image
-        if(finalStatus.isNotBlank())
-            finalStatus = finalStatus.lowercase().replaceFirstChar {
-            if (it.isLowerCase()) it.titlecase(
-                Locale.getDefault()
-            ) else it.toString()
-        }
         holder.nameView.text = finalName
         holder.descriptionView.text = finalDescription
-        holder.statusView.text = finalStatus
         if (finalImage != null) {
             holder.imageView.setImageBitmap(item.image)
         }
@@ -55,6 +47,5 @@ class GroupsRecyclerViewAdapter(
         val imageView: ImageView = view.findViewById(R.id.iv_image)
         val nameView: TextView = view.findViewById(R.id.tv_name)
         val descriptionView: TextView = view.findViewById(R.id.tv_description)
-        val statusView: TextView = view.findViewById(R.id.tv_status)
     }
 }
