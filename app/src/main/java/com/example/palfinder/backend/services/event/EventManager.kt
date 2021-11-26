@@ -10,7 +10,6 @@ import com.amplifyframework.datastore.generated.model.*
 object EventManager {
     private const val TAG = "EventManager"
 
-
     private val _events = MutableLiveData<MutableList<EventManager.EventModel>>(mutableListOf())
 
     private fun <T> MutableLiveData<T>.notifyObserver() {
@@ -19,7 +18,6 @@ object EventManager {
     fun notifyObserver() {
         _events.notifyObserver()
     }
-
 
     data class EventModel(
         val id: String,
