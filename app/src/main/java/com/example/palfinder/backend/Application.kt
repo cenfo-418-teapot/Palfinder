@@ -7,6 +7,7 @@ import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin
+import com.example.palfinder.backend.strapi.Strapi
 
 class ApplicationInitializer : Application() {
     override fun onCreate() {
@@ -17,6 +18,7 @@ class ApplicationInitializer : Application() {
             Amplify.addPlugin(AWSS3StoragePlugin())
             Amplify.configure(applicationContext)
             Log.i(TAG, "Initialized Amplify")
+            Strapi.getSingleType(applicationContext, "general")
         } catch (error: AmplifyException) {
             Log.e(TAG, "Could not initialize Amplify", error)
         }
