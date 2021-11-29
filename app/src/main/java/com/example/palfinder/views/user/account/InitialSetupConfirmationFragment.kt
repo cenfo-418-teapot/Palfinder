@@ -1,5 +1,6 @@
 package com.example.palfinder.views.user.account
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.palfinder.R
+import com.example.palfinder.views.HomeActivity
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_initial_setup_confirmation.view.*
@@ -33,6 +35,7 @@ class InitialSetupConfirmationFragment : Fragment() {
             }
         })
         requireActivity().findViewById<Button>(R.id.btnSave).setOnClickListener {
+            startActivity(Intent(activity, HomeActivity::class.java))
         }
 
         return view
