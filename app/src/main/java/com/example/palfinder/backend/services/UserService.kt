@@ -18,8 +18,15 @@ object UserService {
         onError: Consumer<ApiException>
     ) {
         val user: User =
-            User.builder().email(email).username(username).name("")
-                .lastName("").status(UserStatus.INCOMPLETE).build()
+            User.builder()
+                .email(email)
+                .username(username)
+                .name("")
+                .lastName("")
+                .status(UserStatus.INCOMPLETE)
+                .phoneNumber("")
+                .description("")
+                .photo("").build()
         Amplify.API.mutate(
             ModelMutation.create(user),
             onResponse,
