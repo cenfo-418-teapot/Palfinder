@@ -10,7 +10,7 @@ import com.amplifyframework.datastore.generated.model.UserStatus
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.UserService
 import com.example.palfinder.views.auth.LoginActivity
-import com.example.palfinder.views.user.InitialAccountSetup
+import com.example.palfinder.views.user.account.InitialAccountSetup
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

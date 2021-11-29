@@ -11,28 +11,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="top"
+            android:layout_width="match_parent"
+            app:shapeAppearanceOverlay="@style/circleImageView"
+            android:layout_height="@dimen/min_user_profile_width"
             android:contentDescription="@string/group_image"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_baseline_image_24" />
+            android:src="@drawable/friends" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/tv_name"
                 style="@style/Headline5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:text="Title" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

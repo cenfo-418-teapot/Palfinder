@@ -47,5 +47,6 @@ class GroupsRecyclerViewAdapter(
         val imageView: ImageView = view.findViewById(R.id.iv_image)
         val nameView: TextView = view.findViewById(R.id.tv_name)
         val descriptionView: TextView = view.findViewById(R.id.tv_description)
+        lateinit var groupId: String
     }
 }

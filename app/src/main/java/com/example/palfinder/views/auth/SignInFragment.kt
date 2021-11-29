@@ -16,7 +16,7 @@ import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.backend.services.UserService
 import com.example.palfinder.views.HomeActivity
 import com.example.palfinder.views.auth.recover.password.RecoverPasswordActivity
-import com.example.palfinder.views.user.InitialAccountSetup
+import com.example.palfinder.views.user.account.InitialAccountSetup
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.android.synthetic.main.fragment_sign_in.view.*
 

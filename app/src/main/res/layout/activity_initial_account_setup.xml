@@ -3,28 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     style="@style/container"
-    tools:context=".views.user.InitialAccountSetup">
+    tools:context=".views.user.account.InitialAccountSetup">
 
-    <TextView
-        android:id="@+id/tvId"
-        style="@style/Paragraph"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name" />
-
-    <Space
-        android:layout_width="0dp"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/vpInitAccount"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
-        android:id="@+id/btnCancel"
-        style="@style/ButtonGhost"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_cancel" />
+        android:orientation="horizontal">
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"/>
+        <Button
+            android:id="@+id/btnOmit"
+            style="@style/ButtonGhost"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_omit" />
+
+        <Button
+            android:id="@+id/btnContinue"
+            style="@style/ButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/next_action_label" />
+    </LinearLayout>
 </LinearLayout>
