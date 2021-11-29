@@ -20,16 +20,16 @@ import kotlinx.android.synthetic.main.fragment_input_tag.view.*
 import kotlin.streams.toList
 
 
-interface OnChipGroupChange {
-    fun onChipGroupChange(chips: List<String>)
+interface OnIdListChange {
+    fun onIdListChange(list: List<String>)
 }
 
 class TagInputFragment : Fragment() {
 
-    private lateinit var _chipGroupListener: OnChipGroupChange
+    private lateinit var _idListListener: OnIdListChange
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        _chipGroupListener = context as OnChipGroupChange
+        _idListListener = context as OnIdListChange
     }
 
     override fun onCreateView(
@@ -47,7 +47,7 @@ class TagInputFragment : Fragment() {
 
     private fun pushTagList() {
         val tagsList = cgSelectedTags.checkedChipIds.stream().map { id -> cgSelectedTags.findViewById<Chip>(id).text.toString() }.toList()
-        _chipGroupListener.onChipGroupChange(tagsList)
+        _idListListener.onIdListChange(tagsList)
     }
 
     private fun setupCreateTagInputListener(

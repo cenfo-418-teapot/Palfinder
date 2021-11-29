@@ -120,5 +120,10 @@
     <string name="btn_cancel">Cancel</string>
     <string name="search_user_hint">Search User</string>
     <string name="title_activity_initial_account_setup">InitialAccountSetup</string>
+    <string name="pick_tag">Pick Your Tags</string>
+    <string name="account_preferences_title">Account Preferences</string>
+    <string name="tags_label">Tags</string>
+    <string name="groups_label">Groups</string>
+    <string name="pick_groups">Join Groups!</string>
 
 </resources>
