@@ -40,51 +40,6 @@ class MainActivity : AppCompatActivity() {
         }, 300)
     }
 
-    private fun onUserLogin() {
-//        First see if the user exists in dynamo
-        UserService.getUserByUsername(Amplify.Auth.currentUser.username,
-            {
-//        If it doesn't, create a new object
-                val items = it.data.items as ArrayList
-                when {
-                    items.size == 0 -> {
-                        Log.i(TAG, "First Login from the user, will register in the DB")
-                        Amplify.Auth.fetchUserAttributes(
-                            { attrs ->
-                                val email =
-                                    attrs.find { value -> value.key.keyString == "email" }?.value
-                                createUserProfile(email ?: "unknown")
-                            },
-                            { error -> Log.e(TAG, "Failed to get user attributes", error) }
-                        )
-                    }
-                    items.stream().findFirst().get().status == UserStatus.INCOMPLETE -> {
-                        val uid = items.stream().findFirst().get().id
-                        val i = Intent(this, InitialAccountSetup::class.java)
-                        i.putExtra("uid", uid)
-                        startActivity(i)
-                        finish()
-                    }
-                    else -> startActivity(Intent(this, HomeActivity::class.java))
-                }
-            },
-            { Log.e(TAG, "Failed to get user by id", it) }
-        )
-    }
-
-
-    private fun createUserProfile(email: String) {
-        val currentUser = Amplify.Auth.currentUser
-        UserService.createIncompleteUser(currentUser.username, email,
-            {
-                val i = Intent(this, InitialAccountSetup::class.java)
-                i.putExtra("uid", it.data.id)
-                startActivity(i)
-                finish()
-            }
-        ) { Log.e(TAG, "Failed to create user in dynamo", it) }
-    }
-
     companion object {
         private const val TAG = "MainActivity"
     }
