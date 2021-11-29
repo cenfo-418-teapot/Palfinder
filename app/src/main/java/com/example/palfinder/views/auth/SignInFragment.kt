@@ -91,9 +91,11 @@ class SignInFragment : Fragment() {
                         )
                     }
                     items.stream().findFirst().get().status == UserStatus.INCOMPLETE -> {
-                        val uid = items.stream().findFirst().get().id
+                        val user = items.stream().findFirst().get()
+                        val uid = user.id
                         val i = Intent(activity, InitialAccountSetup::class.java)
                         i.putExtra("uid", uid)
+                        UserData.setCurrentUser(user)
                         startActivity(i)
                         activity?.finish()
                     }
@@ -110,6 +112,7 @@ class SignInFragment : Fragment() {
             {
                 val i = Intent(activity, InitialAccountSetup::class.java)
                 i.putExtra("uid", it.data.id)
+                UserData.setCurrentUser(it.data)
                 startActivity(i)
                 activity?.finish()
             }

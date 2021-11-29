@@ -1,5 +1,6 @@
 package com.example.palfinder.views.user.account
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.viewpager2.widget.ViewPager2
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
@@ -29,15 +29,11 @@ class InitialGroupSelectionFragment : Fragment() {
                 // let's create a RecyclerViewAdapter that manages the individual cells
                 view.rvGroups.adapter = GroupsRecyclerViewAdapter(groups)
             })
-        requireActivity().findViewById<Button>(R.id.btnOmit).setOnClickListener {
-            nextPage(requireActivity().findViewById(R.id.vpInitAccount))
+        requireActivity().findViewById<Button>(R.id.btnContinue).setOnClickListener {
+            val vp = requireActivity().findViewById<ViewPager2>(R.id.vpInitAccount)
+            vp.currentItem = vp.currentItem + 1
         }
-        requireActivity().findViewById<Button>(R.id.btnOmit).visibility = View.GONE
         return view
-    }
-
-    private fun nextPage(vp: ViewPager2) {
-        vp.currentItem = vp.currentItem+1
     }
 
     companion object {
