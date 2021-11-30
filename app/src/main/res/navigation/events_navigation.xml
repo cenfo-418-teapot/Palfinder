@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/events_navigation"
+    app:startDestination="@id/eventEditFragment">
+
+    <fragment
+        android:id="@+id/eventEditFragment"
+        android:name="com.example.palfinder.views.events.EventEditFragment"
+        android:label="EventEditFragment" />
+</navigation>
