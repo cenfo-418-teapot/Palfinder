@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".views.user.account.InitialSetupConfirmationFragment">
+
+    <TextView
+        style="@style/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/account_preferences_title"
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:textAlignment="center" />
+
+    <TextView
+        style="@style/Headline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_medium"
+        android:text="@string/tags_label" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgSelectedTags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:singleSelection="false" />
+
+    <TextView
+        android:id="@+id/emptyTagSelection"
+        style="@style/Headline6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You didn't select any tags" />
+
+    <View style="@style/Divider" />
+
+    <TextView
+        style="@style/Headline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/groups_label" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSelectedGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="3"
+        tools:listitem="@layout/group_item" />
+
+    <TextView
+        android:id="@+id/emptyGroupSelection"
+        style="@style/Headline6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="You didn't select any groups" />
+
+</LinearLayout>

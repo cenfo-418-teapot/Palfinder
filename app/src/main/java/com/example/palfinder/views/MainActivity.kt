@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.UserStatus
 import com.example.palfinder.R
+import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.backend.services.UserService
 import com.example.palfinder.views.auth.LoginActivity
-import com.example.palfinder.views.user.InitialAccountSetup
+import com.example.palfinder.views.user.account.InitialAccountSetup
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,9 @@ class MainActivity : AppCompatActivity() {
                         //        If it doesn't, create a new object
                         val items = it.data.items as ArrayList
                         if (items.stream().findFirst().get().status == UserStatus.INCOMPLETE) {
-                            val uid = items.stream().findFirst().get().id
+                            val user = items.stream().findFirst().get()
+                            val uid = user.id
+                            UserData.setCurrentUser(user)
                             val i = Intent(this, InitialAccountSetup::class.java)
                             i.putExtra("uid", uid)
                             startActivity(i)
