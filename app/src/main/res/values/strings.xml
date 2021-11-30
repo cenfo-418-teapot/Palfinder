@@ -21,6 +21,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_name">Mauricio Poveda</string>
     <string name="user_description">Design, code and content, Knicks MixTape, Hip-Hop extraordinaire</string>
+    <string name="user_username">mpfractal</string>
     <string name="user_avatar_description">Avatar of the user</string>
 
     <!-- Authentication -->
