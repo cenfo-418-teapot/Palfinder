@@ -8,40 +8,30 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
 import com.amplifyframework.datastore.generated.model.Status
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
-import com.google.android.material.shape.CornerFamily
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_group_edit.*
-import kotlinx.android.synthetic.main.fragment_group_edit.iv_image
 import kotlinx.android.synthetic.main.fragment_group_edit.view.*
-import kotlinx.android.synthetic.main.fragment_group_edit.view.btnCancel
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.util.*
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GroupEditFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class GroupEditFragment : Fragment() {
+class GroupProfileEditFragment : Fragment() {
 
     private var noteImagePath : String? = null
     private var noteImage : Bitmap? = null
-//    private val success = MutableLiveData<Boolean>(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +78,10 @@ class GroupEditFragment : Fragment() {
         }
 
         return view
+    }
+
+    fun getProfileData() {
+        // TODO: Function to fill the group edition fields
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -190,10 +184,10 @@ class GroupEditFragment : Fragment() {
     }
 
     companion object {
-//        private const val COUNTRIES: String =  {
+        //        private const val COUNTRIES: String =  {
 //            "Belgium", "France", "Italy", "Germany", "Spain"
 //        };
-        private const val TAG = "GroupEditFragment"
+        private const val TAG = "GroupProfileEditFragment"
         private const val SELECT_PHOTO = 100
 //        /**
 //         * Use this factory method to create a new instance of

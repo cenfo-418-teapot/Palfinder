@@ -38,6 +38,23 @@ object GroupService {
         }
     }
 
+    fun updateGroup(groupModel : GroupAdmin.GroupModel) {
+        Log.i(TAG, "Creating groups")
+
+        Amplify.API.mutate(
+            ModelMutation.update(groupModel.data),
+            { response ->
+                Log.i(TAG, "Created")
+                if (response.hasErrors()) {
+                    Log.e(TAG, response.errors.first().message)
+                } else {
+                    Log.i(TAG, "Created Group with id: " + response.data.id)
+                }
+            },
+            { error -> Log.e(TAG, "Create failed", error) }
+        )
+    }
+
     fun queryGroups() {
         Log.i(TAG, "Querying groups")
 
@@ -72,12 +89,24 @@ object GroupService {
         )
     }
 
-    fun createTagRelation() {
-        // TODO: Write script for many to many new tag connection to the group
+    fun addTag() {
+        // TODO: Add group tag feat (Backend many to many)
     }
 
-    fun createUserRelation(){
-        // TODO: Write script for many to many new user connection to the group
+    fun removeTag(){
+        // TODO: Remove group tag feat (Backend many to many)
+    }
+
+    fun addMember() {
+        // TODO: Add member feat (Backend many to many)
+    }
+
+    fun removeMember() {
+        // TODO: Add member feat (Backend many to many)
+    }
+
+    fun updateMember() {
+        // TODO: Add member feat (Backend many to many)
     }
 
     // NO createEventRelation because events belong to a group
