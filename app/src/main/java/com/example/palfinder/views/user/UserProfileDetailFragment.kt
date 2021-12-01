@@ -35,6 +35,18 @@ class UserProfileDetailFragment : Fragment() {
         view.user_profile_edit_cta?.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_userProfileDetailFragment2_to_userProfileEditFragment)
         }
+
+        val name = UserData.currentUser.value?.name
+//        val lastName = UserData.currentUser.value?.lastName
+        val bio = UserData.currentUser.value?.description
+        val username = UserData.currentUser.value?.username
+
+        view.user_name.text = name
+        view.user_description.text = bio
+        view.user_username.text = username
+
+//        Log.d("Test: ", user.description())
+        
 //        view.btnSignIn?.setOnClickListener {
 //            signIn()
 //        }

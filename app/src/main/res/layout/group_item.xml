@@ -1,110 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CardDefault"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingVertical="16dp">
-
-    <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="top"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_image_24"
-        android:contentDescription="@string/group_image" />
+    android:paddingVertical="16dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="0dp">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/min_user_profile_width"
+            android:contentDescription="@string/group_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/friends" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:orientation="vertical">
-
+            android:gravity="end"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_medium"
+            android:paddingVertical="@dimen/spacing_small">
 
             <TextView
                 android:id="@+id/tv_name"
                 style="@style/Headline5"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:maxLength="20"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
                 android:text="Title" />
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/tv_description"
-                    style="@style/Paragraph"
-                    android:maxLength="50"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:text="Text" />
-            </ScrollView>
-
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/tv_status"
+                android:id="@+id/tv_description"
                 style="@style/Paragraph"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:justificationMode="inter_word"
+                android:text="TexTexTextttTextTexTexTexttt TextTexTex TextttTextTexTexTextttTextTexTexTextttTextTexTexTextttTextTexTexTextttT extTexTexTextttTextTexTe xTextttTextTexTexTextttT" />
+
+            <Space
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="@string/group_profile_privacy_subtitle" />
+                android:layout_weight="1"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="2">
-
-                <Button
-                    android:id="@+id/btnJoin"
-                    style="@style/ButtonPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="@string/group_profile_join"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
+            <Button
+                android:id="@+id/btnJoin"
+                style="@style/ButtonGhost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/group_profile_join" />
 
         </LinearLayout>
+    </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>
