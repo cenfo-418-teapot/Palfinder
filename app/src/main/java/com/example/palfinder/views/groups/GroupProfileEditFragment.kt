@@ -16,6 +16,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.amplifyframework.datastore.generated.model.Status
 import com.example.palfinder.R
@@ -23,6 +25,7 @@ import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
 import kotlinx.android.synthetic.main.fragment_group_edit.*
 import kotlinx.android.synthetic.main.fragment_group_edit.view.*
+import kotlinx.android.synthetic.main.fragment_search_user.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -32,6 +35,7 @@ class GroupProfileEditFragment : Fragment() {
 
     private var noteImagePath : String? = null
     private var noteImage : Bitmap? = null
+    lateinit var group: GroupAdmin.GroupModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,6 +97,12 @@ class GroupProfileEditFragment : Fragment() {
             statusArray
         )
         etState.setAdapter(adapter)
+
+        val model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
+        model.message.observe(viewLifecycleOwner, Observer {
+            this.group = it
+            Log.e(TAG, "Group RECEIVED!" + group.name)
+        })
     }
     private fun goTo(tmpView: View, tmpIdElement: Int) {
         Navigation.findNavController(tmpView).navigate(tmpIdElement)

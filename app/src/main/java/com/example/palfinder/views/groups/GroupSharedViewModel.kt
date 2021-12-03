@@ -7,7 +7,7 @@ import com.example.palfinder.backend.services.GroupAdmin
 class GroupSharedViewModel : ViewModel() {
     val message = MutableLiveData<GroupAdmin.GroupModel>()
 
-    fun sendMessage(text: GroupAdmin.GroupModel) {
-        message.value = text
+    fun sendMessage(model: GroupAdmin.GroupModel) {
+        message.value = model
     }
 }
