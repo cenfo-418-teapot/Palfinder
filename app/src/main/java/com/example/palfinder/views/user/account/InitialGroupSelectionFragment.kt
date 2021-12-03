@@ -27,7 +27,7 @@ class InitialGroupSelectionFragment : Fragment() {
             .observe(viewLifecycleOwner, { groups ->
                 Log.d(TAG, "Note observer received ${groups.size} groups")
                 // let's create a RecyclerViewAdapter that manages the individual cells
-                view.rvGroups.adapter = GroupsRecyclerViewAdapter(groups)
+                view.rvGroups.adapter = GroupsRecyclerViewAdapter(groups, null)
             })
         requireActivity().findViewById<Button>(R.id.btnContinue).setOnClickListener {
             val vp = requireActivity().findViewById<ViewPager2>(R.id.vpInitAccount)

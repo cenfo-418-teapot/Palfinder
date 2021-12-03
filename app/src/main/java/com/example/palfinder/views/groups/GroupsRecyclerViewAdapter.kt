@@ -15,9 +15,9 @@ import java.util.*
 import android.os.Bundle
 
 class GroupsRecyclerViewAdapter(
-    private val values: MutableList<GroupAdmin.GroupModel>?) :
+    private val values: MutableList<GroupAdmin.GroupModel>?, private val listener: OnViewProfileListener?) :
     RecyclerView.Adapter<GroupsRecyclerViewAdapter.ViewHolder>() {
-    lateinit var listener: OnViewProfileListener
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -40,8 +40,10 @@ class GroupsRecyclerViewAdapter(
         if (finalImage != null) {
             holder.imageView.setImageBitmap(item.image)
         }
-        holder.imageView.setOnClickListener {
-            listener.onClickViewProfile(item)
+        if(listener !== null) {
+            holder.imageView.setOnClickListener {
+                listener.onClickViewProfile(item)
+            }
         }
     }
 

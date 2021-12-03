@@ -37,7 +37,13 @@
         <activity
             android:name=".views.HomeActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan|adjustResize" />
+            android:windowSoftInputMode="adjustPan|adjustResize" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".views.user.UserProfileActivity"
             android:exported="true"
@@ -46,13 +52,7 @@
             android:name=".views.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Palfinder.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.Palfinder.NoActionBar"/>
 
         <meta-data
             android:name="preloaded_fonts"

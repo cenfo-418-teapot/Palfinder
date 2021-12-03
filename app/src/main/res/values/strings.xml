@@ -72,6 +72,8 @@
     <string name="group_profile_create_event_lbl">Create event</string>
     <string name="group_profile_share_lbl">Share</string>
     <string name="group_profile_privacy_subtitle">Privacy:</string>
+    <string name="group_profile_description">Description: </string>
+    <string name="group_profile_tags">Tags: </string>
     <string name="group_profile_next_events_subtitle">Next Events</string>
     <string name="group_profile_members_subtitle">Members</string>
     <string name="group_profile_view_all_members">View all</string>

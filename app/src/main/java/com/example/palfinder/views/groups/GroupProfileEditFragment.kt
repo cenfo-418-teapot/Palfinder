@@ -35,7 +35,6 @@ class GroupProfileEditFragment : Fragment() {
 
     private var noteImagePath : String? = null
     private var noteImage : Bitmap? = null
-    lateinit var group: GroupAdmin.GroupModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,12 +79,7 @@ class GroupProfileEditFragment : Fragment() {
                 Log.e(TAG, "Form Validation Failed", e)
             }
         }
-
         return view
-    }
-
-    fun getProfileData() {
-        // TODO: Function to fill the group edition fields
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,13 +91,8 @@ class GroupProfileEditFragment : Fragment() {
             statusArray
         )
         etState.setAdapter(adapter)
-
-        val model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
-        model.message.observe(viewLifecycleOwner, Observer {
-            this.group = it
-            Log.e(TAG, "Group RECEIVED!" + group.name)
-        })
     }
+
     private fun goTo(tmpView: View, tmpIdElement: Int) {
         Navigation.findNavController(tmpView).navigate(tmpIdElement)
     }
