@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
+            android:name=".views.groups.GroupProfileActivity"
+            android:exported="true" />
+        <activity
             android:name=".views.user.account.InitialAccountSetup"
             android:exported="true"
             android:label="@string/title_activity_initial_account_setup"

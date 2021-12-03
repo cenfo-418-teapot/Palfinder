@@ -7,4 +7,7 @@ class InitialSetupViewModel: ViewModel() {
     val tagsList: MutableLiveData<List<String>> by lazy {
         MutableLiveData<List<String>>()
     }
+    val groupsList: MutableLiveData<List<String>> by lazy {
+        MutableLiveData<List<String>>()
+    }
 }
