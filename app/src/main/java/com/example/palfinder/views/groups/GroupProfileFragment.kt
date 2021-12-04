@@ -47,6 +47,12 @@ class GroupProfile : Fragment() {
         view.nav_add_user.setOnClickListener{ setFocus(view,1) }
         view.nav_create_event.setOnClickListener{ setFocus(view, 2) }
         view.nav_share.setOnClickListener{ setFocus(view, 3) }
+        view.edit_group.setOnClickListener{
+            val model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
+            model.sendMessage(group)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_groupProfile_to_groupProfileEditFragment)
+        }
         getProfileData()
         return view
     }
@@ -85,8 +91,7 @@ class GroupProfile : Fragment() {
         tv_privacy_subtitle.text = group.status.toString()
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         tvTitle.text = group.name
-        val description: String = tv_group_description.text.toString()
-        tv_group_description.text = description + " " + group.description
+        tv_group_description.text = "Description: " + group.description
         val tempTags: MutableList<String> = mutableListOf()
         if(!group.tags.isNullOrEmpty()) {
             tv_group_tag_list.text =  "Tags: "

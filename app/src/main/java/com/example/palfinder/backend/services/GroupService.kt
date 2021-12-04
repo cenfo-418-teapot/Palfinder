@@ -39,16 +39,16 @@ object GroupService {
     }
 
     fun updateGroup(groupModel : GroupAdmin.GroupModel) {
-        Log.i(TAG, "Creating groups")
+        Log.i(TAG, "Editing groups")
 
         Amplify.API.mutate(
             ModelMutation.update(groupModel.data),
             { response ->
-                Log.i(TAG, "Created")
+                Log.i(TAG, "Edited")
                 if (response.hasErrors()) {
                     Log.e(TAG, response.errors.first().message)
                 } else {
-                    Log.i(TAG, "Created Group with id: " + response.data.id)
+                    Log.i(TAG, "Edited Group with id: " + response.data.id)
                 }
             },
             { error -> Log.e(TAG, "Create failed", error) }

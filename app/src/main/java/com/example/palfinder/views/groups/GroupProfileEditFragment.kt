@@ -35,6 +35,7 @@ class GroupProfileEditFragment : Fragment() {
 
     private var noteImagePath : String? = null
     private var noteImage : Bitmap? = null
+    lateinit var group: GroupAdmin.GroupModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class GroupProfileEditFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_edit, container, false)
         view.btnCancel?.setOnClickListener {
-            goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+            goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
         }
         view.captureImage.setOnClickListener {
             val i = Intent(
@@ -73,13 +74,32 @@ class GroupProfileEditFragment : Fragment() {
                     // asynchronously store the image (and assume it will work)
                     GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
                 }
-                GroupService.createGroup(group)
-                goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+                GroupService.updateGroup(group)
+                goTo(view, R.id.action_groupProfileEditFragment_to_groupListFragment)
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
             }
         }
+        getProfileData()
         return view
+    }
+
+    fun getProfileData() {
+        val model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
+        model.message.observe(viewLifecycleOwner, {
+            this.group = it
+            fillGroupData()
+            Log.d(TAG, "Group RECEIVED! " + group.name)
+        })
+    }
+
+    private fun fillGroupData() {
+        // TODO: Fill up Group Data"
+        etName.setText(group.name)
+        etDescription.setText(group.description)
+        etState.setText(group.status.toString().capitalize())
+        tilState.isEnabled = false
+        iv_image.setImageBitmap(group.image)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -196,7 +216,6 @@ class GroupProfileEditFragment : Fragment() {
 //         * @param param2 Parameter 2.
 //         * @return A new instance of fragment GroupEditFragment.
 //         */
-//        // TODO: Rename and change types and number of parameters
 //        @JvmStatic
 //        fun newInstance(param1: String, param2: String) =
 //            GroupEditFragment().apply {
