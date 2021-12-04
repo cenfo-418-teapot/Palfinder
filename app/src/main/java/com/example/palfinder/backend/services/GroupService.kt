@@ -13,8 +13,6 @@ import com.amplifyframework.storage.options.StorageRemoveOptions
 import com.amplifyframework.storage.options.StorageUploadFileOptions
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
-import java.lang.Exception
 
 /**
  * Object for Groups administration service
@@ -40,11 +38,11 @@ object GroupService {
 
     fun updateGroup(groupModel : GroupAdmin.GroupModel) {
         Log.i(TAG, "Editing groups")
-
+        val groupData = groupModel.data
         Amplify.API.mutate(
-            ModelMutation.update(groupModel.data),
+            ModelMutation.update(groupData),
             { response ->
-                Log.i(TAG, "Edited")
+                Log.i(TAG, "Validating if it was a successful group Update")
                 if (response.hasErrors()) {
                     Log.e(TAG, response.errors.first().message)
                 } else {

@@ -15,8 +15,6 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.amplifyframework.datastore.generated.model.Status
@@ -25,7 +23,6 @@ import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
 import kotlinx.android.synthetic.main.fragment_group_edit.*
 import kotlinx.android.synthetic.main.fragment_group_edit.view.*
-import kotlinx.android.synthetic.main.fragment_search_user.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -36,6 +33,7 @@ class GroupProfileEditFragment : Fragment() {
     private var noteImagePath : String? = null
     private var noteImage : Bitmap? = null
     lateinit var group: GroupAdmin.GroupModel
+    var imageEdited = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +50,7 @@ class GroupProfileEditFragment : Fragment() {
             goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
         }
         view.captureImage.setOnClickListener {
+            imageEdited = true
             val i = Intent(
                 Intent.ACTION_GET_CONTENT,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
@@ -66,15 +65,15 @@ class GroupProfileEditFragment : Fragment() {
 
         view.btnConfirm?.setOnClickListener {
             try {
-                val group = validForm()
-                if (this.noteImagePath != null) {
-                    group.imageName = UUID.randomUUID().toString()
-                    group.image = this.noteImage
+                val tempGroup = validForm()
+                if (this.noteImagePath != null && imageEdited) {
+                    tempGroup.imageName = UUID.randomUUID().toString()
+                    tempGroup.image = this.noteImage
 
                     // asynchronously store the image (and assume it will work)
-                    GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
+                    GroupService.storeImage(this.noteImagePath!!, tempGroup.imageName!!)
                 }
-                GroupService.updateGroup(group)
+                GroupService.updateGroup(tempGroup)
                 goTo(view, R.id.action_groupProfileEditFragment_to_groupListFragment)
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
@@ -146,7 +145,8 @@ class GroupProfileEditFragment : Fragment() {
             null,
             null,
             null,
-            finalStatus)
+            finalStatus,
+            group.imageName)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, imageReturnedIntent: Intent?) {

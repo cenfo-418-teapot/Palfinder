@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.amplifyframework.core.model.temporal.Temporal
 import com.amplifyframework.datastore.generated.model.*
 
 /**
@@ -55,7 +56,9 @@ object GroupAdmin {
         val events: List<Event>?,
         val users: List<GroupMembers>?,
         val status: Status,
-        var imageName: String? = null)
+        var imageName: String? = null,
+        val createdOn: Temporal.DateTime? = null,
+        var updatedOn: Temporal.DateTime? = null)
     {
         override fun toString(): String = name
 
@@ -82,7 +85,9 @@ object GroupAdmin {
                     groupData.events,
                     groupData.users,
                     groupData.status,
-                    groupData.image)
+                    groupData.image,
+                    groupData.createdOn,
+                    groupData.updatedOn)
 
                 if (groupData.image != null) {
                     GroupService.retrieveImage(groupData.image!!) {
