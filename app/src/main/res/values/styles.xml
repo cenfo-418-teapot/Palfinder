@@ -148,6 +148,7 @@
     <style name="OutlinePrimary">
         <item name="android:background">@drawable/outline_rectangle</item>
     </style>
+
     <style name="OutlineSecondary">
         <item name="android:background">@drawable/outline_rectangle_dark</item>
     </style>
@@ -164,5 +165,13 @@
         <item name="android:layout_marginTop">@dimen/spacing_medium</item>
         <item name="android:layout_marginBottom">@dimen/spacing_medium</item>
         <item name="android:background">@color/light_gray</item>
+    </style>
+
+    <style name="ProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_marginTop">-5dp</item>
+        <item name="android:scaleY">3</item>
+        <item name="android:progressBackgroundTint">@color/primaryDark</item>
+        <item name="android:progressTint">@color/primaryDark</item>item>
+        <item name="android:indeterminateTint">@color/primaryDark</item>
     </style>
 </resources>

@@ -23,7 +23,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Tag type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Tags", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE })
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE })
 })
 public final class Tag implements Model {
   public static final QueryField ID = field("Tag", "id");

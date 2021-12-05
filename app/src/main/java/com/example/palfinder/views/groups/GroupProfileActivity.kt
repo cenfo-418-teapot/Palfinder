@@ -1,12 +1,12 @@
-package com.example.palfinder.views.auth
+package com.example.palfinder.views.groups
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 import com.example.palfinder.R
 
-class LoginActivity : AppCompatActivity(R.layout.activity_log_in) {
+class GroupProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.hide()
+        setContentView(R.layout.activity_group_profile)
     }
 }

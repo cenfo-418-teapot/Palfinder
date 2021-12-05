@@ -1,64 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".views.user.account.InitialSetupConfirmationFragment">
 
-    <TextView
-        style="@style/Title"
+    <LinearLayout
+        android:id="@+id/llAccountPreferences"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/account_preferences_title"
-        android:layout_marginBottom="@dimen/spacing_large"
-        android:textAlignment="center" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        style="@style/Headline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_medium"
-        android:text="@string/tags_label" />
+        <TextView
+            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/account_preferences_title"
+            android:textAlignment="center" />
 
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cgSelectedTags"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:singleSelection="false" />
+        <TextView
+            style="@style/Paragraph"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/spacing_large"
+            android:text="@string/initial_setup_msg"
+            android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/emptyTagSelection"
-        style="@style/Headline6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="You didn't select any tags" />
+        <TextView
+            style="@style/Headline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/tags_label" />
 
-    <View style="@style/Divider" />
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgSelectedTags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:singleSelection="false" />
 
-    <TextView
-        style="@style/Headline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/groups_label" />
+        <TextView
+            android:id="@+id/emptyTagSelection"
+            style="@style/Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You didn't select any tags" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSelectedGroups"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:itemCount="3"
-        tools:listitem="@layout/group_item" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/spacing_medium" />
 
-    <TextView
-        android:id="@+id/emptyGroupSelection"
-        style="@style/Headline6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="You didn't select any groups" />
+        <TextView
+            style="@style/Headline1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:text="@string/groups_label" />
 
-</LinearLayout>
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cgSelectedGroups"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:singleSelection="false" />
+
+        <TextView
+            android:id="@+id/emptyGroupSelection"
+            style="@style/Headline6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You didn't select any groups" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
