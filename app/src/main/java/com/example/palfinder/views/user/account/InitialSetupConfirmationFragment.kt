@@ -25,8 +25,7 @@ import kotlinx.android.synthetic.main.fragment_initial_setup_confirmation.view.*
 
 class InitialSetupConfirmationFragment : Fragment() {
     private var currentUser = UserData.currentUser.value!!
-    private val _groupsToAdd = ArrayList<Group>()
-    private val groupsToAddLiveData = MutableLiveData<List<GroupAdmin.GroupModel>>()
+    private val groupsToAddLiveData = MutableLiveData<List<GroupAdmin.GroupModel>?>()
     private val _tagsToAdd = ArrayList<Tag>()
     private val tagsToAddLiveData = MutableLiveData<List<Tag>>()
     private val progressLiveData = MutableLiveData<String>()
@@ -99,15 +98,22 @@ class InitialSetupConfirmationFragment : Fragment() {
 
     private fun observeGroupsToAdd() {
         groupsToAddLiveData.observe(viewLifecycleOwner, { groupsToAdd ->
-            if (groupsToAdd.size == InitialSetupData.groupsList.value!!.size) {
-                Amplify.API.query(ModelQuery.get(User::class.java, currentUser.id),
-                    {
-                        UserData.setCurrentUser(it.data)
-                        currentUser = it.data
-                        groupsToAdd.forEach { group -> addGroupToUser(currentUser.groups, group) }
-                    },
-                    { Log.e(TAG, "Couldn't fetch the user's groups", it) })
-            }
+            if (groupsToAdd != null) {
+                if (groupsToAdd.isNotEmpty() && groupsToAdd.size == InitialSetupData.groupsList.value?.size ?: 0) {
+                    Amplify.API.query(ModelQuery.get(User::class.java, currentUser.id),
+                        {
+                            UserData.setCurrentUser(it.data)
+                            currentUser = it.data
+                            groupsToAdd.forEach { group ->
+                                addGroupToUser(
+                                    currentUser.groups,
+                                    group
+                                )
+                            }
+                        },
+                        { Log.e(TAG, "Couldn't fetch the user's groups", it) })
+                }
+            } else Log.i(TAG, "No groups were selected before saving changes")
         })
     }
 
@@ -122,12 +128,8 @@ class InitialSetupConfirmationFragment : Fragment() {
                     currentUser.groups.add(it.data)
                     progressLiveData.postValue("${currentUser.username} added to group ${group.name}")
                 },
-                {
-                    Log.e(
-                        TAG,
-                        "${currentUser.username} was not added as a member to ${group.name}"
-                    )
-                })
+                { Log.e(TAG, "${currentUser.username} was not added as a member to ${group.name}") }
+            )
         }
     }
 
