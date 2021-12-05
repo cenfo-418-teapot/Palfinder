@@ -4,24 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    style="@style/container"
     tools:context=".views.user.account.InitialAccountSetup">
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:minHeight="@dimen/spacing_small"
+        android:progressBackgroundTint="@color/primary"
+        android:progressTint="@color/primaryLight" />
+
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vpInitAccount"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        style="@style/container"
+        android:orientation="horizontal"
         android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:orientation="horizontal">
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"/>
         <Button
             android:id="@+id/btnContinue"
             style="@style/ButtonGhost"

@@ -6,21 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".views.user.account.InitialSetupConfirmationFragment">
 
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:minHeight="@dimen/spacing_small"
-        android:progressBackgroundTint="@color/primary"
-        android:progressTint="@color/primaryLight"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
         android:id="@+id/llAccountPreferences"
         android:layout_width="match_parent"
