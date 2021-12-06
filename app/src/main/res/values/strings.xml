@@ -129,5 +129,10 @@
     <string name="nothing_found_subtitle">Try using a different keyword or make check your grammar</string>
     <string name="no_items_left">It seems like there are no more items</string>
     <string name="initial_setup_msg">Make sure the data here is what you wanted, feel free to go back and change what you need</string>
+    <string name="mnuSearch">Search</string>
+    <string name="mnuEvents">Events</string>
+    <string name="mnuHome">Home</string>
+    <string name="mnuProfile">Profile</string>
+    <string name="mnuNotifications">Notifications</string>
 
 </resources>
