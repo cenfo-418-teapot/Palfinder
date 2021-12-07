@@ -3,23 +3,13 @@ package com.example.palfinder.views
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import com.example.palfinder.R
-import com.example.palfinder.backend.services.AuthenticationService
 import com.example.palfinder.backend.services.UserData
-import com.example.palfinder.databinding.FragmentUserProfileDetailBinding
 import com.example.palfinder.views.auth.LoginActivity
 import com.example.palfinder.views.events.EventActivity
-import com.example.palfinder.views.groups.GroupActivity
-import com.example.palfinder.views.tag.TagFormDemoActivity
-import com.example.palfinder.views.user.SearchUserDemoActivity
-import com.example.palfinder.views.user.SearchUserFragment
-import com.example.palfinder.views.user.UserProfileActivity
-import com.example.palfinder.views.user.UserProfileDetailFragment
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity(R.layout.activity_home) {
@@ -41,11 +31,13 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
             toggleNavigationButton(item.itemId)
             when (item.itemId) {
                 R.id.mnuHome -> {
-                    fragmentContainerView.findNavController().setGraph(R.navigation.groups_navigation)
+                    fragmentContainerView.findNavController()
+                        .setGraph(R.navigation.groups_navigation)
                     true
                 }
                 R.id.mnuSearch -> {
-                    fragmentContainerView.findNavController().setGraph(R.navigation.search_navigation)
+                    fragmentContainerView.findNavController()
+                        .setGraph(R.navigation.search_navigation)
                     true
                 }
                 R.id.mnuEvents -> {
