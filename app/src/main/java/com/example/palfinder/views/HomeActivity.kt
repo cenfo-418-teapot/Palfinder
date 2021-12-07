@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.forEach
 import androidx.navigation.findNavController
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.AuthenticationService
@@ -34,7 +36,9 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     }
 
     private fun setupBottomNavigation(ctx: Context) {
+        toggleNavigationButton(R.id.mnuHome)
         bottom_navigation.setOnItemSelectedListener { item ->
+            toggleNavigationButton(item.itemId)
             when (item.itemId) {
                 R.id.mnuHome -> {
                     fragmentContainerView.findNavController().setGraph(R.navigation.groups_navigation)
@@ -54,6 +58,12 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
                 }
                 else -> false
             }
+        }
+    }
+
+    private fun toggleNavigationButton(id: Int) {
+        bottom_navigation.menu.forEach {
+            it.isEnabled = it.itemId != id
         }
     }
 
