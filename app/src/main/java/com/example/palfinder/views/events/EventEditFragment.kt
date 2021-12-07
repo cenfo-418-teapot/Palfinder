@@ -16,6 +16,7 @@ import com.amplifyframework.datastore.generated.model.Group
 import com.amplifyframework.datastore.generated.model.Status
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.event.EventAPI
+import com.example.palfinder.backend.services.event.EventAPI.updateEvent
 import com.example.palfiner.backend.services.event.EventManager
 import kotlinx.android.synthetic.main.fragment_event_create.*
 import kotlinx.android.synthetic.main.fragment_event_create.event_description
@@ -42,8 +43,10 @@ class EventEditFragment : Fragment() {
         view.btnCreate.setOnClickListener{
             toastExito()
             try {
-                  val event = validateForm()
+
+                var event = validateForm()
                 EventAPI.createEvent(event)
+
                 activity?.finish()
             } catch (e: IllegalStateException){
                 Log.e(TAG, "Error in Form")
@@ -76,19 +79,6 @@ class EventEditFragment : Fragment() {
                 .location(location)
                 .id(UUID.randomUUID().toString())
                 .build()
-        /*EventManager.EventModel(
-                UUID.randomUUID().toString(),
-                name,
-                description,
-                location,
-                null,
-                null,
-                null,
-                EventStatus.OPEN,
-            )*/
-
-
-
 
     }
 
