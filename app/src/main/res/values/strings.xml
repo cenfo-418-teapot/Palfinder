@@ -120,5 +120,19 @@
     <string name="btn_cancel">Cancel</string>
     <string name="search_user_hint">Search User</string>
     <string name="title_activity_initial_account_setup">InitialAccountSetup</string>
+    <string name="pick_tag">Pick Your Tags</string>
+    <string name="account_preferences_title">Account Preferences</string>
+    <string name="tags_label">Tags</string>
+    <string name="groups_label">Groups</string>
+    <string name="pick_groups">Join Groups!</string>
+    <string name="nothing_found">No items matched your search</string>
+    <string name="nothing_found_subtitle">Try using a different keyword or make check your grammar</string>
+    <string name="no_items_left">It seems like there are no more items</string>
+    <string name="initial_setup_msg">Make sure the data here is what you wanted, feel free to go back and change what you need</string>
+    <string name="mnuSearch">Search</string>
+    <string name="mnuEvents">Events</string>
+    <string name="mnuHome">Home</string>
+    <string name="mnuProfile">Profile</string>
+    <string name="mnuNotifications">Notifications</string>
 
 </resources>

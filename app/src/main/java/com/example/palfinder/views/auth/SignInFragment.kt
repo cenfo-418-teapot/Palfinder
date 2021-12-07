@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.amplifyframework.core.Amplify
@@ -16,21 +17,30 @@ import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.backend.services.UserService
 import com.example.palfinder.views.HomeActivity
 import com.example.palfinder.views.auth.recover.password.RecoverPasswordActivity
-import com.example.palfinder.views.user.InitialAccountSetup
+import com.example.palfinder.views.user.account.InitialAccountSetup
+import kotlinx.android.synthetic.main.activity_log_in.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import kotlinx.android.synthetic.main.fragment_sign_in.view.*
 
 class SignInFragment : Fragment() {
+    private lateinit var progressBar: ProgressBar
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = layoutInflater.inflate(R.layout.fragment_sign_in, container, false)
+        progressBar = requireActivity().progressbar
+//        requireActivity().findViewById<ProgressBar>(R.id.progressBar).visibility = View.INVISIBLE
         view.btnSignUp?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_signUpFragment)
+            progressBar.visibility = View.INVISIBLE
+            Navigation.findNavController(view)
+                .navigate(R.id.action_signInFragment_to_signUpFragment)
         }
         view.btnSignIn?.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+//            requireActivity().findViewById<ProgressBar>(R.id.progressBar).visibility = View.VISIBLE
             signIn()
         }
         UserData.isSignedIn.observe(viewLifecycleOwner) {
@@ -43,6 +53,7 @@ class SignInFragment : Fragment() {
             }
         }
         view.tvRecoverPassword?.setOnClickListener {
+            progressBar.visibility = View.INVISIBLE
             startActivity(Intent(context, RecoverPasswordActivity::class.java))
         }
         return view
@@ -68,6 +79,7 @@ class SignInFragment : Fragment() {
             },
             {
                 Log.e(TAG, "Failed to sign in", it)
+                progressBar.visibility = View.INVISIBLE
                 UserData.setSignedIn(false)
             }
         )
@@ -78,22 +90,25 @@ class SignInFragment : Fragment() {
         UserService.getUserByUsername(Amplify.Auth.currentUser.username,
             {
 //        If it doesn't, create a new object
-                val items =it.data.items as ArrayList
+                val items = it.data.items as ArrayList
                 when {
                     items.size == 0 -> {
                         Log.i(TAG, "First Login from the user, will register in the DB")
                         Amplify.Auth.fetchUserAttributes(
                             { attrs ->
-                                val email = attrs.find { value -> value.key.keyString == "email" }?.value
+                                val email =
+                                    attrs.find { value -> value.key.keyString == "email" }?.value
                                 createUserProfile(email ?: "unknown")
                             },
                             { error -> Log.e(TAG, "Failed to get user attributes", error) }
                         )
                     }
                     items.stream().findFirst().get().status == UserStatus.INCOMPLETE -> {
-                        val uid = items.stream().findFirst().get().id
+                        val user = items.stream().findFirst().get()
+                        val uid = user.id
                         val i = Intent(activity, InitialAccountSetup::class.java)
                         i.putExtra("uid", uid)
+                        UserData.setCurrentUser(user)
                         startActivity(i)
                         activity?.finish()
                     }
@@ -110,6 +125,7 @@ class SignInFragment : Fragment() {
             {
                 val i = Intent(activity, InitialAccountSetup::class.java)
                 i.putExtra("uid", it.data.id)
+                UserData.setCurrentUser(it.data)
                 startActivity(i)
                 activity?.finish()
             }

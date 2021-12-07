@@ -20,16 +20,16 @@ import kotlinx.android.synthetic.main.fragment_input_tag.view.*
 import kotlin.streams.toList
 
 
-interface OnChipGroupChange {
-    fun onChipGroupChange(chips: List<String>)
+interface OnIdListChange {
+    fun onIdListChange(list: List<String>)
 }
 
 class TagInputFragment : Fragment() {
 
-    private lateinit var _chipGroupListener: OnChipGroupChange
+    private lateinit var _idListListener: OnIdListChange
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        _chipGroupListener = context as OnChipGroupChange
+        _idListListener = context as OnIdListChange
     }
 
     override fun onCreateView(
@@ -47,7 +47,7 @@ class TagInputFragment : Fragment() {
 
     private fun pushTagList() {
         val tagsList = cgSelectedTags.checkedChipIds.stream().map { id -> cgSelectedTags.findViewById<Chip>(id).text.toString() }.toList()
-        _chipGroupListener.onChipGroupChange(tagsList)
+        _idListListener.onIdListChange(tagsList)
     }
 
     private fun setupCreateTagInputListener(
@@ -59,9 +59,7 @@ class TagInputFragment : Fragment() {
         textView.setOnEditorActionListener(TextView.OnEditorActionListener { tv, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 val addResult = addSelectedChip(tv.text.toString(), chipGroup, amount)
-                if (!addResult) {
-                    textInputLayout.error = "\"${tv.text.toString()}\" is already selected!"
-                } else textInputLayout.error = null
+                textInputLayout.error = addResult
                 tv.text = ""
                 return@OnEditorActionListener true
             }
@@ -85,10 +83,12 @@ class TagInputFragment : Fragment() {
         })
     }
 
-    private fun addSelectedChip(name: String, chipGroup: ChipGroup, amount: TextView): Boolean {
+    private fun addSelectedChip(title: String, chipGroup: ChipGroup, amount: TextView): String? {
+        val name = title.lowercase().trim()
         val exists =
             chipGroup.checkedChipIds.any { id -> chipGroup.findViewById<Chip>(id).text == name }
-        if (!exists) {
+        if (name.isBlank()) return "Empty tag names are not allowed"
+        else if (!exists) {
             val chip = layoutInflater.inflate(R.layout.selected_tag, chipGroup, false) as Chip
             chip.text = name
             chip.setOnClickListener {
@@ -99,9 +99,9 @@ class TagInputFragment : Fragment() {
             chipGroup.addView(chip)
             amount.text = chipGroup.checkedChipIds.size.toString()
             pushTagList()
-            return true
+            return null
         }
-        return false
+        return "$name is already selected!"
     }
 
     companion object {
