@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
+            android:name=".views.search.SearchActivity"
+            android:exported="true" />
+        <activity
             android:name=".views.groups.GroupProfileActivity"
             android:exported="true" />
         <activity
@@ -61,4 +64,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>

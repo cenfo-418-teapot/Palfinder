@@ -8,11 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.amplifyframework.datastore.generated.model.Status
 import com.amplifyframework.datastore.generated.model.User
 import com.amplifyframework.datastore.generated.model.UserStatus
 import com.example.palfinder.R
+import com.example.palfinder.views.search.UserItemAdapter
 import kotlinx.android.synthetic.main.fragment_search_user.*
 import kotlinx.android.synthetic.main.fragment_search_user.view.*
 
