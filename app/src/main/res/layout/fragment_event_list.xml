@@ -58,6 +58,16 @@
 
         </SearchView>
 
+    <TextView
+        android:id="@+id/msgNoEvents"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Paragraph"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/group_list_no_groups"
+        android:visibility="gone"/>
         <!-- fragments container -->
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,14 +79,16 @@
                 android:layout_height="wrap_content"
                 tools:ignore="SpeakableTextPresentCheck">
 
-                <LinearLayout
-                    android:id="@+id/list_item_fragment_container"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/event_list"
+                    android:name="com.example.myapplication.ItemListFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:text=">" />
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    tools:context=".views.Events.EventActivity"
+                    tools:listitem="@layout/event_item" />
             </ScrollView>
 
         </LinearLayout>

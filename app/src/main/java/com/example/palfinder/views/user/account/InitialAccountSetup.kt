@@ -12,6 +12,7 @@ import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
+import com.example.palfinder.backend.services.InitialSetupData
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.components.OnIdListChange
 import com.example.palfinder.views.HomeActivity
@@ -19,8 +20,7 @@ import kotlinx.android.synthetic.main.activity_initial_account_setup.*
 
 class InitialAccountSetup : AppCompatActivity(), OnIdListChange {
     private val _existingTagsList = mutableListOf<Pair<String, String>>()
-    private var groupsList = MutableLiveData<List<String>>()
-    private val initialSetupModel: InitialSetupViewModel by viewModels()
+//    private val initialSetupModel: InitialSetupViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +43,6 @@ class InitialAccountSetup : AppCompatActivity(), OnIdListChange {
             InitialGroupSelectionFragment(),
             InitialSetupConfirmationFragment(),
         )
-//        vpInitAccount.isUserInputEnabled = false
         vpInitAccount.adapter =
             InitialAccountViewPagerAdapter(steps, supportFragmentManager, lifecycle)
         vpInitAccount.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -64,7 +63,7 @@ class InitialAccountSetup : AppCompatActivity(), OnIdListChange {
     }
 
     override fun onIdListChange(list: List<String>) {
-        initialSetupModel.tagsList.postValue(list)
+        InitialSetupData.setTagsList(list)
     }
 
     companion object {
