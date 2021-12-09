@@ -9,6 +9,8 @@ import com.amplifyframework.core.Amplify
 import com.amplifyframework.core.model.query.Where
 import com.amplifyframework.datastore.generated.model.Event
 import com.amplifyframework.datastore.generated.model.Group
+import com.example.palfinder.backend.services.GroupAdmin
+import com.example.palfinder.backend.services.GroupService
 import com.example.palfiner.backend.services.event.EventManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -18,6 +20,40 @@ import kotlin.coroutines.suspendCoroutine
 
 
 object EventAPI {
+
+    val TAG = "Event manager API"
+
+
+    fun updateEvents() {
+        val eventList = EventManager.events().value
+        val isEmpty = eventList?.isEmpty() ?: false
+
+        // query notes when signed in and we do not have Notes yet
+        if (isEmpty) {
+            this.queryEvents()
+        } else {
+            EventManager.resetEvents()
+            this.queryEvents()
+        }
+    }
+
+
+    fun queryEvents() {
+        Log.i(TAG, "Querying Events")
+
+        Amplify.API.query(
+            ModelQuery.list(Event::class.java),
+            { response ->
+                Log.i(TAG, "Queried")
+                for (eventData in response.data) {
+                    Log.i(TAG, eventData.name)
+                    // TODO should add all the groups at once instead of one by one (each add triggers a UI refresh)
+                    EventManager.addEvent(EventManager.EventModel.from(eventData))
+                }
+            },
+            { error -> Log.e(TAG, "Query failure", error) }
+        )
+    }
 
     fun createEvent(event : Event) {
 

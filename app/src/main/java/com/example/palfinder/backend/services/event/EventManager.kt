@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.core.model.temporal.Temporal
 import com.amplifyframework.datastore.generated.model.*
+import com.example.palfinder.backend.services.GroupAdmin
 
 object EventManager {
 
@@ -17,6 +18,32 @@ object EventManager {
         this.postValue(this.value)
     }
     fun notifyObserver() {
+        _events.notifyObserver()
+    }
+
+
+    fun events() : LiveData<MutableList<EventModel>> = _events
+    fun addEvent(n : EventModel) {
+        val tmpEvents = _events.value
+        if (tmpEvents != null) {
+            tmpEvents.add(n)
+            _events.notifyObserver()
+        } else {
+            Log.e(EventManager.TAG, "addGroup : group collection is null !!")
+        }
+    }
+    fun deleteEvent(at: Int) : EventModel?  {
+        val event = _events.value?.removeAt(at)
+        _events.notifyObserver()
+        return event
+    }
+
+    fun getEvent(at: Int): EventModel? {
+        return _events.value?.get(at)
+    }
+
+    fun resetEvents() {
+        this._events.value?.clear()  //used when signing out
         _events.notifyObserver()
     }
 
