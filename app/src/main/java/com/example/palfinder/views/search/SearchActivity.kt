@@ -80,6 +80,7 @@ class SearchActivity : AppCompatActivity(R.layout.activity_search) {
     override fun onBackPressed() {
         super.onBackPressed()
         startActivity(Intent(applicationContext, HomeActivity::class.java))
+        finish()
     }
 
     inner class ViewPagerAdapter(
