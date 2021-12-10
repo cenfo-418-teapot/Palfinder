@@ -58,11 +58,11 @@
 
             <TextView
                 android:id="@+id/lbl_discover"
+                style="@style/Paragraph"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/group_list_discover_lbl"
-                android:textAlignment="center"
-                style="@style/Paragraph" />
+                android:textAlignment="center" />
 
             <View
                 android:id="@+id/underline_discover_groups"

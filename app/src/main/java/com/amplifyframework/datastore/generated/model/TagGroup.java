@@ -23,7 +23,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the TagGroup type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "TagGroups", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE })
 })
 @Index(name = "byGroupTag", fields = {"groupID","tagID"})
 @Index(name = "byTagGroup", fields = {"tagID","groupID"})

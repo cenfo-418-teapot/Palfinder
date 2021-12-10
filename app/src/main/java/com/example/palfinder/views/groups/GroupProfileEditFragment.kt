@@ -65,7 +65,7 @@ class GroupProfileEditFragment : Fragment() {
 
         view.btnConfirm?.setOnClickListener {
             try {
-                val tempGroup = validForm()
+                val tempGroup = validForm(group.id)
                 if (this.noteImagePath != null && imageEdited) {
                     tempGroup.imageName = UUID.randomUUID().toString()
                     tempGroup.image = this.noteImage
@@ -116,7 +116,7 @@ class GroupProfileEditFragment : Fragment() {
         Navigation.findNavController(tmpView).navigate(tmpIdElement)
     }
 
-    private fun validForm(): GroupAdmin.GroupModel {
+    private fun validForm(idGroup: String): GroupAdmin.GroupModel {
         val name = etName.text.toString()
         val description = etDescription.text.toString()
         val status = etState.text.toString()
@@ -139,7 +139,7 @@ class GroupProfileEditFragment : Fragment() {
         check(status.isNotBlank()) { "Status is blank" }
 //        check(noteImagePath != null) { "Image no selected" }
         return GroupAdmin.GroupModel(
-            UUID.randomUUID().toString(),
+            idGroup,
             name,
             description,
             null,

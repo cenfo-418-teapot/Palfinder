@@ -9,7 +9,10 @@ import java.util.Objects;
 
 import androidx.core.util.ObjectsCompat;
 
+import com.amplifyframework.core.model.AuthStrategy;
 import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.ModelOperation;
+import com.amplifyframework.core.model.annotations.AuthRule;
 import com.amplifyframework.core.model.annotations.Index;
 import com.amplifyframework.core.model.annotations.ModelConfig;
 import com.amplifyframework.core.model.annotations.ModelField;
@@ -19,8 +22,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 
 /** This is an auto generated class representing the Group type in your schema. */
 @SuppressWarnings("all")
-@ModelConfig(pluralName = "Groups")
-@Index(name = "byName", fields = {"name"})
+@ModelConfig(pluralName = "Groups", authRules = {
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.DELETE })
+})
+@Index(name = "byName", fields = {"id"})
 public final class Group implements Model {
   public static final QueryField ID = field("Group", "id");
   public static final QueryField NAME = field("Group", "name");
@@ -30,9 +35,9 @@ public final class Group implements Model {
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="String") String description;
-  private final @ModelField(targetType="Event") @HasMany(associatedWith = "group", type = Event.class) List<Event> events = null;
   private final @ModelField(targetType="String") String image;
   private final @ModelField(targetType="Status") Status status;
+  private final @ModelField(targetType="Event") @HasMany(associatedWith = "group", type = Event.class) List<Event> events = null;
   private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "group", type = GroupMembers.class) List<GroupMembers> users = null;
   private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "group", type = TagGroup.class) List<TagGroup> tags = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
@@ -49,16 +54,16 @@ public final class Group implements Model {
       return description;
   }
   
-  public List<Event> getEvents() {
-      return events;
-  }
-  
   public String getImage() {
       return image;
   }
   
   public Status getStatus() {
       return status;
+  }
+  
+  public List<Event> getEvents() {
+      return events;
   }
   
   public List<GroupMembers> getUsers() {

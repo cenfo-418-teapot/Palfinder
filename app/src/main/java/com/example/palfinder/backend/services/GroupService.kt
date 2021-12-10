@@ -7,6 +7,7 @@ import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Group
+import com.amplifyframework.datastore.generated.model.Group.*
 import com.amplifyframework.storage.StorageAccessLevel
 import com.amplifyframework.storage.options.StorageDownloadFileOptions
 import com.amplifyframework.storage.options.StorageRemoveOptions
@@ -38,7 +39,7 @@ object GroupService {
 
     fun updateGroup(groupModel : GroupAdmin.GroupModel) {
         Log.i(TAG, "Editing groups")
-        val groupData = groupModel.data
+        val groupData = groupModel.dataUpdate
         Amplify.API.mutate(
             ModelMutation.update(groupData),
             { response ->
@@ -46,10 +47,10 @@ object GroupService {
                 if (response.hasErrors()) {
                     Log.e(TAG, response.errors.first().message)
                 } else {
-                    Log.i(TAG, "Edited Group with id: " + response.data.id)
+                    Log.i(TAG, "Updated Group with id: " + response.data.id)
                 }
             },
-            { error -> Log.e(TAG, "Create failed", error) }
+            { error -> Log.e(TAG, "Update failed", error) }
         )
     }
 

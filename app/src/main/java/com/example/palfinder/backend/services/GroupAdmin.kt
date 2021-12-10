@@ -74,6 +74,15 @@ object GroupAdmin {
                 .id(this.id)
                 .build()
 
+        val dataUpdate : Group
+            get() = Group.builder()
+                .name(this.name)
+                .description(this.description)
+                .image(this.imageName)
+                .status(this.status)
+                .id(this.id)
+                .build()
+
         // static function to create a Group from a GroupData API object
         companion object {
             fun from(groupData : Group) : GroupModel {
