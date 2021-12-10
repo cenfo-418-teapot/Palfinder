@@ -30,6 +30,7 @@ class UserProfileDetailFragment : Fragment() {
             Navigation.findNavController(view)
                 .navigate(R.id.action_userProfileDetailFragment2_to_userProfileEditFragment)
         }
+
         UserService.getUserByUsername(Amplify.Auth.currentUser.username,
             {
                 UserData.setCurrentUser(it.data.items.first())
@@ -42,6 +43,7 @@ class UserProfileDetailFragment : Fragment() {
             view.user_name.text = fullName
             view.user_description.text = it.description
             view.user_username.text = username
+//            view.user_email.text = it.email
         })
 
 

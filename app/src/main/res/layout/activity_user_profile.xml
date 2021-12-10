@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_container"
-    style="@style/container">
+    android:layout_height="match_parent"
+     android:layout_width="match_parent">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerViewUserProfile"

@@ -49,10 +49,8 @@ class UserProfileEditFragment : Fragment() {
         }
 
         view.user_profile_edit_done_button?.setOnClickListener {
-            Toast.makeText(context, "New name = $updatedName", Toast.LENGTH_SHORT).show()
             updateUserProfile(email, username, updatedName.toString(), updatedLastName.toString(), status, photo, phone, updatedBio.toString(), id)
-//            Toast.makeText(context, "Hey there", Toast.LENGTH_SHORT).show()
-//            Navigation.findNavController(view).navigate(R.id.action_userProfileEditFragment_to_userProfileDetailFragment2)
+            Navigation.findNavController(view).navigate(R.id.action_userProfileEditFragment_to_userProfileDetailFragment2)
         }
 
         return view
