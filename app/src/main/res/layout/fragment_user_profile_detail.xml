@@ -77,7 +77,6 @@
             android:id="@+id/user_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/user_username"
             tools:text="@string/user_username"
             android:textColor="@color/primary"
             android:textStyle="normal"

@@ -24,6 +24,7 @@ class UserProfileDetailFragment : Fragment() {
     ): View? {
 
         val view = layoutInflater.inflate(R.layout.fragment_user_profile_detail, container, false)
+
         view.user_profile_edit_cta?.setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_userProfileDetailFragment2_to_userProfileEditFragment)
         }
@@ -32,10 +33,14 @@ class UserProfileDetailFragment : Fragment() {
         val lastName = UserData.currentUser.value?.lastName
         val bio = UserData.currentUser.value?.description
         val username = UserData.currentUser.value?.username
+        val email = UserData.currentUser.value?.email
 
         view.user_name.text = name + " " + lastName
         view.user_description.text = bio
         view.user_username.text = "@" + username
+
+
+//        Log.i("User Profile", "User Data: " + UserData.currentUser.toString())
         
 //        view.btnSignIn?.setOnClickListener {
 //            signIn()

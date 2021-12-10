@@ -21,9 +21,9 @@ class EventsAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.event_item, parent, false)
 
-        view.btnDetail.setOnClickListener{
-            goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
-        }
+//        view.btnDetail.setOnClickListener{
+//            goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+//        }
         return ViewHolder(view)
     }
 
