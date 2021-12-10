@@ -174,4 +174,8 @@
         <item name="android:progressTint">@color/primaryDark</item>item>
         <item name="android:indeterminateTint">@color/primaryDark</item>
     </style>
+
+    <style name="BottomNavigation" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="backgroundTint">@color/primary</item>
+    </style>
 </resources>

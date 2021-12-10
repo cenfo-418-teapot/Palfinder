@@ -140,5 +140,7 @@
     <string name="mnuHome">Home</string>
     <string name="mnuProfile">Profile</string>
     <string name="mnuNotifications">Notifications</string>
+    <string name="mnuUsers">Users</string>
+    <string name="mnuGroups">Groups</string>
 
 </resources>

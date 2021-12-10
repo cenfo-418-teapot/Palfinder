@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.palfinder.R
 import com.example.palfiner.backend.services.event.EventManager
+import kotlinx.android.synthetic.main.event_item.view.*
 
 class EventsAdapter(
     private val values: MutableList<EventManager.EventModel>
@@ -21,9 +22,9 @@ class EventsAdapter(
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.event_item, parent, false)
 
-//        view.btnDetail.setOnClickListener{
-//            goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
-//        }
+        view.btnEventDetail.setOnClickListener{
+            goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+        }
         return ViewHolder(view)
     }
 
