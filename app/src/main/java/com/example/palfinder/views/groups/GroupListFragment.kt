@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
+import kotlinx.android.synthetic.main.fragment_event_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.view.*
 
