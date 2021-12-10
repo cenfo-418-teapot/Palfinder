@@ -11,6 +11,7 @@ import com.amplifyframework.datastore.generated.model.Event
 import com.amplifyframework.datastore.generated.model.Group
 import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
+import com.example.palfinder.views.events.EventDetail
 import com.example.palfiner.backend.services.event.EventManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
@@ -104,6 +105,7 @@ object EventAPI {
                     Log.i("Event Mnager ", "Updated  Event with id: " + response.data.id)
 
                     if (response.data != null) {
+
                         eventoDB = response.data.copyOfBuilder().build()
                     }
 
@@ -118,12 +120,12 @@ object EventAPI {
         return eventoDB
     }
 
-    fun getEventById(event : Event): Event? {
+    fun getEventById(eventId : String): Event? {
 
         var eventoDB : Event? = null
 
         Amplify.API.query(
-            ModelQuery.get(Event::class.java, event.id.toString()),
+            ModelQuery.get(Event::class.java, eventId),
             { response ->
                 Log.i("Event Mnager ", "Created")
                 if (response.hasErrors()) {
@@ -132,7 +134,7 @@ object EventAPI {
                     Log.i("Event Mnager ", "Updated  Event with id: " + response.data.id)
 
                     if (response.data != null) {
-                         eventoDB = response.data.copyOfBuilder().build()
+                        eventoDB = response.data.copyOfBuilder().build()
                     }
 
                 }
