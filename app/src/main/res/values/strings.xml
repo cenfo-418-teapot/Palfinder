@@ -114,6 +114,11 @@
     <string name="text_event_price">Price</string>
     <string name="text_event_name">Name</string>
 
+    <!-- Event List  -->
+    <string name="text_event_list_detail">Detail</string>
+
+
+
 
     !-- Btn Actions -->
     <string name="btn_create">Create</string>

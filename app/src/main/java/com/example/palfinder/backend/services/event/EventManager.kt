@@ -6,8 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.core.model.temporal.Temporal
 import com.amplifyframework.datastore.generated.model.*
+import com.example.palfinder.backend.services.GroupAdmin
 
 object EventManager {
+
     private const val TAG = "EventManager"
 
     private val _events = MutableLiveData<MutableList<EventManager.EventModel>>(mutableListOf())
@@ -19,15 +21,41 @@ object EventManager {
         _events.notifyObserver()
     }
 
+
+    fun events() : LiveData<MutableList<EventModel>> = _events
+    fun addEvent(n : EventModel) {
+        val tmpEvents = _events.value
+        if (tmpEvents != null) {
+            tmpEvents.add(n)
+            _events.notifyObserver()
+        } else {
+            Log.e(EventManager.TAG, "addGroup : group collection is null !!")
+        }
+    }
+    fun deleteEvent(at: Int) : EventModel?  {
+        val event = _events.value?.removeAt(at)
+        _events.notifyObserver()
+        return event
+    }
+
+    fun getEvent(at: Int): EventModel? {
+        return _events.value?.get(at)
+    }
+
+    fun resetEvents() {
+        this._events.value?.clear()  //used when signing out
+        _events.notifyObserver()
+    }
+
     data class EventModel(
         val id: String,
         val name: String,
         val description: String,
-        val location: String,
+        val location: String?,
         val date: Temporal.DateTime?,
         val group: Group?,
         val members: List<EventMembers>?,
-        val status: EventStatus,
+        val status: EventStatus?,
         var imageName: String? = null)
     {
         override fun toString(): String = name
@@ -49,8 +77,9 @@ object EventManager {
 
         // static function to create a Event from a Event API object
         companion object {
-            fun from(eventData : Event) : EventModel {
-                val result = EventModel(
+            fun from(eventData: Event): EventModel {
+
+                return EventModel(
                     eventData.id,
                     eventData.name,
                     eventData.description,
@@ -59,9 +88,8 @@ object EventManager {
                     eventData.group,
                     eventData.members,
                     eventData.status,
-                    eventData.image)
-
-                return result
+                    eventData.image
+                )
             }
         }
 
