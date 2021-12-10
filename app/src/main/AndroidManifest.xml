@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
+            android:name=".views.search.SearchActivity"
+            android:exported="true" />
+        <activity
             android:name=".views.groups.GroupProfileActivity"
             android:exported="true" />
         <activity
@@ -18,9 +21,6 @@
             android:exported="true"
             android:label="@string/title_activity_initial_account_setup"
             android:theme="@style/Theme.Palfinder.NoActionBar" />
-        <activity
-            android:name=".views.user.SearchUserDemoActivity"
-            android:exported="true" />
         <activity
             android:name=".views.events.EventActivity"
             android:exported="false" />
@@ -61,4 +61,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
 </manifest>

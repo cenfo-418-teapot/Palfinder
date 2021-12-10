@@ -131,4 +131,8 @@
         <item name="android:layout_marginBottom">@dimen/spacing_medium</item>
         <item name="android:background">@color/dark_gray</item>
     </style>
+
+    <style name="BottomNavigation" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="backgroundTint">@color/primaryDark</item>
+    </style>
 </resources>
