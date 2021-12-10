@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.amplifyframework.core.Amplify
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.UserData
-import kotlinx.android.synthetic.main.fragment_user_profile_detail.*
+import com.example.palfinder.backend.services.UserService
 import kotlinx.android.synthetic.main.fragment_user_profile_detail.view.*
 
 class UserProfileDetailFragment : Fragment() {
@@ -26,22 +27,26 @@ class UserProfileDetailFragment : Fragment() {
         val view = layoutInflater.inflate(R.layout.fragment_user_profile_detail, container, false)
 
         view.user_profile_edit_cta?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_userProfileDetailFragment2_to_userProfileEditFragment)
+            Navigation.findNavController(view)
+                .navigate(R.id.action_userProfileDetailFragment2_to_userProfileEditFragment)
         }
+        UserService.getUserByUsername(Amplify.Auth.currentUser.username,
+            {
+                UserData.setCurrentUser(it.data.items.first())
+            },
+            { Log.e(TAG, "error getting user data", it) })
 
-        val name = UserData.currentUser.value?.name
-        val lastName = UserData.currentUser.value?.lastName
-        val bio = UserData.currentUser.value?.description
-        val username = UserData.currentUser.value?.username
-        val email = UserData.currentUser.value?.email
-
-        view.user_name.text = name + " " + lastName
-        view.user_description.text = bio
-        view.user_username.text = "@" + username
+        UserData.currentUser.observe(viewLifecycleOwner, {
+            val fullName ="${it.name} ${it.lastName}"
+            val username = "@${it.username}"
+            view.user_name.text = fullName
+            view.user_description.text = it.description
+            view.user_username.text = username
+        })
 
 
 //        Log.i("User Profile", "User Data: " + UserData.currentUser.toString())
-        
+
 //        view.btnSignIn?.setOnClickListener {
 //            signIn()
 //        }
@@ -64,7 +69,10 @@ class UserProfileDetailFragment : Fragment() {
 //        tvErrorMsg?.visibility = View.INVISIBLE
 //    }
 
-//    private fun signIn() {
+    //    private fun signIn() {
 //        val username = etUsername.text.toString()
 //    }
+    companion object {
+        private const val TAG = "UserProfileDetailFragment"
+    }
 }
