@@ -12,9 +12,6 @@ class UserProfileActivity : AppCompatActivity(R.layout.activity_user_profile) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        var isSignedIn = UserData.isSignedIn
-//        var user = UserData.user
-
 //        Amplify.API.query(
 //            ModelQuery.list(User::class.java, User.ID.contains("first")),
 //            { response ->
