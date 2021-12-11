@@ -9,6 +9,15 @@
     android:orientation="vertical">
 
 
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="@style/ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/primary"
+        android:progressTint="@color/primaryLight"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
@@ -157,7 +166,13 @@
             <!--                android:padding="10dp"-->
             <!--                android:text=">" />-->
             <!--        </ScrollView>-->
-
+            <fragment
+                android:id="@+id/fragment"
+                android:name="com.example.palfinder.components.TagInputFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                tools:layout="@layout/fragment_input_tag" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilImage"

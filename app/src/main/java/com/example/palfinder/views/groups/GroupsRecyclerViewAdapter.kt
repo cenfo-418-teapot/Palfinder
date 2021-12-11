@@ -5,14 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
-import com.example.palfinder.backend.services.GroupService
-import kotlinx.android.synthetic.main.group_item.view.*
-import java.util.*
-import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 
 class GroupsRecyclerViewAdapter(
     private val values: MutableList<GroupAdmin.GroupModel>?, private val listener: OnViewProfileListener?) :
@@ -22,10 +19,6 @@ class GroupsRecyclerViewAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.group_item, parent, false)
-//        view.iv_image?.setOnClickListener {
-//            Navigation.findNavController(view)
-//                .navigate(R.id.action_groupListFragment_to_groupProfile)
-//        }
         return ViewHolder(view)
     }
 
@@ -44,6 +37,10 @@ class GroupsRecyclerViewAdapter(
             holder.imageView.setOnClickListener {
                 listener.onClickViewProfile(item)
             }
+            holder.btnJoin.setOnClickListener {
+                Log.i(TAG, "Joining group: $finalName")
+                listener.onJoinGroup(item)
+            }
         }
     }
 
@@ -53,6 +50,9 @@ class GroupsRecyclerViewAdapter(
         val imageView: ImageView = view.findViewById(R.id.iv_image)
         val nameView: TextView = view.findViewById(R.id.tv_name)
         val descriptionView: TextView = view.findViewById(R.id.tv_description)
-        lateinit var groupId: String
+        val btnJoin: Button = view.findViewById(R.id.btnJoin)
+    }
+    companion object {
+        private const val TAG = "GroupsRecyclerViewAdapter"
     }
 }

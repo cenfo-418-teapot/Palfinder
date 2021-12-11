@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/progressBar4"
+        style="@style/ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/primary"
+        android:progressTint="@color/primaryLight"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tvTitle"
         style="@style/Title"
