@@ -47,7 +47,7 @@ class EventDetail : Fragment(){
         val view = inflater.inflate(R.layout.fragment_event_detail, container, false)
 
         event.observe(viewLifecycleOwner, { event ->
-
+            view.eventTitt
             Log.i("Event Mnager ", event.toString())
         })
 
