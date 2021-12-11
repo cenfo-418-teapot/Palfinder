@@ -9,10 +9,8 @@ import androidx.navigation.findNavController
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.views.auth.LoginActivity
-import com.example.palfinder.views.events.EventActivity
 import com.example.palfinder.views.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.fragment_initial_tag_selection.*
 
 class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     override fun onCreate(savedInstanceState: Bundle?) {
