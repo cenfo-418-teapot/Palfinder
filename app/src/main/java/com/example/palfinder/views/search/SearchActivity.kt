@@ -4,15 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.palfinder.R
+import com.example.palfinder.backend.services.TagService
+import com.example.palfinder.components.OnIdListChange
 import com.example.palfinder.views.HomeActivity
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_home.bottom_navigation
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -26,8 +34,19 @@ class SearchActivity : AppCompatActivity(R.layout.activity_search) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         observeQuery()
+        observeFilters()
         setupViewPager()
         setupNavigation()
+        val modalBottomSheet = FiltersModal()
+        fabFilters.setOnClickListener {
+            modalBottomSheet.show(supportFragmentManager, "ModalBottomSheet")
+        }
+    }
+
+    private fun observeFilters() {
+        SearchData.tags.observe(this, {
+            fabFilters.count = it?.count() ?: 0
+        })
     }
 
     private fun observeQuery() {
