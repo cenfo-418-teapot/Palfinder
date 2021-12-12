@@ -9,7 +9,6 @@ import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Tag
 import com.amplifyframework.datastore.generated.model.TagStatus
-import kotlin.streams.toList
 
 object SearchData {
     private const val TAG = "SearchData"
@@ -33,9 +32,12 @@ object SearchData {
                     },
                     { Log.e(TAG, "Failed to create tag $name", it) })
             })
-            if (!_tags.value.isNullOrEmpty() && list.size < _tags.value!!.size) _tags.postValue(null)
+            var tmpList = _tags.value ?: listOf()
+            // si hay tags pero la lista de nombres es menor a los valores actuales
+            if (!tmpList.isNullOrEmpty() && list.size < tmpList.size) tmpList = listOf()
+            _tags.postValue(tmpList)
             list.forEach { name ->
-                if (_tags.value?.find { tag -> tag.name == name } == null) {
+                if (tmpList.find { tag -> tag.name == name } == null) {
                     Amplify.API.query(ModelQuery.list(Tag::class.java, Tag.NAME.eq(name)),
                         { findResult ->
                             // see if it exists
@@ -54,8 +56,7 @@ object SearchData {
                         })
                 }
             }
-        }
-        else _tags.postValue(null)
+        } else _tags.postValue(null)
     }
 
     private fun postSingleTag(tag: Tag) {
