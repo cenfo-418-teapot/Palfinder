@@ -51,6 +51,7 @@ class GroupEditFragment : Fragment() {
     private var tagsSelected = false
     private val tagsToAddLiveData = MutableLiveData<List<Tag>>()
     private lateinit var group: GroupAdmin.GroupModel
+    private lateinit var groupCreated: MutableLiveData<Boolean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,11 +95,7 @@ class GroupEditFragment : Fragment() {
                 }
                 GroupService.createGroup(group) { success ->
                     if(success) {
-                        tagsSelected = true
-                        countTagsToAdd.postValue(GroupAdditionalSetUp.tagsList.value?.size)
-                        GroupAdditionalSetUp.tagsList.value?.forEach {
-                            createTag(it, group)
-                        }
+                        groupCreated.postValue(true)
                     } else {
                         Toast.makeText(
                             activity,
@@ -107,6 +104,7 @@ class GroupEditFragment : Fragment() {
                         ).show()
                     }
                 }
+
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
             }
@@ -131,7 +129,17 @@ class GroupEditFragment : Fragment() {
 
     private fun observeTagsToAdd(view: View) {
         countTagsToAdd.observe(viewLifecycleOwner, {
-            if(it == 0 && tagsSelected) goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+            if(it == 0 && groupCreated.value!! && tagsSelected) goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+        })
+        groupCreated = MutableLiveData(false)
+        groupCreated.observe(viewLifecycleOwner, {
+            if(groupCreated.value!!) {
+                tagsSelected = true
+                countTagsToAdd.postValue(GroupAdditionalSetUp.tagsList.value?.size)
+                GroupAdditionalSetUp.tagsList.value?.forEach {
+                    createTag(it, group)
+                }
+            }
         })
         tagsToAddLiveData.observe(viewLifecycleOwner, { tagsToAdd ->
             if (tagsToAdd.size == GroupAdditionalSetUp.tagsList.value!!.size) {
