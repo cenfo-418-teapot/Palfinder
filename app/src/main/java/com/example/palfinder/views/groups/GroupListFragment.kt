@@ -37,9 +37,10 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 
     //    private lateinit var progressBar: ProgressBar
     private val currentUser = MutableLiveData<User?>()
-    private var userTags: List<TagUser>? = null
-    private var userGroups: List<GroupMembers>? = null
+//    private var userTags: List<TagUser>? = null
+//    private var userGroups: List<GroupMembers>? = null
     private val groupToAddLiveData = MutableLiveData<GroupAdmin.GroupModel>()
+    private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +59,6 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView(group_list)
         GroupService.updateGroups()
     }
 
@@ -79,20 +79,26 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         )
         currentUser.observe(viewLifecycleOwner, {
             if (it != null) {
-                val tmpTags = it.tags
-                if (!tmpTags.isNullOrEmpty()) {
-                    userTags = tmpTags
-                }
-                val tmpGroups = it.groups
-                if (!tmpGroups.isNullOrEmpty()) {
-                    userGroups = tmpGroups
-                }
+//                val tmpTags = it.tags
+//                if (!tmpTags.isNullOrEmpty()) {
+//                    userTags = tmpTags
+//                }
+//                val tmpGroups = it.groups
+//                if (!tmpGroups.isNullOrEmpty()) {
+//                    userGroups = tmpGroups
+//                }
+                setupRecyclerView(group_list)
             }
         })
 
         groupToAddLiveData.observe(viewLifecycleOwner, { groupToAdd ->
             if (groupToAdd != null && currentUser.value != null) {
                 addGroupToUser(currentUser.value!!.groups, groupToAdd)
+            }
+        })
+        groupToRemoveLiveData.observe(viewLifecycleOwner, { memberToRemove ->
+            if (memberToRemove != null && currentUser.value != null) {
+                removeGroupFromUser(memberToRemove)
             }
         })
     }
@@ -131,7 +137,10 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 Log.d(TAG, "Note observer received ${groups.size} groups")
 
                 // let's create a RecyclerViewAdapter that manages the individual cells
-                recyclerView.adapter = GroupsRecyclerViewAdapter(groups, this)
+                recyclerView.adapter = GroupsRecyclerViewAdapter(
+                    groups,
+                    this,
+                    currentUser.value!!.groups)
                 if (groups.size > 0) tv_no_groups.visibility = View.GONE
                 else tv_no_groups.visibility = View.VISIBLE
             })
@@ -159,6 +168,10 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         groupToAddLiveData.postValue(GroupAdditionalSetUp.tmpGroup.value)
     }
 
+    override fun onUnJoinGroup(data: GroupMembers?) {
+        groupToRemoveLiveData.postValue(data)
+    }
+
     private fun addGroupToUser(currentGroups: List<GroupMembers>?, group: GroupAdmin.GroupModel) {
         val userIsMember = currentGroups?.find { member -> member.group.id == group.id }
         if (userIsMember != null) {
@@ -171,10 +184,25 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                     {
                         currentUser.value!!.groups.add(it.data)
                         progressLiveData.postValue("${currentUser.value!!.username} added to group ${group.name}")
+                        GroupService.updateGroups()
                     },
                     { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${group.name}") }
                 )
             }
+        }
+    }
+
+    private fun removeGroupFromUser(member: GroupMembers) {
+        if (currentUser.value != null){
+            Amplify.API.mutate(
+                ModelMutation.delete(member),
+                {
+                    currentUser.value!!.groups.remove(it.data)
+                    progressLiveData.postValue("${currentUser.value!!.username} removed from group ${member.group.name}")
+                    GroupService.updateGroups()
+                },
+                { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${member.group.name}") }
+            )
         }
     }
 

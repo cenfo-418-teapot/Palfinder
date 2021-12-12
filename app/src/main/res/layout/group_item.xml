@@ -58,7 +58,8 @@
                 style="@style/ButtonGhost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/group_profile_join" />
+                android:text="@string/group_profile_join"
+                android:focusable="true"/>
 
         </LinearLayout>
     </LinearLayout>

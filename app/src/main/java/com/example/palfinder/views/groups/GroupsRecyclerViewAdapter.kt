@@ -10,9 +10,13 @@ import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import android.util.Log
 import android.widget.Button
+import com.amplifyframework.datastore.generated.model.GroupMembers
 
 class GroupsRecyclerViewAdapter(
-    private val values: MutableList<GroupAdmin.GroupModel>?, private val listener: OnViewProfileListener?) :
+    private val values: MutableList<GroupAdmin.GroupModel>?,
+    private val listener: OnViewProfileListener?,
+    private val userGroups: List<GroupMembers>
+    ) :
     RecyclerView.Adapter<GroupsRecyclerViewAdapter.ViewHolder>() {
 
 
@@ -37,9 +41,31 @@ class GroupsRecyclerViewAdapter(
             holder.imageView.setOnClickListener {
                 listener.onClickViewProfile(item)
             }
-            holder.btnJoin.setOnClickListener {
-                Log.i(TAG, "Joining group: $finalName")
-                listener.onJoinGroup(item)
+            var isMember = false
+            var tempGroupMember: GroupMembers = GroupMembers.justId("null")
+            if(!userGroups.isNullOrEmpty()){
+                userGroups.forEach{
+                    if(it.group != null && it.group.id == item?.id) {
+                        holder.btnJoin.text = holder.textJoined
+                        //holder.btnJoin.isEnabled = false
+                        isMember = true
+                        tempGroupMember = it
+                    }
+                }
+            }
+            if(isMember) {
+                holder.btnJoin.setOnClickListener {
+                    Log.i(TAG, "Unjoining group: $finalName")
+                    listener.onUnJoinGroup(tempGroupMember)
+                    holder.btnJoin.isEnabled = false
+                }
+            } else {
+                holder.btnJoin.setOnClickListener {
+                    Log.i(TAG, "Joining group: $finalName")
+                    listener.onJoinGroup(item)
+                    holder.btnJoin.isEnabled = false
+                }
+
             }
         }
     }
@@ -51,6 +77,7 @@ class GroupsRecyclerViewAdapter(
         val nameView: TextView = view.findViewById(R.id.tv_name)
         val descriptionView: TextView = view.findViewById(R.id.tv_description)
         val btnJoin: Button = view.findViewById(R.id.btnJoin)
+        val textJoined: String = view.context.getString(R.string.group_profile_joined)
     }
     companion object {
         private const val TAG = "GroupsRecyclerViewAdapter"

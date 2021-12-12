@@ -47,7 +47,7 @@ import java.util.*
  * Use the [GroupEditFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GroupEditFragment : Fragment(), OnIdListChange {
+class GroupEditFragment : Fragment() {
     private val progressLiveData = MutableLiveData<String>()
     private var currentUser = UserData.currentUser.value!!
     private var noteImagePath : String? = null
@@ -59,10 +59,6 @@ class GroupEditFragment : Fragment(), OnIdListChange {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onIdListChange(list: List<String>) {
-        GroupAdditionalSetUp.setTagsList(list)
     }
 
     override fun onCreateView(
@@ -82,9 +78,9 @@ class GroupEditFragment : Fragment(), OnIdListChange {
             )
             startActivityForResult(i, SELECT_PHOTO)
         }
-        progressBar = requireActivity().findViewById(R.id.progressBar3)
-        _finishedAdditions++
-        progressBar.progress = _finishedAdditions
+//        progressBar = requireActivity().findViewById(R.id.progressBar3)
+//        _finishedAdditions++
+//        progressBar.progress = _finishedAdditions
 
 //        progressLiveData.observe(viewLifecycleOwner, { action ->
 //            Log.i(TAG, "Finished an action | $action")
@@ -125,41 +121,6 @@ class GroupEditFragment : Fragment(), OnIdListChange {
     private fun goTo(tmpView: View, tmpIdElement: Int) {
         Navigation.findNavController(tmpView).navigate(tmpIdElement)
     }
-
-//    private fun observeGroupsToAdd() {
-//        groupToAddLiveData.observe(viewLifecycleOwner, { groupToAdd ->
-//            if (groupToAdd != null) {
-//                Amplify.API.query(
-//                    ModelQuery.get(User::class.java, currentUser.id),
-//                    {
-//                        UserData.setCurrentUser(it.data)
-//                        currentUser = it.data
-//                        addGroupToUser(
-//                            currentUser.groups,
-//                            groupToAdd
-//                        )
-//                    },
-//                    { Log.e(TAG, "Couldn't fetch the user's groups", it) })
-//            } else Log.i(TAG, "No groups were selected before saving changes")
-//        })
-//    }
-//
-//    private fun addGroupToUser(currentGroups: List<GroupMembers>?, group: GroupAdmin.GroupModel) {
-//        val userIsMember = currentGroups?.find { member -> member.group.id == group.id }
-//        if (userIsMember != null) {
-//            progressLiveData.postValue("User was already a member of: ${group.name}")
-//        } else {
-//            val member = GroupMembers.builder().user(currentUser).group(group.data).build()
-//            Amplify.API.mutate(
-//                ModelMutation.create(member),
-//                {
-//                    currentUser.groups.add(it.data)
-//                    progressLiveData.postValue("${currentUser.username} added to group ${group.name}")
-//                },
-//                { Log.e(TAG, "${currentUser.username} was not added as a member to ${group.name}") }
-//            )
-//        }
-//    }
 
     private fun observeTagsToAdd() {
         tagsToAddLiveData.observe(viewLifecycleOwner, { tagsToAdd ->
