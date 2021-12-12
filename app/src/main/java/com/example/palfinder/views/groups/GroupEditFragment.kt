@@ -74,14 +74,7 @@ class GroupEditFragment : Fragment() {
             )
             startActivityForResult(i, SELECT_PHOTO)
         }
-//        progressBar = requireActivity().findViewById(R.id.progressBar3)
-//        _finishedAdditions++
-//        progressBar.progress = _finishedAdditions
 
-//        progressLiveData.observe(viewLifecycleOwner, { action ->
-//            Log.i(TAG, "Finished an action | $action")
-//
-//        })
         observeTagsToAdd(view)
         view.btnConfirm?.setOnClickListener {
             try {

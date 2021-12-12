@@ -1,17 +1,27 @@
 package com.example.palfinder.views.groups
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.amplifyframework.datastore.generated.model.Status
+import com.amplifyframework.api.graphql.model.ModelMutation
+import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.TagGroup
+import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
+import com.example.palfinder.backend.services.GroupService
+import com.example.palfinder.backend.services.UserData
+import com.example.palfinder.backend.services.UserService
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.android.synthetic.main.fragment_group_edit.view.*
 import kotlinx.android.synthetic.main.fragment_group_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.view.*
@@ -30,6 +40,7 @@ class GroupProfile : Fragment() {
     // TODO: Rename and change types of parameters
 //    private var sharedGroup: GroupAdmin.GroupModel? = null
     lateinit var group: GroupAdmin.GroupModel
+    private val currentUser = MutableLiveData<User?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +65,31 @@ class GroupProfile : Fragment() {
                 .navigate(R.id.action_groupProfile_to_groupProfileEditFragment)
         }
         getProfileData()
+        observeUser()
         return view
+    }
+
+    private fun observeUser() {
+        UserService.getUserByUsername(
+            Amplify.Auth.currentUser.username,
+            {
+                val items = it.data.items as ArrayList
+                when {
+                    items.size > 0 -> {
+                        val user = items.stream().findFirst().get()
+                        UserData.setCurrentUser(user)
+                        currentUser.postValue(user)
+                    }
+                }
+            },
+            { Log.e(TAG, "Failed to get user by id", it) }
+        )
+        currentUser.observe(viewLifecycleOwner, {
+            if (it != null) {
+                getProfileData()
+            }
+        })
+
     }
 
     private fun setFocus(view: View, navOption: Int){
@@ -84,6 +119,7 @@ class GroupProfile : Fragment() {
             this.group = it
             setGroupData()
             Log.d(TAG, "Group RECEIVED! " + group.name)
+            observeShareGroup()
         })
     }
 
@@ -91,31 +127,89 @@ class GroupProfile : Fragment() {
         tv_privacy_subtitle.text = group.status.toString()
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         tvTitle.text = group.name
-        tv_group_description.text = "Description: " + group.description
+        tv_group_description.text = group.description
         val tempTags: MutableList<String> = mutableListOf()
         if(!group.tags.isNullOrEmpty()) {
-            tv_group_tag_list.text =  "Tags: "
+            tv_group_tag_list.visibility = View.GONE
+            cgGroupTags.visibility = View.VISIBLE
+
             group.tags!!.forEach {
                 tempTags.add(it.tag.name)
             }
             group.tags!!.forEach {
-                val tempText: String = tv_group_tag_list.text.toString()
-                tv_group_tag_list.text = tempText + " " + it.tag.name
+                // in text
+//                val tempText: String = tv_group_tag_list.text.toString()
+//                tv_group_tag_list.text = tempText + " " + it.tag.name
+                // in chips
+                val chip = addProfileTagChips(it.tag.name, cgGroupTags)
+                chip?.setOnCloseIconClickListener { chp ->
+                    cgGroupTags.removeView(chp)
+                    deleteGroupTag(it) { response ->
+                        Toast.makeText(
+                            activity,
+                            response,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         } else {
-//            tv_group_tag_list.text =  ""
-            tv_group_tag_list.text =  "Tags: "
-            //test
-            tempTags.add("Tag 1")
-            tempTags.add("Tag 2")
-            tempTags.add("Tag 3")
+            tv_group_tag_list.visibility = View.VISIBLE
+            cgGroupTags.visibility = View.GONE
+            tempTags.add("No tags found.")
             var cont = 0
+            tv_group_tag_list.text = ""
             tempTags.forEach {
                 cont++
                 var tempText: String = tv_group_tag_list.text.toString()
                 if(cont > 1 && cont <= tempTags.size) tempText += ", "
                 tv_group_tag_list.text = tempText  + " " + it
             }
+        }
+    }
+
+    private fun deleteGroupTag(groupTag: TagGroup, textResponse: (String) -> Unit){
+        if (currentUser.value != null){
+            Amplify.API.mutate(
+                ModelMutation.delete(groupTag),
+                {
+                    GroupAdditionalSetUp.removeTag(groupTag.tag.name)
+                    textResponse("${currentUser.value!!.username} removed from group ${groupTag.group.name}")
+                },
+                { Log.e(TAG, "${currentUser.value!!.username} was a tag from to ${groupTag.group.name}") }
+            )
+        }
+    }
+
+    private fun addProfileTagChips(name: String, chipGroup: ChipGroup): Chip? {
+        val exists =
+            chipGroup.checkedChipIds.any { id -> chipGroup.findViewById<Chip>(id).text == name }
+        if (!exists) {
+            val chip = layoutInflater.inflate(R.layout.group_tag, chipGroup, false) as Chip
+            chip.text = name
+            chip.setOnCloseIconClickListener {
+                GroupAdditionalSetUp.setTagsList(
+                    GroupAdditionalSetUp.tagsList.value!!
+                        .filter { tag -> tag != name }
+                        .toList()
+                )
+            }
+            chipGroup.addView(chip)
+            Log.i(TAG, "Added chip $name")
+            return chip
+        }
+        return null
+    }
+
+    private fun observeShareGroup() {
+        nav_share.setOnClickListener {
+            val intent= Intent()
+            intent.action=Intent.ACTION_SEND
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                "Hey! Check out this great group in Palfinder app: ${group.name}")
+            intent.type="text/plain"
+            startActivity(Intent.createChooser(intent,"Share To:"))
         }
     }
 

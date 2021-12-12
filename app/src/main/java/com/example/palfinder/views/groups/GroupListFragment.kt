@@ -13,10 +13,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.api.graphql.model.ModelMutation
-import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.GroupMembers
-import com.amplifyframework.datastore.generated.model.TagUser
 import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
@@ -41,6 +39,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 //    private var userGroups: List<GroupMembers>? = null
     private val groupToAddLiveData = MutableLiveData<GroupAdmin.GroupModel>()
     private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
+    private var showAllGroups = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -140,7 +139,8 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 recyclerView.adapter = GroupsRecyclerViewAdapter(
                     groups,
                     this,
-                    currentUser.value!!.groups)
+                    currentUser.value!!.groups,
+                    showAllGroups)
                 if (groups.size > 0) tv_no_groups.visibility = View.GONE
                 else tv_no_groups.visibility = View.VISIBLE
             })

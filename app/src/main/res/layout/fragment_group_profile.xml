@@ -18,41 +18,34 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|end"
-                android:orientation="horizontal">
+                android:orientation="horizontal"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="@style/Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_group_profile"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <ImageView
                     android:id="@+id/edit_group"
                     android:layout_width="38dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="38dp"
                     android:clickable="true"
                     android:focusable="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_baseline_edit_24" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="0dp"
-                    android:gravity="clip_vertical"
-                    android:text="Edit"
-                    android:textSize="34sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tvTitle"
-                style="@style/Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/title_group_profile"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/tvErrorMsg"
@@ -63,31 +56,77 @@
                 android:textAlignment="center"
                 android:textColor="@color/error"
                 android:visibility="invisible" />
-
-            <TextView
-                android:id="@+id/tv_group_description"
-                style="@style/Paragraph"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:text="@string/group_profile_description"
-                android:textAlignment="center" />
+                android:orientation="horizontal"
+                android:background="@color/secondary"
+                >
+                <TextView
+                    android:id="@+id/tv_group_description_lbl"
+                    style="@style/Paragraph"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/group_profile_description"
+                    android:textAlignment="textEnd"
+                    />
+                <TextView
+                    android:id="@+id/tv_group_description"
+                    style="@style/Paragraph"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingEnd="10dp"
+                    android:textAlignment="textStart"
+                    />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_group_tag_list"
-                style="@style/Paragraph"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:text="@string/group_profile_tags"
-                android:textAlignment="center" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@color/browser_actions_bg_grey"
+                >
+
+                <TextView
+                    android:id="@+id/tv_group_tag_list_lbl"
+                    style="@style/Paragraph"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/group_profile_tags"
+                    android:textAlignment="textEnd" />
+                <TextView
+                    android:id="@+id/tv_group_tag_list"
+                    style="@style/Paragraph"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    android:paddingEnd="10dp"
+                    android:visibility="gone"
+                    android:textAlignment="textStart" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cgGroupTags"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="20dp"
+                    android:visibility="visible"
+                    app:singleSelection="false" />
 
             </LinearLayout>
 
@@ -234,12 +273,14 @@
                     android:layout_height="wrap_content"
                     android:padding="15dp"
                     android:text="@string/group_profile_next_events_subtitle"
-                    android:textColor="@color/primary" />
+                    android:textColor="@color/primary"
+                    android:visibility="gone" />
 
                 <ScrollView
                     android:id="@+id/sv_next_events"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     tools:ignore="SpeakableTextPresentCheck">
 
                     <LinearLayout

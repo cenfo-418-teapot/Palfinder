@@ -15,7 +15,8 @@ import com.amplifyframework.datastore.generated.model.GroupMembers
 class GroupsRecyclerViewAdapter(
     private val values: MutableList<GroupAdmin.GroupModel>?,
     private val listener: OnViewProfileListener?,
-    private val userGroups: List<GroupMembers>
+    private val userGroups: List<GroupMembers>,
+    private val showAll: Boolean
     ) :
     RecyclerView.Adapter<GroupsRecyclerViewAdapter.ViewHolder>() {
 
@@ -60,10 +61,13 @@ class GroupsRecyclerViewAdapter(
                     holder.btnJoin.isEnabled = false
                 }
             } else {
-                holder.btnJoin.setOnClickListener {
-                    Log.i(TAG, "Joining group: $finalName")
-                    listener.onJoinGroup(item)
-                    holder.btnJoin.isEnabled = false
+                if(!showAll) {
+                    holder.setIsRecyclable(false)
+                    holder.btnJoin.setOnClickListener {
+                        Log.i(TAG, "Joining group: $finalName")
+                        listener.onJoinGroup(item)
+                        holder.btnJoin.isEnabled = false
+                    }
                 }
 
             }
