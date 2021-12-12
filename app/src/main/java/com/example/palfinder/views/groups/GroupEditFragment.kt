@@ -13,9 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
@@ -26,17 +25,12 @@ import com.amplifyframework.datastore.generated.model.*
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
-import com.example.palfinder.backend.services.InitialSetupData
 import com.example.palfinder.backend.services.UserData
-import com.example.palfinder.components.OnIdListChange
-import com.example.palfinder.views.user.account.InitialSetupConfirmationFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_group_edit.*
 import kotlinx.android.synthetic.main.fragment_group_edit.iv_image
 import kotlinx.android.synthetic.main.fragment_group_edit.view.*
 import kotlinx.android.synthetic.main.fragment_group_edit.view.btnCancel
-import kotlinx.android.synthetic.main.fragment_initial_group_selection.*
-import kotlinx.android.synthetic.main.fragment_initial_setup_confirmation.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -52,10 +46,11 @@ class GroupEditFragment : Fragment() {
     private var currentUser = UserData.currentUser.value!!
     private var noteImagePath : String? = null
     private var noteImage : Bitmap? = null
-    private var _finishedAdditions = 0
-    private lateinit var progressBar: ProgressBar
     private val _tagsToAdd = ArrayList<Tag>()
+    private var countTagsToAdd = MutableLiveData(0)
+    private var tagsSelected = false
     private val tagsToAddLiveData = MutableLiveData<List<Tag>>()
+    private lateinit var group: GroupAdmin.GroupModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,10 +81,10 @@ class GroupEditFragment : Fragment() {
 //            Log.i(TAG, "Finished an action | $action")
 //
 //        })
-        observeTagsToAdd()
+        observeTagsToAdd(view)
         view.btnConfirm?.setOnClickListener {
             try {
-                val group = validForm()
+                group = validForm()
                 if (this.noteImagePath != null) {
                     group.imageName = UUID.randomUUID().toString()
                     group.image = this.noteImage
@@ -97,9 +92,21 @@ class GroupEditFragment : Fragment() {
                     // asynchronously store the image (and assume it will work)
                     GroupService.storeImage(this.noteImagePath!!, group.imageName!!)
                 }
-                GroupService.createGroup(group)
-                GroupAdditionalSetUp.tagsList.value?.forEach { createTag(it) }
-                goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+                GroupService.createGroup(group) { success ->
+                    if(success) {
+                        tagsSelected = true
+                        countTagsToAdd.postValue(GroupAdditionalSetUp.tagsList.value?.size)
+                        GroupAdditionalSetUp.tagsList.value?.forEach {
+                            createTag(it, group)
+                        }
+                    } else {
+                        Toast.makeText(
+                            activity,
+                            "Cannot create the group " + group.name + " right now",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             } catch (e: IllegalStateException) {
                 Log.e(TAG, "Form Validation Failed", e)
             }
@@ -122,42 +129,38 @@ class GroupEditFragment : Fragment() {
         Navigation.findNavController(tmpView).navigate(tmpIdElement)
     }
 
-    private fun observeTagsToAdd() {
+    private fun observeTagsToAdd(view: View) {
+        countTagsToAdd.observe(viewLifecycleOwner, {
+            if(it == 0 && tagsSelected) goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+        })
         tagsToAddLiveData.observe(viewLifecycleOwner, { tagsToAdd ->
             if (tagsToAdd.size == GroupAdditionalSetUp.tagsList.value!!.size) {
-                Amplify.API.query(ModelQuery.get(User::class.java, currentUser.id),
-                    { response ->
-                        UserData.setCurrentUser(response.data)
-                        currentUser = response.data
-                        tagsToAdd.forEach { tag ->
-                            addTagToUser(currentUser.tags, tag)
-                        }
-                    },
-                    { Log.e(TAG, "Couldn't fetch the user's tags", it) }
-                )
+                tagsToAdd.forEach { tag ->
+                    addTagToGroup(group.tags, tag)
+                }
             }
         })
     }
 
-    private fun addTagToUser(
-        currentTags: List<TagUser>?,
+    private fun addTagToGroup(
+        currentTags: List<TagGroup>?,
         tag: Tag
     ) {
-        val userHasTag = currentTags?.find { uTag -> uTag.tag.id == tag.id }
-        if (userHasTag == null) {
-            val userTag = TagUser.builder().tag(tag).user(currentUser).build()
+        val groupTag = currentTags?.find { uTag -> uTag.tag.id == tag.id }
+        if (groupTag == null) {
+            val userTag = TagGroup.builder().tag(tag).group(group.data).build()
             Amplify.API.mutate(
                 ModelMutation.create(userTag),
                 { response ->
-                    currentUser.tags.add(response.data)
-                    Log.i(TAG, currentUser.tags.toString())
-                    progressLiveData.postValue("Tag ${tag.name} asigned to user")
+                    //group.tags.add(response.data)
+                    Log.i(TAG, group.tags.toString())
+                    progressLiveData.postValue("Tag ${tag.name} asigned to group")
                 },
                 { error ->
-                    Log.e(TAG, "Couldn't assign ${tag.name} to ${currentUser.name}", error)
+                    Log.e(TAG, "Couldn't assign ${tag.name} to ${group.name}", error)
                 })
         } else {
-            progressLiveData.postValue("AddTagToUser | User already has tag ${tag.name}")
+            progressLiveData.postValue("AddTagToGroup | Group already has tag ${tag.name}")
         }
     }
 
@@ -179,13 +182,14 @@ class GroupEditFragment : Fragment() {
         return tag
     }
 
-    private fun createTag(name: String) {
+    private fun createTag(name: String, group: GroupAdmin.GroupModel) {
         // creates or finds the tag that will be added to the user and posts it to the tagsToAddLiveData
         findTag(name).observe(viewLifecycleOwner, {
             if (it != null) {
-                val userHasTag = currentUser.tags?.find { uTag -> uTag.tag.id == it.id } != null
-                if (userHasTag) {
-                    progressLiveData.postValue("User already has tag $name")
+                val groupHasTag = group.tags?.find { uTag -> uTag.tag.id == it.id } != null
+                if (groupHasTag) {
+                    progressLiveData.postValue("Group already has tag $name")
+                    Log.d(TAG, "Group already has tag $name")
                 } else {
                     var updatedTag = Tag.builder()
                         .name(it.name)
@@ -195,7 +199,9 @@ class GroupEditFragment : Fragment() {
                         .build()
                     Amplify.API.mutate(ModelMutation.update(updatedTag), { response ->
                         updatedTag = response.data
-                        assignTagToUser(updatedTag)
+                        assignTagToGroup(updatedTag)
+                        val tagsLeft = countTagsToAdd.value?.minus(1)
+                        countTagsToAdd.postValue(tagsLeft)
                     }, { error -> Log.e(TAG, "Couldn't updated the tag's uses", error) })
                 }
             } else {
@@ -203,7 +209,10 @@ class GroupEditFragment : Fragment() {
                 Amplify.API.mutate(ModelMutation.create(tagObj),
                     { response ->
                         val tag = response.data
-                        assignTagToUser(tag)
+                        Log.d(TAG, "Tag created with id ${tag.id}")
+                        assignTagToGroup(tag)
+                        val tagsLeft = countTagsToAdd.value?.minus(1)
+                        countTagsToAdd.postValue(tagsLeft)
                     },
                     { error ->
                         Log.e(TAG, "Couldn't create the Tag", error)
@@ -213,7 +222,7 @@ class GroupEditFragment : Fragment() {
         })
     }
 
-    private fun assignTagToUser(tag: Tag) {
+    private fun assignTagToGroup(tag: Tag) {
         _tagsToAdd.add(tag)
         tagsToAddLiveData.postValue(_tagsToAdd)
     }

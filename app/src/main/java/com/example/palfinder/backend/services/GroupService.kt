@@ -3,6 +3,7 @@ package com.example.palfinder.backend.services
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
@@ -71,7 +72,7 @@ object GroupService {
         )
     }
 
-    fun createGroup(groupModel : GroupAdmin.GroupModel) {
+    fun createGroup(groupModel : GroupAdmin.GroupModel, groupCreated: (Boolean) -> Unit) {
         Log.i(TAG, "Creating groups")
 
         Amplify.API.mutate(
@@ -80,11 +81,16 @@ object GroupService {
                 Log.i(TAG, "Created")
                 if (response.hasErrors()) {
                     Log.e(TAG, response.errors.first().message)
+                    groupCreated(false)
                 } else {
                     Log.i(TAG, "Created Group with id: " + response.data.id)
+                    groupCreated(true)
                 }
             },
-            { error -> Log.e(TAG, "Create failed", error) }
+            {
+                error -> Log.e(TAG, "Create failed", error)
+                groupCreated(false)
+            }
         )
     }
 
