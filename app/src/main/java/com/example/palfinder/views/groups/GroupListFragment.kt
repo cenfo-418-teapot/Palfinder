@@ -23,6 +23,8 @@ import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
 import com.example.palfinder.backend.services.UserData
+import com.example.palfinder.backend.services.UserService
+import com.example.palfinder.views.HomeActivity
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.view.*
@@ -53,9 +55,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener{
         view.nav_discover_groups.setOnClickListener{ setFocus(view,1) }
         view.nav_my_groups.setOnClickListener{ setFocus(view, 2) }
         view.nav_create_group.setOnClickListener{ setFocus(view, 3) }
-        currentUser = UserData.currentUser.value!!
-        fetchData()
-        observeGroupsToAdd()
+        fetchUser()
 //        progressBar = requireActivity().findViewById(R.id.progressBar4)
 //        progressBar.progress = 0
         return view
@@ -65,6 +65,25 @@ class GroupListFragment : Fragment(), OnViewProfileListener{
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView(group_list)
         GroupService.updateGroups()
+    }
+
+    private fun fetchUser() {
+        UserService.getUserByUsername(
+            Amplify.Auth.currentUser.username,
+            {
+                val items = it.data.items as ArrayList
+                when {
+                    items.size > 0 -> {
+                        val user = items.stream().findFirst().get()
+                        UserData.setCurrentUser(user)
+                        currentUser = user
+                        fetchData()
+                        observeGroupsToAdd()
+                    }
+                }
+            },
+            { Log.e(TAG, "Failed to get user by id", it) }
+        )
     }
 
     private fun setFocus(view: View, navOption: Int){
