@@ -5,6 +5,7 @@
     <dimen name="spacing_medium">16dp</dimen>
     <dimen name="spacing_large">24dp</dimen>
     <dimen name="spacing_xlarge">32dp</dimen>
+    <dimen name="spacing_xxlarge">64dp</dimen>
 
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="activity_margin">24dp</dimen>

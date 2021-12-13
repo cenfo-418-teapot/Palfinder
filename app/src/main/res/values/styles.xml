@@ -174,4 +174,17 @@
         <item name="android:progressTint">@color/primaryDark</item>item>
         <item name="android:indeterminateTint">@color/primaryDark</item>
     </style>
+
+    <style name="BottomNavigation" parent="@style/Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="backgroundTint">@color/primary</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
 </resources>
