@@ -16,7 +16,9 @@ import com.example.palfinder.R
 import com.example.palfinder.backend.services.event.EventAPI
 import com.example.palfinder.views.search.UserItemAdapter
 import com.example.palfiner.backend.services.event.EventManager
+import kotlinx.android.synthetic.main.event_item.view.*
 import kotlinx.android.synthetic.main.fragment_event_create.view.*
+import kotlinx.android.synthetic.main.fragment_event_detail.view.*
 
 private const val ARG_ID = "id"
 
@@ -47,7 +49,9 @@ class EventDetail : Fragment(){
         val view = inflater.inflate(R.layout.fragment_event_detail, container, false)
 
         event.observe(viewLifecycleOwner, { event ->
-            view.eventTitt
+            view.eventTittle.text = event.name
+            view.evetDate.text = event.`when`.toString()
+            view.eventDetailDescription.text = event.description
             Log.i("Event Mnager ", event.toString())
         })
 
