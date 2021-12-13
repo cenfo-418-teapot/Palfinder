@@ -1,5 +1,6 @@
 package com.example.palfinder.views.user
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.amplifyframework.core.Amplify
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.backend.services.UserService
+import com.example.palfinder.views.auth.LoginActivity
 import kotlinx.android.synthetic.main.fragment_user_profile_detail.view.*
 
 class UserProfileDetailFragment : Fragment() {
@@ -25,6 +27,16 @@ class UserProfileDetailFragment : Fragment() {
     ): View? {
 
         val view = layoutInflater.inflate(R.layout.fragment_user_profile_detail, container, false)
+
+        view.btnLogout.setOnClickListener {
+            Amplify.Auth.signOut(
+                {
+                    Log.i("AuthQuickstart", "Signed out successfully")
+                    startActivity(Intent(context, LoginActivity::class.java))
+                },
+                { Log.e("AuthQuickstart", "Sign out failed", it) }
+            )
+        }
 
         view.user_profile_edit_cta?.setOnClickListener {
             Navigation.findNavController(view)
