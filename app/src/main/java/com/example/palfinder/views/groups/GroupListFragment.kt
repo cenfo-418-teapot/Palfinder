@@ -24,6 +24,7 @@ import com.example.palfinder.backend.services.UserService
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.view.*
+import okhttp3.internal.notifyAll
 
 /**
  * A simple [Fragment] subclass.
@@ -131,14 +132,16 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_my_groups.visibility = View.INVISIBLE
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_suggested_subtitle)
+                showAllGroups = true
+                GroupAdmin.notifyObserver()
             }
             2 -> {
                 underline_discover_groups.visibility = View.INVISIBLE
                 underline_my_groups.visibility = View.VISIBLE
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_groups_subtitle)
-                showAllGroups = true
-                GroupService.updateGroups()
+                showAllGroups = false
+                GroupAdmin.notifyObserver()
             }
             3 -> {
                 underline_discover_groups.visibility = View.INVISIBLE

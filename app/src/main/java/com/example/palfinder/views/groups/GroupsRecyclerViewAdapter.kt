@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import android.util.Log
+import android.view.View.GONE
 import android.widget.Button
-import android.widget.LinearLayout
+import com.amazonaws.mobile.auth.core.internal.util.ThreadUtils.runOnUiThread
 import com.amplifyframework.datastore.generated.model.GroupMembers
+import com.google.android.material.card.MaterialCardView
 
 class GroupsRecyclerViewAdapter(
     private val values: MutableList<GroupAdmin.GroupModel>?,
@@ -55,15 +57,24 @@ class GroupsRecyclerViewAdapter(
                     }
                 }
             }
-            if(isMember) {
-                holder.btnJoin.setOnClickListener {
-                    Log.i(TAG, "Unjoining group: $finalName")
-                    listener.onUnJoinGroup(tempGroupMember)
-                    holder.btnJoin.isEnabled = false
-                }
+            if((!isMember && !showAll) || (isMember && showAll)) {
+                // TODO : CUANDO UN GRUPO NO SE DEBE MOSTRAR
+//                holder.card.visibility = GONE
+//
+//                runOnUiThread {
+//                    val actualPosition = holder.adapterPosition
+//                    values?.removeAt(actualPosition)
+//                    notifyItemRemoved(actualPosition)
+//                    notifyItemRangeChanged(actualPosition, values!!.size)
+//                }
             } else {
-                if(!showAll) {
-                    holder.setIsRecyclable(false)
+                if(isMember) {
+                    holder.btnJoin.setOnClickListener {
+                        Log.i(TAG, "Unjoining group: $finalName")
+                        listener.onUnJoinGroup(tempGroupMember)
+                        holder.btnJoin.isEnabled = false
+                    }
+                } else {
                     holder.btnJoin.setOnClickListener {
                         Log.i(TAG, "Joining group: $finalName")
                         listener.onJoinGroup(item)
@@ -81,7 +92,7 @@ class GroupsRecyclerViewAdapter(
         val nameView: TextView = view.findViewById(R.id.tv_name)
         val descriptionView: TextView = view.findViewById(R.id.tv_description)
         val btnJoin: Button = view.findViewById(R.id.btnJoin)
-//        val card: LinearLayout = view.findViewById(R.id.card_info)
+        val card: MaterialCardView = view.findViewById(R.id.card_info)
         val textJoined: String = view.context.getString(R.string.group_profile_joined)
     }
     companion object {
