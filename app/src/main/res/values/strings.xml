@@ -119,8 +119,6 @@
     <string name="text_event_list_detail">Detail</string>
 
 
-
-
     !-- Btn Actions -->
     <string name="btn_create">Create</string>
     <string name="btn_cancel">Cancel</string>
@@ -142,5 +140,6 @@
     <string name="mnuNotifications">Notifications</string>
     <string name="mnuUsers">Users</string>
     <string name="mnuGroups">Groups</string>
+    <string name="filters_label">Search Filters</string>
 
 </resources>
