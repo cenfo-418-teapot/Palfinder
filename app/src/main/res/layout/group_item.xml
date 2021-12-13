@@ -7,7 +7,8 @@
     android:orientation="horizontal"
     android:paddingVertical="16dp"
     app:cardUseCompatPadding="true"
-    app:contentPadding="0dp">
+    app:contentPadding="0dp"
+    android:id="@+id/card_info">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,7 +46,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:justificationMode="inter_word"
                 android:text="TexTexTextttTextTexTexTexttt TextTexTex TextttTextTexTexTextttTextTexTexTextttTextTexTexTextttTextTexTexTextttT extTexTexTextttTextTexTe xTextttTextTexTexTextttT" />
 
             <Space
@@ -58,7 +58,8 @@
                 style="@style/ButtonGhost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/group_profile_join" />
+                android:text="@string/group_profile_join"
+                android:focusable="true"/>
 
         </LinearLayout>
     </LinearLayout>
