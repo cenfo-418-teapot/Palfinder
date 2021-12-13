@@ -42,6 +42,7 @@ class GroupProfileEditFragment : Fragment() {
     private var noteImage : Bitmap? = null
     lateinit var group: GroupAdmin.GroupModel
     private val _tagsToAdd = ArrayList<Tag>()
+    private val _tagsAdded = ArrayList<TagGroup>()
     private var countTagsToAdd = MutableLiveData(0)
     private var tagsSelected = false
     private val tagsToAddLiveData = MutableLiveData<List<Tag>>()
@@ -109,6 +110,9 @@ class GroupProfileEditFragment : Fragment() {
             model.message.observe(viewLifecycleOwner, {
                 this.group = it
                 fillGroupData()
+                group.tags?.forEach{ groupTag ->
+                    _tagsAdded.add(groupTag)
+                }
                 Log.d(TAG, "Group RECEIVED to edit! " + group.name)
                 dataRetrieved = true
             })
@@ -118,7 +122,8 @@ class GroupProfileEditFragment : Fragment() {
     private fun fillGroupData() {
         etName.setText(group.name)
         etDescription.setText(group.description)
-        etState.setText(group.status.toString().capitalize())
+        etState.setText(group.status.toString()
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() })
         tilState.isEnabled = false
         iv_image.setImageBitmap(group.image)
     }
@@ -141,7 +146,8 @@ class GroupProfileEditFragment : Fragment() {
     private fun observeTagsToAdd(view: View) {
         countTagsToAdd.observe(viewLifecycleOwner, {
             if(it == 0 && groupUpdated.value!! && tagsSelected){
-                model.sendMessage(group)
+                group.tags = _tagsAdded.toList()
+                model.sendMessage(this.group)
                 goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
             }
 
@@ -156,7 +162,7 @@ class GroupProfileEditFragment : Fragment() {
                         "Group " + group.name + " updated",
                         Toast.LENGTH_SHORT
                     ).show()
-                    model.sendMessage(group)
+                    model.sendMessage(this.group)
                     goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
                 } else {
                     tagsSelected = true
@@ -182,11 +188,12 @@ class GroupProfileEditFragment : Fragment() {
     ) {
         val groupTag = currentTags?.find { uTag -> uTag.tag.id == tag.id }
         if (groupTag == null) {
-            val userTag = TagGroup.builder().tag(tag).group(group.data).build()
+            val tmpTag = TagGroup.builder().tag(tag).group(group.data).build()
             Amplify.API.mutate(
-                ModelMutation.create(userTag),
+                ModelMutation.create(tmpTag),
                 { response ->
-                    //group.tags.add(response.data)
+//                    group.tags.add(response.data)
+                    _tagsAdded.add(response.data)
                     Log.i(TAG, group.tags.toString())
 //                    progressLiveData.postValue("Tag ${tag.name} asigned to group")
                     Log.i(TAG,"Tag ${tag.name} asigned to group")
@@ -292,15 +299,11 @@ class GroupProfileEditFragment : Fragment() {
         check(description.isNotBlank()) { "Description is blank" }
         check(status.isNotBlank()) { "Status is blank" }
 //        check(noteImagePath != null) { "Image no selected" }
-        return GroupAdmin.GroupModel(
-            idGroup,
-            name,
-            description,
-            null,
-            null,
-            null,
-            finalStatus,
-            group.imageName)
+        var tmpGroup = group
+        tmpGroup.name = name
+        tmpGroup.description = description
+        tmpGroup.status = finalStatus
+        return tmpGroup
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, imageReturnedIntent: Intent?) {

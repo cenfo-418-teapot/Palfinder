@@ -50,14 +50,14 @@ object GroupAdmin {
 
     data class GroupModel(
         val id: String,
-        val name: String,
-        val description: String,
-        val tags: List<TagGroup>?,
-        val events: List<Event>?,
-        val users: List<GroupMembers>?,
-        val status: Status,
+        var name: String,
+        var description: String,
+        var tags: List<TagGroup>?,
+        var events: List<Event>?,
+        var users: List<GroupMembers>?,
+        var status: Status,
         var imageName: String? = null,
-        val createdOn: Temporal.DateTime? = null,
+        var createdOn: Temporal.DateTime? = null,
         var updatedOn: Temporal.DateTime? = null)
     {
         override fun toString(): String = name

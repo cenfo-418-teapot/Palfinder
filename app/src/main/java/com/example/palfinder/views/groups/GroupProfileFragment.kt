@@ -60,14 +60,16 @@ class GroupProfile : Fragment() {
         view.nav_add_user.setOnClickListener{ setFocus(view,1) }
         view.nav_create_event.setOnClickListener{ setFocus(view, 2) }
         view.nav_share.setOnClickListener{ setFocus(view, 3) }
-        observeUser()
-        observeGroup(view)
+        retrieveUser()
+        currentUser.observe(viewLifecycleOwner, {
+            observeGroup(view)
+        })
         observeMessages()
         return view
     }
 
-    private fun observeUser() {
-        if(currentUser.value != null) {
+    private fun retrieveUser() {
+        if(currentUser.value == null) {
             UserService.getUserByUsername(
                 Amplify.Auth.currentUser.username,
                 {
@@ -82,11 +84,6 @@ class GroupProfile : Fragment() {
                 },
                 { Log.e(TAG, "Failed to get user by id", it) }
             )
-//        currentUser.observe(viewLifecycleOwner, {
-//            if (it != null) {
-//                observeGroup(view)
-//            }
-//        })
         }
     }
 
@@ -133,6 +130,7 @@ class GroupProfile : Fragment() {
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         tvTitle.text = group.name
         tv_group_description.text = group.description
+        iv_image_profile.setImageBitmap(group.image)
         val tempTags: MutableList<String> = mutableListOf()
         if(!group.tags.isNullOrEmpty()) {
             tv_group_tag_list.visibility = View.GONE
@@ -148,8 +146,8 @@ class GroupProfile : Fragment() {
                 // in chips
                 val chip = addProfileTagChips(it.tag.name, cgGroupTags)
                 chip?.setOnCloseIconClickListener { chp ->
-                    cgGroupTags.isEnabled = false
-                    deleteGroupTag(it, chp) { response ->
+                    cgGroupTags.removeView(chp)
+                    deleteGroupTag(it) { response ->
                         messageToShow.postValue(response)
                     }
                 }
@@ -187,19 +185,19 @@ class GroupProfile : Fragment() {
         ).show()
     }
 
-    private fun deleteGroupTag(groupTag: TagGroup, view: View, textResponse: (String) -> Unit){
+    private fun deleteGroupTag(groupTag: TagGroup, textResponse: (String) -> Unit){
         if (currentUser.value != null){
             Amplify.API.mutate(
                 ModelMutation.delete(groupTag),
                 {
                     GroupAdditionalSetUp.removeTag(groupTag.tag.name)
-                    cgGroupTags.removeView(view)
-                    textResponse("${currentUser.value!!.username} removed from group ${groupTag.group.name}")
-                    cgGroupTags.isEnabled = true
+                    textResponse("Tag ${groupTag.tag.name} removed from group " +
+                            "${groupTag.group.name} by ${currentUser.value!!.username} ")
                 },
                 {
-                    Log.e(TAG, "${currentUser.value!!.username} was a tag from to ${groupTag.group.name}")
-                    cgGroupTags.isEnabled = true
+//                    Log.e(TAG, "${currentUser.value!!.username} was a tag from to ${groupTag.group.name}")
+                    textResponse("Cannot remove tag ${groupTag.tag.name}")
+                    addProfileTagChips(groupTag.tag.name, cgGroupTags)
                 }
             )
         }

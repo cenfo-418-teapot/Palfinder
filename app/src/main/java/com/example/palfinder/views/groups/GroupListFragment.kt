@@ -40,7 +40,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
     private val groupToAddLiveData = MutableLiveData<GroupAdmin.GroupModel>()
     private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
     private var showAllGroups = true
-    private var groupsRetrieved = false
+    private var recyclerViewUp = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +52,13 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         view.nav_my_groups.setOnClickListener { setFocus(view, 2) }
         view.nav_create_group.setOnClickListener { setFocus(view, 3) }
         view.refresh_groups.setOnClickListener { loadGroups() }
-        if(currentUser.value == null) observeUser()
+
+        if(currentUser.value == null)
+            retrieveUser()
+
+        if(!recyclerViewUp)
+            observeCurrentUser()
+
 //        progressBar = requireActivity().findViewById(R.id.progressBar4)
 //        progressBar.progress = 0
         return view
@@ -74,7 +80,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 //        }
     }
 
-    private fun observeUser() {
+    private fun retrieveUser() {
         UserService.getUserByUsername(
             Amplify.Auth.currentUser.username,
             {
@@ -89,6 +95,20 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
             },
             { Log.e(TAG, "Failed to get user by id", it) }
         )
+
+        groupToAddLiveData.observe(viewLifecycleOwner, { groupToAdd ->
+            if (groupToAdd != null && currentUser.value != null) {
+                addGroupToUser(currentUser.value!!.groups, groupToAdd)
+            }
+        })
+        groupToRemoveLiveData.observe(viewLifecycleOwner, { memberToRemove ->
+            if (memberToRemove != null && currentUser.value != null) {
+                removeGroupFromUser(memberToRemove)
+            }
+        })
+    }
+
+    private fun observeCurrentUser(){
         currentUser.observe(viewLifecycleOwner, {
             if (it != null) {
 //                val tmpTags = it.tags
@@ -100,17 +120,6 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 //                    userGroups = tmpGroups
 //                }
                 setupRecyclerView(group_list)
-            }
-        })
-
-        groupToAddLiveData.observe(viewLifecycleOwner, { groupToAdd ->
-            if (groupToAdd != null && currentUser.value != null) {
-                addGroupToUser(currentUser.value!!.groups, groupToAdd)
-            }
-        })
-        groupToRemoveLiveData.observe(viewLifecycleOwner, { memberToRemove ->
-            if (memberToRemove != null && currentUser.value != null) {
-                removeGroupFromUser(memberToRemove)
             }
         })
     }
