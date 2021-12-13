@@ -40,6 +40,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
     private val groupToAddLiveData = MutableLiveData<GroupAdmin.GroupModel>()
     private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
     private var showAllGroups = true
+    private var groupsRetrieved = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +51,8 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         view.nav_discover_groups.setOnClickListener { setFocus(view, 1) }
         view.nav_my_groups.setOnClickListener { setFocus(view, 2) }
         view.nav_create_group.setOnClickListener { setFocus(view, 3) }
-        observeUser()
+        view.refresh_groups.setOnClickListener { loadGroups() }
+        if(currentUser.value == null) observeUser()
 //        progressBar = requireActivity().findViewById(R.id.progressBar4)
 //        progressBar.progress = 0
         return view
@@ -58,7 +60,18 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadGroups()
+    }
+
+    private fun loadGroups() {
         GroupService.updateGroups()
+//
+//        if(!groupsRetrieved) {
+//            GroupService.updateGroups()
+//            groupsRetrieved = true
+//        } else {
+//            GroupService.updateGroups()
+//        }
     }
 
     private fun observeUser() {
@@ -115,6 +128,8 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_my_groups.visibility = View.VISIBLE
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_groups_subtitle)
+                showAllGroups = true
+                GroupService.updateGroups()
             }
             3 -> {
                 underline_discover_groups.visibility = View.INVISIBLE

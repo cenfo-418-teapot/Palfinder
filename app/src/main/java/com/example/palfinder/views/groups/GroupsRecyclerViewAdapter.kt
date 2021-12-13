@@ -10,6 +10,7 @@ import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import android.util.Log
 import android.widget.Button
+import android.widget.LinearLayout
 import com.amplifyframework.datastore.generated.model.GroupMembers
 
 class GroupsRecyclerViewAdapter(
@@ -69,7 +70,6 @@ class GroupsRecyclerViewAdapter(
                         holder.btnJoin.isEnabled = false
                     }
                 }
-
             }
         }
     }
@@ -81,6 +81,7 @@ class GroupsRecyclerViewAdapter(
         val nameView: TextView = view.findViewById(R.id.tv_name)
         val descriptionView: TextView = view.findViewById(R.id.tv_description)
         val btnJoin: Button = view.findViewById(R.id.btnJoin)
+//        val card: LinearLayout = view.findViewById(R.id.card_info)
         val textJoined: String = view.context.getString(R.string.group_profile_joined)
     }
     companion object {

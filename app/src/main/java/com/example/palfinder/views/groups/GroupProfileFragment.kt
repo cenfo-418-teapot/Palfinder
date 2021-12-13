@@ -17,7 +17,6 @@ import com.amplifyframework.datastore.generated.model.TagGroup
 import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
-import com.example.palfinder.backend.services.GroupService
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.backend.services.UserService
 import com.google.android.material.chip.Chip
@@ -37,10 +36,13 @@ import java.util.*
  * create an instance of this fragment.
  */
 class GroupProfile : Fragment() {
-    // TODO: Rename and change types of parameters
-//    private var sharedGroup: GroupAdmin.GroupModel? = null
     lateinit var group: GroupAdmin.GroupModel
     private val currentUser = MutableLiveData<User?>()
+    private val messageToShow = MutableLiveData<String>()
+    lateinit var model: GroupSharedViewModel
+    private var canShare = false
+    private var canMessaging = false
+    private var dataRetrieved = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,38 +60,34 @@ class GroupProfile : Fragment() {
         view.nav_add_user.setOnClickListener{ setFocus(view,1) }
         view.nav_create_event.setOnClickListener{ setFocus(view, 2) }
         view.nav_share.setOnClickListener{ setFocus(view, 3) }
-        view.edit_group.setOnClickListener{
-            val model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
-            model.sendMessage(group)
-            Navigation.findNavController(view)
-                .navigate(R.id.action_groupProfile_to_groupProfileEditFragment)
-        }
-        getProfileData()
         observeUser()
+        observeGroup(view)
+        observeMessages()
         return view
     }
 
     private fun observeUser() {
-        UserService.getUserByUsername(
-            Amplify.Auth.currentUser.username,
-            {
-                val items = it.data.items as ArrayList
-                when {
-                    items.size > 0 -> {
-                        val user = items.stream().findFirst().get()
-                        UserData.setCurrentUser(user)
-                        currentUser.postValue(user)
+        if(currentUser.value != null) {
+            UserService.getUserByUsername(
+                Amplify.Auth.currentUser.username,
+                {
+                    val items = it.data.items as ArrayList
+                    when {
+                        items.size > 0 -> {
+                            val user = items.stream().findFirst().get()
+                            UserData.setCurrentUser(user)
+                            currentUser.postValue(user)
+                        }
                     }
-                }
-            },
-            { Log.e(TAG, "Failed to get user by id", it) }
-        )
-        currentUser.observe(viewLifecycleOwner, {
-            if (it != null) {
-                getProfileData()
-            }
-        })
-
+                },
+                { Log.e(TAG, "Failed to get user by id", it) }
+            )
+//        currentUser.observe(viewLifecycleOwner, {
+//            if (it != null) {
+//                observeGroup(view)
+//            }
+//        })
+        }
     }
 
     private fun setFocus(view: View, navOption: Int){
@@ -113,14 +111,21 @@ class GroupProfile : Fragment() {
     }
 
 
-    fun getProfileData() {
-        val model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
-        model.message.observe(viewLifecycleOwner, {
-            this.group = it
-            setGroupData()
-            Log.d(TAG, "Group RECEIVED! " + group.name)
-            observeShareGroup()
-        })
+    private fun observeGroup(view: View) {
+        if(!dataRetrieved){
+            model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
+            model.message.observe(viewLifecycleOwner, {
+                this.group = it
+                Log.d(TAG, "Group RECEIVED! " + group.name)
+                setGroupData()
+                observeShareGroup()
+                view.edit_group.setOnClickListener{
+                    model.sendMessage(group)
+                    Navigation.findNavController(view)
+                        .navigate(R.id.action_groupProfile_to_groupProfileEditFragment)
+                }
+            })
+        }
     }
 
     private fun setGroupData() {
@@ -143,13 +148,9 @@ class GroupProfile : Fragment() {
                 // in chips
                 val chip = addProfileTagChips(it.tag.name, cgGroupTags)
                 chip?.setOnCloseIconClickListener { chp ->
-                    cgGroupTags.removeView(chp)
-                    deleteGroupTag(it) { response ->
-                        Toast.makeText(
-                            activity,
-                            response,
-                            Toast.LENGTH_SHORT
-                        ).show()
+                    cgGroupTags.isEnabled = false
+                    deleteGroupTag(it, chp) { response ->
+                        messageToShow.postValue(response)
                     }
                 }
             }
@@ -168,15 +169,38 @@ class GroupProfile : Fragment() {
         }
     }
 
-    private fun deleteGroupTag(groupTag: TagGroup, textResponse: (String) -> Unit){
+
+    private fun observeMessages() {
+        if (!canMessaging) {
+            canMessaging = true
+            messageToShow.observe(viewLifecycleOwner, {
+                showMessage(it)
+            })
+        }
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(
+            activity,
+            message,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun deleteGroupTag(groupTag: TagGroup, view: View, textResponse: (String) -> Unit){
         if (currentUser.value != null){
             Amplify.API.mutate(
                 ModelMutation.delete(groupTag),
                 {
                     GroupAdditionalSetUp.removeTag(groupTag.tag.name)
+                    cgGroupTags.removeView(view)
                     textResponse("${currentUser.value!!.username} removed from group ${groupTag.group.name}")
+                    cgGroupTags.isEnabled = true
                 },
-                { Log.e(TAG, "${currentUser.value!!.username} was a tag from to ${groupTag.group.name}") }
+                {
+                    Log.e(TAG, "${currentUser.value!!.username} was a tag from to ${groupTag.group.name}")
+                    cgGroupTags.isEnabled = true
+                }
             )
         }
     }
@@ -202,14 +226,18 @@ class GroupProfile : Fragment() {
     }
 
     private fun observeShareGroup() {
-        nav_share.setOnClickListener {
-            val intent= Intent()
-            intent.action=Intent.ACTION_SEND
-            intent.putExtra(
-                Intent.EXTRA_TEXT,
-                "Hey! Check out this great group in Palfinder app: ${group.name}")
-            intent.type="text/plain"
-            startActivity(Intent.createChooser(intent,"Share To:"))
+        if(!canShare) {
+            nav_share.setOnClickListener {
+                val intent = Intent()
+                intent.action = Intent.ACTION_SEND
+                intent.putExtra(
+                    Intent.EXTRA_TEXT,
+                    "Hey! Check out this great group in Palfinder app: ${group.name}"
+                )
+                intent.type = "text/plain"
+                startActivity(Intent.createChooser(intent, "Share To:"))
+            }
+            canShare = true
         }
     }
 

@@ -3,12 +3,10 @@ package com.example.palfinder.backend.services
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.api.graphql.model.ModelQuery
 import com.amplifyframework.core.Amplify
 import com.amplifyframework.datastore.generated.model.Group
-import com.amplifyframework.datastore.generated.model.Group.*
 import com.amplifyframework.storage.StorageAccessLevel
 import com.amplifyframework.storage.options.StorageDownloadFileOptions
 import com.amplifyframework.storage.options.StorageRemoveOptions
@@ -38,7 +36,20 @@ object GroupService {
         }
     }
 
-    fun updateGroup(groupModel : GroupAdmin.GroupModel) {
+    fun updateGroupsSender() {
+        val groupList = GroupAdmin.groups().value
+        val isEmpty = groupList?.isEmpty() ?: false
+
+        // query notes when signed in and we do not have Notes yet
+        if (isEmpty) {
+            this.queryGroups()
+        } else {
+            GroupAdmin.resetGroups()
+            this.queryGroups()
+        }
+    }
+
+    fun updateGroup(groupModel : GroupAdmin.GroupModel, groupUpdated: (Boolean) -> Unit) {
         Log.i(TAG, "Editing groups")
         val groupData = groupModel.dataUpdate
         Amplify.API.mutate(
@@ -47,11 +58,16 @@ object GroupService {
                 Log.i(TAG, "Validating if it was a successful group Update")
                 if (response.hasErrors()) {
                     Log.e(TAG, response.errors.first().message)
+                    groupUpdated(true)
                 } else {
                     Log.i(TAG, "Updated Group with id: " + response.data.id)
+                    groupUpdated(true)
                 }
             },
-            { error -> Log.e(TAG, "Update failed", error) }
+            {
+                error -> Log.e(TAG, "Update failed", error)
+                groupUpdated(false)
+            }
         )
     }
 

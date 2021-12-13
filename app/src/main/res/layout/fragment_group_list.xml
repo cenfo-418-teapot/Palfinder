@@ -174,16 +174,36 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_suggested_subtitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Headline2"
-            android:paddingEnd="20dp"
-            android:paddingTop="20dp"
-            android:paddingBottom="20dp"
-            android:text="@string/group_list_my_suggested_subtitle"
-            android:textColor="@color/primary" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_suggested_subtitle"
+                style="@style/Headline2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:paddingTop="20dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="20dp"
+                android:text="@string/group_list_my_suggested_subtitle"
+                android:textColor="@color/primary" />
+
+            <ImageView
+                android:id="@+id/refresh_groups"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingTop="25dp"
+                android:paddingBottom="25dp"
+                android:scaleX="2"
+                android:scaleY="2"
+                android:layout_gravity="center_horizontal"
+                app:srcCompat="@drawable/ic_baseline_cached_24" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/tv_no_groups"
             android:layout_width="match_parent"
