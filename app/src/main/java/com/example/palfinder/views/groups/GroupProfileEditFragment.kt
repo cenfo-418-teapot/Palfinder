@@ -162,6 +162,7 @@ class GroupProfileEditFragment : Fragment() {
                         "Group " + group.name + " updated",
                         Toast.LENGTH_SHORT
                     ).show()
+                    group.tags = _tagsAdded.toList()
                     model.sendMessage(this.group)
                     goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
                 } else {
