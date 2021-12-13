@@ -19,7 +19,6 @@ import com.example.palfinder.views.HomeActivity
 import kotlinx.android.synthetic.main.activity_initial_account_setup.*
 
 class InitialAccountSetup : AppCompatActivity(), OnIdListChange {
-    private val _existingTagsList = mutableListOf<Pair<String, String>>()
 //    private val initialSetupModel: InitialSetupViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +38,7 @@ class InitialAccountSetup : AppCompatActivity(), OnIdListChange {
 
     private fun setupViewPager() {
         val steps = arrayListOf(
+            InitialUserDetailsFragment(),
             InitialTagSelectionFragment(),
             InitialGroupSelectionFragment(),
             InitialSetupConfirmationFragment(),
@@ -49,7 +49,7 @@ class InitialAccountSetup : AppCompatActivity(), OnIdListChange {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 when (position) {
-                    2 -> {
+                    steps.size-1 -> {
                         btnContinue.visibility = View.GONE
                         btnSave.visibility = View.VISIBLE
                     }

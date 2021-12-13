@@ -20,7 +20,8 @@
             android:name=".views.user.account.InitialAccountSetup"
             android:exported="true"
             android:label="@string/title_activity_initial_account_setup"
-            android:theme="@style/Theme.Palfinder.NoActionBar" />
+            android:theme="@style/Theme.Palfinder.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".views.events.EventActivity"
             android:exported="false" />

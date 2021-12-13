@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         style="@style/Title"
         android:text="@string/title_group_edit"
-        android:layout_margin="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:layout_marginBottom="@dimen/activity_margin"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +37,6 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/browser_actions_context_menu_min_padding"
             android:orientation="vertical">
 
             <TextView
@@ -157,7 +157,13 @@
             <!--                android:padding="10dp"-->
             <!--                android:text=">" />-->
             <!--        </ScrollView>-->
-
+            <fragment
+                android:id="@+id/fragment"
+                android:name="com.example.palfinder.components.TagInputFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                tools:layout="@layout/fragment_input_tag" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilImage"

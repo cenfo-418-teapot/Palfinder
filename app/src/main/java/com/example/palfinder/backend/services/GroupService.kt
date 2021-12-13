@@ -13,8 +13,6 @@ import com.amplifyframework.storage.options.StorageRemoveOptions
 import com.amplifyframework.storage.options.StorageUploadFileOptions
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
-import java.lang.Exception
 
 /**
  * Object for Groups administration service
@@ -38,6 +36,41 @@ object GroupService {
         }
     }
 
+    fun updateGroupsSender() {
+        val groupList = GroupAdmin.groups().value
+        val isEmpty = groupList?.isEmpty() ?: false
+
+        // query notes when signed in and we do not have Notes yet
+        if (isEmpty) {
+            this.queryGroups()
+        } else {
+            GroupAdmin.resetGroups()
+            this.queryGroups()
+        }
+    }
+
+    fun updateGroup(groupModel : GroupAdmin.GroupModel, groupUpdated: (Boolean) -> Unit) {
+        Log.i(TAG, "Editing groups")
+        val groupData = groupModel.dataUpdate
+        Amplify.API.mutate(
+            ModelMutation.update(groupData),
+            { response ->
+                Log.i(TAG, "Validating if it was a successful group Update")
+                if (response.hasErrors()) {
+                    Log.e(TAG, response.errors.first().message)
+                    groupUpdated(true)
+                } else {
+                    Log.i(TAG, "Updated Group with id: " + response.data.id)
+                    groupUpdated(true)
+                }
+            },
+            {
+                error -> Log.e(TAG, "Update failed", error)
+                groupUpdated(false)
+            }
+        )
+    }
+
     fun queryGroups() {
         Log.i(TAG, "Querying groups")
 
@@ -55,7 +88,7 @@ object GroupService {
         )
     }
 
-    fun createGroup(groupModel : GroupAdmin.GroupModel) {
+    fun createGroup(groupModel : GroupAdmin.GroupModel, groupCreated: (Boolean) -> Unit) {
         Log.i(TAG, "Creating groups")
 
         Amplify.API.mutate(
@@ -64,20 +97,37 @@ object GroupService {
                 Log.i(TAG, "Created")
                 if (response.hasErrors()) {
                     Log.e(TAG, response.errors.first().message)
+                    groupCreated(false)
                 } else {
                     Log.i(TAG, "Created Group with id: " + response.data.id)
+                    groupCreated(true)
                 }
             },
-            { error -> Log.e(TAG, "Create failed", error) }
+            {
+                error -> Log.e(TAG, "Create failed", error)
+                groupCreated(false)
+            }
         )
     }
 
-    fun createTagRelation() {
-        // TODO: Write script for many to many new tag connection to the group
+    fun addTag() {
+        // TODO: Add group tag feat (Backend many to many)
     }
 
-    fun createUserRelation(){
-        // TODO: Write script for many to many new user connection to the group
+    fun removeTag(){
+        // TODO: Remove group tag feat (Backend many to many)
+    }
+
+    fun addMember() {
+        // TODO: Add member feat (Backend many to many)
+    }
+
+    fun removeMember() {
+        // TODO: Add member feat (Backend many to many)
+    }
+
+    fun updateMember() {
+        // TODO: Add member feat (Backend many to many)
     }
 
     // NO createEventRelation because events belong to a group
