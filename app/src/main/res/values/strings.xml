@@ -141,5 +141,7 @@
     <string name="mnuUsers">Users</string>
     <string name="mnuGroups">Groups</string>
     <string name="filters_label">Search Filters</string>
+    <string name="initial_setup_label">Initial Account Setup</string>
+    <string name="initial_setup_paragraph">Before you begin, please let us know a little more about you. This will make the experience tailored to you</string>
 
 </resources>

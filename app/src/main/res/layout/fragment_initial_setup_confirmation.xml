@@ -31,8 +31,15 @@
             android:text="@string/initial_setup_msg"
             android:textAlignment="center" />
 
+        <LinearLayout
+            android:id="@+id/llProfileInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_medium"
+            android:orientation="vertical"/>
+
         <TextView
-            style="@style/Headline1"
+            style="@style/Headline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_medium"
@@ -58,7 +65,7 @@
             android:layout_margin="@dimen/spacing_medium" />
 
         <TextView
-            style="@style/Headline1"
+            style="@style/Headline2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/spacing_medium"
