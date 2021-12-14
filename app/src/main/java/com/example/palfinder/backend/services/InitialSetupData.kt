@@ -1,6 +1,7 @@
 package com.example.palfinder.backend.services
 
 import androidx.lifecycle.MutableLiveData
+import com.amplifyframework.datastore.generated.model.User
 
 object InitialSetupData {
     private const val TAG = "InitialSetupData"
@@ -8,9 +9,15 @@ object InitialSetupData {
     private val _tagsList = MutableLiveData<List<String>>()
     private val _groupsList = MutableLiveData<List<GroupAdmin.GroupModel>>()
     private val _allGroupsList = MutableLiveData<List<GroupAdmin.GroupModel>>()
+    private val _userInfo = MutableLiveData<User?>()
+    val userInfo = _userInfo
     val tagsList = _tagsList
     val groupsList = _groupsList
     val allGroupsList = _allGroupsList
+
+    fun setUser(user: User?) {
+        _userInfo.postValue(user)
+    }
 
     fun setAllGroupsList(data: List<GroupAdmin.GroupModel>) {
         _allGroupsList.postValue(data)

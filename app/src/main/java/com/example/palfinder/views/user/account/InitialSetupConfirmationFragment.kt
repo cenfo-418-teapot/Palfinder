@@ -6,8 +6,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import com.amplifyframework.api.graphql.model.ModelMutation
@@ -51,10 +54,10 @@ class InitialSetupConfirmationFragment : Fragment() {
                         val updatedUser = User.builder()
                             .email(user.email)
                             .username(user.username)
-                            .name(user.name)
-                            .lastName(user.lastName)
+                            .name(InitialSetupData.userInfo.value?.name ?: user.name)
+                            .lastName(InitialSetupData.userInfo.value?.lastName ?: user.lastName)
                             .status(UserStatus.COMPLETE)
-                            .description(user.description)
+                            .description(InitialSetupData.userInfo.value?.description ?: user.description)
                             .phoneNumber(user.phoneNumber)
                             .photo(user.photo)
                             .id(user.id)
@@ -72,16 +75,21 @@ class InitialSetupConfirmationFragment : Fragment() {
         })
         observeTagsAdditionFlow(view)
         observeGroupsAdditionFlow(view)
+        observeProfileInfo(view)
         requireActivity().findViewById<Button>(R.id.btnSave).setOnClickListener { _ ->
             val totalTagsToAdd = InitialSetupData.tagsList.value?.size ?: 0
             val totalGroupsToAdd = InitialSetupData.groupsList.value?.size ?: 0
             _totalChanges = totalTagsToAdd + totalGroupsToAdd
-            if (progressBar.visibility == View.GONE && _totalChanges > 0) {
-                progressBar.visibility = View.VISIBLE
-                progressBar.max = _totalChanges
+            if (_totalChanges == 0) {
+                Toast.makeText(context, "You should select some tags or groups before we begin", Toast.LENGTH_LONG).show()
+            } else {
+                if (progressBar.visibility == View.GONE && _totalChanges > 0) {
+                    progressBar.visibility = View.VISIBLE
+                    progressBar.max = _totalChanges
+                }
+                InitialSetupData.tagsList.value?.forEach { createTag(it) }
+                groupsToAddLiveData.postValue(InitialSetupData.groupsList.value)
             }
-            InitialSetupData.tagsList.value?.forEach { createTag(it) }
-            groupsToAddLiveData.postValue(InitialSetupData.groupsList.value)
         }
         return view
     }
@@ -96,6 +104,31 @@ class InitialSetupConfirmationFragment : Fragment() {
         observeTagsToAdd()
     }
 
+    private fun observeProfileInfo(view: View) {
+        InitialSetupData.userInfo.observe(viewLifecycleOwner, { userInfo ->
+            view.llProfileInfo.removeAllViews()
+            if (userInfo != null) {
+                val fullName = "${userInfo.name} ${userInfo.lastName}"
+                val tvFullName = TextView(context)
+                tvFullName.text = fullName
+                tvFullName.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                tvFullName.setTextAppearance(R.style.Headline1)
+                val tvBio = TextView(context)
+                tvBio.text = userInfo.description
+                tvBio.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                tvBio.setTextAppearance(R.style.Paragraph)
+                view.llProfileInfo.addView(tvFullName)
+                view.llProfileInfo.addView(tvBio)
+            }
+            else {
+                val tvNoData = TextView(context)
+                tvNoData.text = "Profile details are empty"
+                tvNoData.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+                tvNoData.setTextAppearance(R.style.Headline1)
+                view.llProfileInfo.addView(tvNoData)
+            }
+        })
+    }
     private fun observeGroupsToAdd() {
         groupsToAddLiveData.observe(viewLifecycleOwner, { groupsToAdd ->
             if (groupsToAdd != null) {

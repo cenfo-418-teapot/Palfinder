@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_container"
     style="@style/container">
@@ -10,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/user_profile_avatar"
             android:layout_width="0dp"
@@ -17,6 +17,7 @@
             android:layout_weight="1.5"
             android:src="@drawable/user_profile_avatar"
             tools:srcCompat="@drawable/user_profile_avatar" />
+
         <LinearLayout
             android:id="@+id/user_friends_groups_container"
             android:layout_width="0dp"
@@ -24,72 +25,89 @@
             android:layout_weight="2"
             android:gravity="center"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/user_friends"
+                style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textStyle="bold"
-                style="@style/TextSmall" />
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/user_friends_label"
+                style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Friends"
-                style="@style/TextSmall" />
+                android:text="Friends" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/user_groups_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_weight="2"
+            android:gravity="center"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/user_groups"
+                style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textStyle="bold"
-                style="@style/TextSmall" />
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/user_groups_label"
+                style="@style/TextSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Groups"
-                style="@style/TextSmall"/>
+                android:text="Groups" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="logout"
+            android:padding="@dimen/spacing_small"
+            android:src="@drawable/ic_power" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/spacing_large">
+        android:layout_marginBottom="@dimen/spacing_large"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/user_name"
+            style="@style/Headline3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/user_name"
-            tools:text="Mauricio Poveda"
-            style="@style/Headline3" />
+            tools:text="Mauricio Poveda" />
+
         <TextView
             android:id="@+id/user_username"
+            style="@style/TextSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/user_username"
             android:textColor="@color/primary"
             android:textStyle="normal"
-            style="@style/TextSmall"/>
+            tools:text="@string/user_username" />
+
         <TextView
             android:id="@+id/user_description"
+            style="@style/Paragraph"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/user_description"
-            tools:text="@string/user_description"
             android:textSize="16sp"
             android:textStyle="normal"
-            style="@style/Paragraph"/>
+            tools:text="@string/user_description" />
     </LinearLayout>
 
     <LinearLayout
@@ -97,12 +115,13 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_large"
         android:orientation="vertical">
+
         <Button
             android:id="@+id/user_profile_edit_cta"
+            style="@style/ButtonGhost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            style="@style/ButtonGhost" />
+            android:text="Edit Profile" />
     </LinearLayout>
 
     <View
@@ -115,25 +134,27 @@
         android:id="@+id/user_events"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingTop="@dimen/spacing_medium"
         android:paddingBottom="@dimen/spacing_medium">
+
         <ImageView
             android:id="@+id/user_events_icon"
             android:layout_width="96dp"
-            android:alpha="0.2"
             android:layout_height="96dp"
             android:layout_marginBottom="@dimen/spacing_small"
+            android:alpha="0.2"
             android:src="@drawable/ic_feather_calendar_big"
             tools:srcCompat="@drawable/ic_feather_calendar_big" />
+
         <TextView
             android:id="@+id/user_events_title"
             style="@style/Headline6"
-            android:textAlignment="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No upcoming events" />
+            android:text="No upcoming events"
+            android:textAlignment="center" />
     </LinearLayout>
 
     <View
