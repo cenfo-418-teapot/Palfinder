@@ -18,8 +18,7 @@ import com.google.android.material.card.MaterialCardView
 class GroupsRecyclerViewAdapter(
     private val values: MutableList<GroupAdmin.GroupModel>?,
     private val listener: OnViewProfileListener?,
-    private val userGroups: List<GroupMembers>,
-    private val showAll: Boolean
+    private val userGroups: List<GroupMembers>
     ) :
     RecyclerView.Adapter<GroupsRecyclerViewAdapter.ViewHolder>() {
 
@@ -57,29 +56,17 @@ class GroupsRecyclerViewAdapter(
                     }
                 }
             }
-            if((!isMember && !showAll) || (isMember && showAll)) {
-                // TODO : CUANDO UN GRUPO NO SE DEBE MOSTRAR
-//                holder.card.visibility = GONE
-//
-//                runOnUiThread {
-//                    val actualPosition = holder.adapterPosition
-//                    values?.removeAt(actualPosition)
-//                    notifyItemRemoved(actualPosition)
-//                    notifyItemRangeChanged(actualPosition, values!!.size)
-//                }
+            if(isMember) {
+                holder.btnJoin.setOnClickListener {
+                    Log.i(TAG, "Unjoining group: $finalName")
+                    holder.btnJoin.isEnabled = false
+                    listener.onUnJoinGroup(tempGroupMember)
+                }
             } else {
-                if(isMember) {
-                    holder.btnJoin.setOnClickListener {
-                        Log.i(TAG, "Unjoining group: $finalName")
-                        listener.onUnJoinGroup(tempGroupMember)
-                        holder.btnJoin.isEnabled = false
-                    }
-                } else {
-                    holder.btnJoin.setOnClickListener {
-                        Log.i(TAG, "Joining group: $finalName")
-                        listener.onJoinGroup(item)
-                        holder.btnJoin.isEnabled = false
-                    }
+                holder.btnJoin.setOnClickListener {
+                    Log.i(TAG, "Joining group: $finalName")
+                    holder.btnJoin.isEnabled = false
+                    listener.onJoinGroup(item)
                 }
             }
         }
@@ -92,7 +79,6 @@ class GroupsRecyclerViewAdapter(
         val nameView: TextView = view.findViewById(R.id.tv_name)
         val descriptionView: TextView = view.findViewById(R.id.tv_description)
         val btnJoin: Button = view.findViewById(R.id.btnJoin)
-        val card: MaterialCardView = view.findViewById(R.id.card_info)
         val textJoined: String = view.context.getString(R.string.group_profile_joined)
     }
     companion object {

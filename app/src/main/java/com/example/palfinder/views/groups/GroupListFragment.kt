@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.Group
 import com.amplifyframework.datastore.generated.model.GroupMembers
+import com.amplifyframework.datastore.generated.model.Status
 import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
@@ -24,7 +26,6 @@ import com.example.palfinder.backend.services.UserService
 import kotlinx.android.synthetic.main.fragment_event_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.*
 import kotlinx.android.synthetic.main.fragment_group_list.view.*
-import okhttp3.internal.notifyAll
 
 /**
  * A simple [Fragment] subclass.
@@ -40,7 +41,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 //    private var userGroups: List<GroupMembers>? = null
     private val groupToAddLiveData = MutableLiveData<GroupAdmin.GroupModel>()
     private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
-    private var showAllGroups = true
+    private var discovering = true
     private var recyclerViewUp = false
 
     override fun onCreateView(
@@ -52,7 +53,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         view.nav_discover_groups.setOnClickListener { setFocus(view, 1) }
         view.nav_my_groups.setOnClickListener { setFocus(view, 2) }
         view.nav_create_group.setOnClickListener { setFocus(view, 3) }
-        view.refresh_groups.setOnClickListener { loadGroups() }
+        view.refresh_groups.setOnClickListener { loadGroups(true) }
 
         if(currentUser.value == null)
             retrieveUser()
@@ -67,18 +68,15 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadGroups()
+        loadGroups(false)
     }
 
-    private fun loadGroups() {
-        GroupService.updateGroups()
-//
-//        if(!groupsRetrieved) {
-//            GroupService.updateGroups()
-//            groupsRetrieved = true
-//        } else {
-//            GroupService.updateGroups()
-//        }
+    private fun loadGroups(notify: Boolean) {
+        if(notify) {
+            GroupAdmin.notifyObserver()
+        } else {
+            GroupService.updateGroups()
+        }
     }
 
     private fun retrieveUser() {
@@ -132,7 +130,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_my_groups.visibility = View.INVISIBLE
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_suggested_subtitle)
-                showAllGroups = true
+                discovering = true
                 GroupAdmin.notifyObserver()
             }
             2 -> {
@@ -140,7 +138,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_my_groups.visibility = View.VISIBLE
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_groups_subtitle)
-                showAllGroups = false
+                discovering = false
                 GroupAdmin.notifyObserver()
             }
             3 -> {
@@ -162,12 +160,34 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
             .observe(viewLifecycleOwner, Observer<MutableList<GroupAdmin.GroupModel>> { groups ->
                 Log.d(TAG, "Note observer received ${groups.size} groups")
 
+                val groupsIds: MutableList<String> = mutableListOf()
+                currentUser.value!!.groups.forEach{ userGroup ->
+                    groupsIds.add(userGroup.group.id)
+                }
+
+                // filtering depending of list tabs
+                val filteredGroups = groups.filter { group ->
+                    (group.status == Status.PUBLIC && discovering && !groupsIds.contains(group.id)) ||
+                    (!discovering && groupsIds.contains(group.id))
+                }
+
+                val userTagsNames: MutableList<String> = mutableListOf()
+                currentUser.value!!.tags.forEach { userTag ->
+                    userTagsNames.add(userTag.tag.name)
+                }
+                // sorting depending of tags
+                val sortedGroups = filteredGroups.sortedBy {
+                    compareValues(
+                        userTagsNames.joinToString(separator = ":"),
+                        it.getTagsNames().joinToString(separator = ":")
+                    )
+                }
+
                 // let's create a RecyclerViewAdapter that manages the individual cells
                 recyclerView.adapter = GroupsRecyclerViewAdapter(
-                    groups,
+                    sortedGroups.toMutableList(),
                     this,
-                    currentUser.value!!.groups,
-                    showAllGroups)
+                    currentUser.value!!.groups)
                 if (groups.size > 0) tv_no_groups.visibility = View.GONE
                 else tv_no_groups.visibility = View.VISIBLE
             })
@@ -192,7 +212,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 
     override fun onJoinGroup(data: GroupAdmin.GroupModel?) {
         GroupAdditionalSetUp.setGroup(data)
-        groupToAddLiveData.postValue(GroupAdditionalSetUp.tmpGroup.value)
+        groupToAddLiveData.postValue(data)
     }
 
     override fun onUnJoinGroup(data: GroupMembers?) {
@@ -211,7 +231,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                     {
                         currentUser.value!!.groups.add(it.data)
                         progressLiveData.postValue("${currentUser.value!!.username} added to group ${group.name}")
-                        GroupService.updateGroups()
+                        loadGroups(true)
                     },
                     { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${group.name}") }
                 )
@@ -226,7 +246,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 {
                     currentUser.value!!.groups.remove(it.data)
                     progressLiveData.postValue("${currentUser.value!!.username} removed from group ${member.group.name}")
-                    GroupService.updateGroups()
+                    loadGroups(true)
                 },
                 { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${member.group.name}") }
             )
