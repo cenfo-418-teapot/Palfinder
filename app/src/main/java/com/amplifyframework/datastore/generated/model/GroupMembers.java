@@ -29,15 +29,33 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @Index(name = "byGroupUser", fields = {"groupID","userID"})
 public final class GroupMembers implements Model {
   public static final QueryField ID = field("GroupMembers", "id");
+  public static final QueryField USER_ID = field("GroupMembers", "userID");
+  public static final QueryField GROUP_ID = field("GroupMembers", "groupID");
+  public static final QueryField ROLE = field("GroupMembers", "role");
   public static final QueryField USER = field("GroupMembers", "userID");
   public static final QueryField GROUP = field("GroupMembers", "groupID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String userID;
+  private final @ModelField(targetType="ID", isRequired = true) String groupID;
+  private final @ModelField(targetType="GroupRoles", isRequired = true) GroupRoles role;
   private final @ModelField(targetType="User", isRequired = true) @BelongsTo(targetName = "userID", type = User.class) User user;
   private final @ModelField(targetType="Group", isRequired = true) @BelongsTo(targetName = "groupID", type = Group.class) Group group;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
+  }
+  
+  public String getUserId() {
+      return userID;
+  }
+  
+  public String getGroupId() {
+      return groupID;
+  }
+  
+  public GroupRoles getRole() {
+      return role;
   }
   
   public User getUser() {
@@ -56,8 +74,11 @@ public final class GroupMembers implements Model {
       return updatedAt;
   }
   
-  private GroupMembers(String id, User user, Group group) {
+  private GroupMembers(String id, String userID, String groupID, GroupRoles role, User user, Group group) {
     this.id = id;
+    this.userID = userID;
+    this.groupID = groupID;
+    this.role = role;
     this.user = user;
     this.group = group;
   }
@@ -71,6 +92,9 @@ public final class GroupMembers implements Model {
       } else {
       GroupMembers groupMembers = (GroupMembers) obj;
       return ObjectsCompat.equals(getId(), groupMembers.getId()) &&
+              ObjectsCompat.equals(getUserId(), groupMembers.getUserId()) &&
+              ObjectsCompat.equals(getGroupId(), groupMembers.getGroupId()) &&
+              ObjectsCompat.equals(getRole(), groupMembers.getRole()) &&
               ObjectsCompat.equals(getUser(), groupMembers.getUser()) &&
               ObjectsCompat.equals(getGroup(), groupMembers.getGroup()) &&
               ObjectsCompat.equals(getCreatedAt(), groupMembers.getCreatedAt()) &&
@@ -82,6 +106,9 @@ public final class GroupMembers implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getUserId())
+      .append(getGroupId())
+      .append(getRole())
       .append(getUser())
       .append(getGroup())
       .append(getCreatedAt())
@@ -95,6 +122,9 @@ public final class GroupMembers implements Model {
     return new StringBuilder()
       .append("GroupMembers {")
       .append("id=" + String.valueOf(getId()) + ", ")
+      .append("userID=" + String.valueOf(getUserId()) + ", ")
+      .append("groupID=" + String.valueOf(getGroupId()) + ", ")
+      .append("role=" + String.valueOf(getRole()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("group=" + String.valueOf(getGroup()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
@@ -103,7 +133,7 @@ public final class GroupMembers implements Model {
       .toString();
   }
   
-  public static UserStep builder() {
+  public static UserIdStep builder() {
       return new Builder();
   }
   
@@ -119,15 +149,36 @@ public final class GroupMembers implements Model {
     return new GroupMembers(
       id,
       null,
+      null,
+      null,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
+      userID,
+      groupID,
+      role,
       user,
       group);
   }
+  public interface UserIdStep {
+    GroupIdStep userId(String userId);
+  }
+  
+
+  public interface GroupIdStep {
+    RoleStep groupId(String groupId);
+  }
+  
+
+  public interface RoleStep {
+    UserStep role(GroupRoles role);
+  }
+  
+
   public interface UserStep {
     GroupStep user(User user);
   }
@@ -144,8 +195,11 @@ public final class GroupMembers implements Model {
   }
   
 
-  public static class Builder implements UserStep, GroupStep, BuildStep {
+  public static class Builder implements UserIdStep, GroupIdStep, RoleStep, UserStep, GroupStep, BuildStep {
     private String id;
+    private String userID;
+    private String groupID;
+    private GroupRoles role;
     private User user;
     private Group group;
     @Override
@@ -154,8 +208,32 @@ public final class GroupMembers implements Model {
         
         return new GroupMembers(
           id,
+          userID,
+          groupID,
+          role,
           user,
           group);
+    }
+    
+    @Override
+     public GroupIdStep userId(String userId) {
+        Objects.requireNonNull(userId);
+        this.userID = userId;
+        return this;
+    }
+    
+    @Override
+     public RoleStep groupId(String groupId) {
+        Objects.requireNonNull(groupId);
+        this.groupID = groupId;
+        return this;
+    }
+    
+    @Override
+     public UserStep role(GroupRoles role) {
+        Objects.requireNonNull(role);
+        this.role = role;
+        return this;
     }
     
     @Override
@@ -184,10 +262,28 @@ public final class GroupMembers implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, User user, Group group) {
+    private CopyOfBuilder(String id, String userId, String groupId, GroupRoles role, User user, Group group) {
       super.id(id);
-      super.user(user)
+      super.userId(userId)
+        .groupId(groupId)
+        .role(role)
+        .user(user)
         .group(group);
+    }
+    
+    @Override
+     public CopyOfBuilder userId(String userId) {
+      return (CopyOfBuilder) super.userId(userId);
+    }
+    
+    @Override
+     public CopyOfBuilder groupId(String groupId) {
+      return (CopyOfBuilder) super.groupId(groupId);
+    }
+    
+    @Override
+     public CopyOfBuilder role(GroupRoles role) {
+      return (CopyOfBuilder) super.role(role);
     }
     
     @Override

@@ -23,21 +23,34 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the TagGroup type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "TagGroups", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE })
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
+  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE, ModelOperation.DELETE })
 })
-@Index(name = "byGroupTag", fields = {"groupID","tagID"})
 @Index(name = "byTagGroup", fields = {"tagID","groupID"})
+@Index(name = "byGroupTag", fields = {"groupID","tagID"})
 public final class TagGroup implements Model {
   public static final QueryField ID = field("TagGroup", "id");
+  public static final QueryField TAG_ID = field("TagGroup", "tagID");
+  public static final QueryField GROUP_ID = field("TagGroup", "groupID");
   public static final QueryField TAG = field("TagGroup", "tagID");
   public static final QueryField GROUP = field("TagGroup", "groupID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String tagID;
+  private final @ModelField(targetType="ID", isRequired = true) String groupID;
   private final @ModelField(targetType="Tag", isRequired = true) @BelongsTo(targetName = "tagID", type = Tag.class) Tag tag;
   private final @ModelField(targetType="Group", isRequired = true) @BelongsTo(targetName = "groupID", type = Group.class) Group group;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
+  }
+  
+  public String getTagId() {
+      return tagID;
+  }
+  
+  public String getGroupId() {
+      return groupID;
   }
   
   public Tag getTag() {
@@ -56,8 +69,10 @@ public final class TagGroup implements Model {
       return updatedAt;
   }
   
-  private TagGroup(String id, Tag tag, Group group) {
+  private TagGroup(String id, String tagID, String groupID, Tag tag, Group group) {
     this.id = id;
+    this.tagID = tagID;
+    this.groupID = groupID;
     this.tag = tag;
     this.group = group;
   }
@@ -71,6 +86,8 @@ public final class TagGroup implements Model {
       } else {
       TagGroup tagGroup = (TagGroup) obj;
       return ObjectsCompat.equals(getId(), tagGroup.getId()) &&
+              ObjectsCompat.equals(getTagId(), tagGroup.getTagId()) &&
+              ObjectsCompat.equals(getGroupId(), tagGroup.getGroupId()) &&
               ObjectsCompat.equals(getTag(), tagGroup.getTag()) &&
               ObjectsCompat.equals(getGroup(), tagGroup.getGroup()) &&
               ObjectsCompat.equals(getCreatedAt(), tagGroup.getCreatedAt()) &&
@@ -82,6 +99,8 @@ public final class TagGroup implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getTagId())
+      .append(getGroupId())
       .append(getTag())
       .append(getGroup())
       .append(getCreatedAt())
@@ -95,6 +114,8 @@ public final class TagGroup implements Model {
     return new StringBuilder()
       .append("TagGroup {")
       .append("id=" + String.valueOf(getId()) + ", ")
+      .append("tagID=" + String.valueOf(getTagId()) + ", ")
+      .append("groupID=" + String.valueOf(getGroupId()) + ", ")
       .append("tag=" + String.valueOf(getTag()) + ", ")
       .append("group=" + String.valueOf(getGroup()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
@@ -103,7 +124,7 @@ public final class TagGroup implements Model {
       .toString();
   }
   
-  public static TagStep builder() {
+  public static TagIdStep builder() {
       return new Builder();
   }
   
@@ -119,15 +140,29 @@ public final class TagGroup implements Model {
     return new TagGroup(
       id,
       null,
+      null,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
+      tagID,
+      groupID,
       tag,
       group);
   }
+  public interface TagIdStep {
+    GroupIdStep tagId(String tagId);
+  }
+  
+
+  public interface GroupIdStep {
+    TagStep groupId(String groupId);
+  }
+  
+
   public interface TagStep {
     GroupStep tag(Tag tag);
   }
@@ -144,8 +179,10 @@ public final class TagGroup implements Model {
   }
   
 
-  public static class Builder implements TagStep, GroupStep, BuildStep {
+  public static class Builder implements TagIdStep, GroupIdStep, TagStep, GroupStep, BuildStep {
     private String id;
+    private String tagID;
+    private String groupID;
     private Tag tag;
     private Group group;
     @Override
@@ -154,8 +191,24 @@ public final class TagGroup implements Model {
         
         return new TagGroup(
           id,
+          tagID,
+          groupID,
           tag,
           group);
+    }
+    
+    @Override
+     public GroupIdStep tagId(String tagId) {
+        Objects.requireNonNull(tagId);
+        this.tagID = tagId;
+        return this;
+    }
+    
+    @Override
+     public TagStep groupId(String groupId) {
+        Objects.requireNonNull(groupId);
+        this.groupID = groupId;
+        return this;
     }
     
     @Override
@@ -184,10 +237,22 @@ public final class TagGroup implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, Tag tag, Group group) {
+    private CopyOfBuilder(String id, String tagId, String groupId, Tag tag, Group group) {
       super.id(id);
-      super.tag(tag)
+      super.tagId(tagId)
+        .groupId(groupId)
+        .tag(tag)
         .group(group);
+    }
+    
+    @Override
+     public CopyOfBuilder tagId(String tagId) {
+      return (CopyOfBuilder) super.tagId(tagId);
+    }
+    
+    @Override
+     public CopyOfBuilder groupId(String groupId) {
+      return (CopyOfBuilder) super.groupId(groupId);
     }
     
     @Override

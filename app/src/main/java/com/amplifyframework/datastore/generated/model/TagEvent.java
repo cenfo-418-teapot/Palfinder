@@ -23,21 +23,34 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the TagEvent type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "TagEvents", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE })
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
+  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE, ModelOperation.DELETE })
 })
-@Index(name = "byEventTag", fields = {"eventID","tagID"})
 @Index(name = "byTagEvent", fields = {"tagID","eventID"})
+@Index(name = "byEventTag", fields = {"eventID","tagID"})
 public final class TagEvent implements Model {
   public static final QueryField ID = field("TagEvent", "id");
+  public static final QueryField TAG_ID = field("TagEvent", "tagID");
+  public static final QueryField EVENT_ID = field("TagEvent", "eventID");
   public static final QueryField TAG = field("TagEvent", "tagID");
   public static final QueryField EVENT = field("TagEvent", "eventID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="ID", isRequired = true) String tagID;
+  private final @ModelField(targetType="ID", isRequired = true) String eventID;
   private final @ModelField(targetType="Tag", isRequired = true) @BelongsTo(targetName = "tagID", type = Tag.class) Tag tag;
   private final @ModelField(targetType="Event", isRequired = true) @BelongsTo(targetName = "eventID", type = Event.class) Event event;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
+  }
+  
+  public String getTagId() {
+      return tagID;
+  }
+  
+  public String getEventId() {
+      return eventID;
   }
   
   public Tag getTag() {
@@ -56,8 +69,10 @@ public final class TagEvent implements Model {
       return updatedAt;
   }
   
-  private TagEvent(String id, Tag tag, Event event) {
+  private TagEvent(String id, String tagID, String eventID, Tag tag, Event event) {
     this.id = id;
+    this.tagID = tagID;
+    this.eventID = eventID;
     this.tag = tag;
     this.event = event;
   }
@@ -71,6 +86,8 @@ public final class TagEvent implements Model {
       } else {
       TagEvent tagEvent = (TagEvent) obj;
       return ObjectsCompat.equals(getId(), tagEvent.getId()) &&
+              ObjectsCompat.equals(getTagId(), tagEvent.getTagId()) &&
+              ObjectsCompat.equals(getEventId(), tagEvent.getEventId()) &&
               ObjectsCompat.equals(getTag(), tagEvent.getTag()) &&
               ObjectsCompat.equals(getEvent(), tagEvent.getEvent()) &&
               ObjectsCompat.equals(getCreatedAt(), tagEvent.getCreatedAt()) &&
@@ -82,6 +99,8 @@ public final class TagEvent implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getTagId())
+      .append(getEventId())
       .append(getTag())
       .append(getEvent())
       .append(getCreatedAt())
@@ -95,6 +114,8 @@ public final class TagEvent implements Model {
     return new StringBuilder()
       .append("TagEvent {")
       .append("id=" + String.valueOf(getId()) + ", ")
+      .append("tagID=" + String.valueOf(getTagId()) + ", ")
+      .append("eventID=" + String.valueOf(getEventId()) + ", ")
       .append("tag=" + String.valueOf(getTag()) + ", ")
       .append("event=" + String.valueOf(getEvent()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
@@ -103,7 +124,7 @@ public final class TagEvent implements Model {
       .toString();
   }
   
-  public static TagStep builder() {
+  public static TagIdStep builder() {
       return new Builder();
   }
   
@@ -119,15 +140,29 @@ public final class TagEvent implements Model {
     return new TagEvent(
       id,
       null,
+      null,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
+      tagID,
+      eventID,
       tag,
       event);
   }
+  public interface TagIdStep {
+    EventIdStep tagId(String tagId);
+  }
+  
+
+  public interface EventIdStep {
+    TagStep eventId(String eventId);
+  }
+  
+
   public interface TagStep {
     EventStep tag(Tag tag);
   }
@@ -144,8 +179,10 @@ public final class TagEvent implements Model {
   }
   
 
-  public static class Builder implements TagStep, EventStep, BuildStep {
+  public static class Builder implements TagIdStep, EventIdStep, TagStep, EventStep, BuildStep {
     private String id;
+    private String tagID;
+    private String eventID;
     private Tag tag;
     private Event event;
     @Override
@@ -154,8 +191,24 @@ public final class TagEvent implements Model {
         
         return new TagEvent(
           id,
+          tagID,
+          eventID,
           tag,
           event);
+    }
+    
+    @Override
+     public EventIdStep tagId(String tagId) {
+        Objects.requireNonNull(tagId);
+        this.tagID = tagId;
+        return this;
+    }
+    
+    @Override
+     public TagStep eventId(String eventId) {
+        Objects.requireNonNull(eventId);
+        this.eventID = eventId;
+        return this;
     }
     
     @Override
@@ -184,10 +237,22 @@ public final class TagEvent implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, Tag tag, Event event) {
+    private CopyOfBuilder(String id, String tagId, String eventId, Tag tag, Event event) {
       super.id(id);
-      super.tag(tag)
+      super.tagId(tagId)
+        .eventId(eventId)
+        .tag(tag)
         .event(event);
+    }
+    
+    @Override
+     public CopyOfBuilder tagId(String tagId) {
+      return (CopyOfBuilder) super.tagId(tagId);
+    }
+    
+    @Override
+     public CopyOfBuilder eventId(String eventId) {
+      return (CopyOfBuilder) super.eventId(eventId);
     }
     
     @Override

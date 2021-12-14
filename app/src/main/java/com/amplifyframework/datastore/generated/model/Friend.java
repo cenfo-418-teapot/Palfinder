@@ -23,7 +23,8 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Friend type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Friends", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE })
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
+  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE, ModelOperation.DELETE })
 })
 @Index(name = "byEmail", fields = {"email"})
 @Index(name = "byUsername", fields = {"username"})
@@ -32,10 +33,12 @@ public final class Friend implements Model {
   public static final QueryField ID = field("Friend", "id");
   public static final QueryField EMAIL = field("Friend", "email");
   public static final QueryField USERNAME = field("Friend", "username");
+  public static final QueryField FRIEND_ID = field("Friend", "friendID");
   public static final QueryField FRIEND = field("Friend", "friendID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String email;
   private final @ModelField(targetType="String", isRequired = true) String username;
+  private final @ModelField(targetType="ID", isRequired = true) String friendID;
   private final @ModelField(targetType="User") @BelongsTo(targetName = "friendID", type = User.class) User friend;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedOn;
@@ -51,6 +54,10 @@ public final class Friend implements Model {
       return username;
   }
   
+  public String getFriendId() {
+      return friendID;
+  }
+  
   public User getFriend() {
       return friend;
   }
@@ -63,10 +70,11 @@ public final class Friend implements Model {
       return updatedOn;
   }
   
-  private Friend(String id, String email, String username, User friend) {
+  private Friend(String id, String email, String username, String friendID, User friend) {
     this.id = id;
     this.email = email;
     this.username = username;
+    this.friendID = friendID;
     this.friend = friend;
   }
   
@@ -81,6 +89,7 @@ public final class Friend implements Model {
       return ObjectsCompat.equals(getId(), friend.getId()) &&
               ObjectsCompat.equals(getEmail(), friend.getEmail()) &&
               ObjectsCompat.equals(getUsername(), friend.getUsername()) &&
+              ObjectsCompat.equals(getFriendId(), friend.getFriendId()) &&
               ObjectsCompat.equals(getFriend(), friend.getFriend()) &&
               ObjectsCompat.equals(getCreatedOn(), friend.getCreatedOn()) &&
               ObjectsCompat.equals(getUpdatedOn(), friend.getUpdatedOn());
@@ -93,6 +102,7 @@ public final class Friend implements Model {
       .append(getId())
       .append(getEmail())
       .append(getUsername())
+      .append(getFriendId())
       .append(getFriend())
       .append(getCreatedOn())
       .append(getUpdatedOn())
@@ -107,6 +117,7 @@ public final class Friend implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("email=" + String.valueOf(getEmail()) + ", ")
       .append("username=" + String.valueOf(getUsername()) + ", ")
+      .append("friendID=" + String.valueOf(getFriendId()) + ", ")
       .append("friend=" + String.valueOf(getFriend()) + ", ")
       .append("createdOn=" + String.valueOf(getCreatedOn()) + ", ")
       .append("updatedOn=" + String.valueOf(getUpdatedOn()))
@@ -131,6 +142,7 @@ public final class Friend implements Model {
       id,
       null,
       null,
+      null,
       null
     );
   }
@@ -139,6 +151,7 @@ public final class Friend implements Model {
     return new CopyOfBuilder(id,
       email,
       username,
+      friendID,
       friend);
   }
   public interface EmailStep {
@@ -147,7 +160,12 @@ public final class Friend implements Model {
   
 
   public interface UsernameStep {
-    BuildStep username(String username);
+    FriendIdStep username(String username);
+  }
+  
+
+  public interface FriendIdStep {
+    BuildStep friendId(String friendId);
   }
   
 
@@ -158,10 +176,11 @@ public final class Friend implements Model {
   }
   
 
-  public static class Builder implements EmailStep, UsernameStep, BuildStep {
+  public static class Builder implements EmailStep, UsernameStep, FriendIdStep, BuildStep {
     private String id;
     private String email;
     private String username;
+    private String friendID;
     private User friend;
     @Override
      public Friend build() {
@@ -171,6 +190,7 @@ public final class Friend implements Model {
           id,
           email,
           username,
+          friendID,
           friend);
     }
     
@@ -182,9 +202,16 @@ public final class Friend implements Model {
     }
     
     @Override
-     public BuildStep username(String username) {
+     public FriendIdStep username(String username) {
         Objects.requireNonNull(username);
         this.username = username;
+        return this;
+    }
+    
+    @Override
+     public BuildStep friendId(String friendId) {
+        Objects.requireNonNull(friendId);
+        this.friendID = friendId;
         return this;
     }
     
@@ -206,10 +233,11 @@ public final class Friend implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String email, String username, User friend) {
+    private CopyOfBuilder(String id, String email, String username, String friendId, User friend) {
       super.id(id);
       super.email(email)
         .username(username)
+        .friendId(friendId)
         .friend(friend);
     }
     
@@ -221,6 +249,11 @@ public final class Friend implements Model {
     @Override
      public CopyOfBuilder username(String username) {
       return (CopyOfBuilder) super.username(username);
+    }
+    
+    @Override
+     public CopyOfBuilder friendId(String friendId) {
+      return (CopyOfBuilder) super.friendId(friendId);
     }
     
     @Override
