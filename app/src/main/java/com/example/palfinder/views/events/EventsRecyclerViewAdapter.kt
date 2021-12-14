@@ -12,7 +12,9 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.amplifyframework.datastore.generated.model.Event
 import com.example.palfinder.R
+import com.example.palfinder.backend.services.event.EventData
 import com.example.palfiner.backend.services.event.EventManager
 import kotlinx.android.synthetic.main.event_item.view.*
 
@@ -52,14 +54,20 @@ class EventsRecyclerViewAdapter(
             holder.imageView.setImageBitmap(item.image)
         }*/
         holder.imageView.setOnClickListener {
-            it.context.startActivity(Intent(it.context, EventActivity::class.java))
+            Log.i("ObjetoFC ",objeto.toString())
+            val bundle = bundleOf("id" to item.id)
+            it.context.startActivity(Intent(it.context, EventActivity::class.java).apply {
+                putExtra("id", bundle)
+            })
         }
 
         holder.btnEventDetail.setOnClickListener{
 
                 Log.i("ObjetoFC ",objeto.toString())
             val bundle = bundleOf("id" to item.id)
-            goTo(it, R.id.action_eventListManager_to_eventDetail, bundle)
+           // goTo(it, R.id.action_eventListManager_to_eventDetail, bundle)
+            EventData.setCurrentEvent(item.data)
+            it.context.startActivity(Intent(it.context, EventDetailActivity::class.java))
             }
         }
 

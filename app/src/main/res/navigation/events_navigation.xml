@@ -16,10 +16,6 @@
     <fragment
         android:id="@+id/eventDetail"
         android:name="com.example.palfinder.views.events.EventDetail"
-        android:label="EventDetailFragment" /> <!--
-    <argument
-        android:name="directionDetailFragmentArguments"
-        app:argType="com.amplifyframework.datastore.generated.model.Event" >
+        android:label="EventDetailFragment" />
 
-    </fragment> -->
 </navigation>
