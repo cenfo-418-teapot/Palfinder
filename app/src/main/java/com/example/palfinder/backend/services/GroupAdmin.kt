@@ -83,6 +83,13 @@ object GroupAdmin {
                 .id(this.id)
                 .build()
 
+        fun getTagsNames(): List<String> {
+            val listOfNames = mutableListOf<String>()
+            this.tags!!.forEach{ tagGroup ->
+                listOfNames.add(tagGroup.tag.name)
+            }
+            return listOfNames
+        }
         // static function to create a Group from a GroupData API object
         companion object {
             fun from(groupData : Group) : GroupModel {
