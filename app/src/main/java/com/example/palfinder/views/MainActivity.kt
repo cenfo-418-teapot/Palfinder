@@ -27,14 +27,16 @@ class MainActivity : AppCompatActivity() {
                 UserService.getUserByUsername(Amplify.Auth.currentUser.username,
                     {
                         //        If it doesn't, create a new object
-                        val items = it.data.items as ArrayList
-                        if (items.stream().findFirst().get().status == UserStatus.INCOMPLETE) {
-                            val user = items.stream().findFirst().get()
-                            val uid = user.id
-                            UserData.setCurrentUser(user)
-                            val i = Intent(this, InitialAccountSetup::class.java)
-                            i.putExtra("uid", uid)
-                            startActivity(i)
+                        if (it.data != null) {
+                            val items = it.data.items as ArrayList
+                            if (items.size > 0 && items.stream().findFirst().get().status == UserStatus.INCOMPLETE) {
+                                val user = items.stream().findFirst().get()
+                                val uid = user.id
+                                UserData.setCurrentUser(user)
+                                val i = Intent(this, InitialAccountSetup::class.java)
+                                i.putExtra("uid", uid)
+                                startActivity(i)
+                            } else startActivity(Intent(this, HomeActivity::class.java))
                         } else startActivity(Intent(this, HomeActivity::class.java))
                         finish()
                     }, { Log.e(TAG, "Failed to create user list in dynamo", it) }
