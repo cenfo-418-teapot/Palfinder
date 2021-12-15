@@ -155,7 +155,7 @@ class InitialSetupConfirmationFragment : Fragment() {
         if (userIsMember != null) {
             progressLiveData.postValue("User was already a member of: ${group.name}")
         } else {
-            val member = GroupMembers.builder().user(currentUser).group(group.data).build()
+            val member = GroupMembers.builder().role(GroupRoles.PARTICIPANT).user(currentUser).group(group.data).build()
             Amplify.API.mutate(ModelMutation.create(member),
                 {
                     currentUser.groups.add(it.data)

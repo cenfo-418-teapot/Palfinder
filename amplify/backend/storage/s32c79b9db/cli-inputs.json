@@ -1,0 +1,17 @@
+{
+  "resourceName": "s32c79b9db",
+  "policyUUID": "2c79b9db",
+  "bucketName": "palfinderbc66dcc10f8041e59ad739ce4e7ef168",
+  "storageAccess": "authAndGuest",
+  "guestAccess": [
+    "READ",
+    "CREATE_AND_UPDATE"
+  ],
+  "authAccess": [
+    "READ",
+    "CREATE_AND_UPDATE",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

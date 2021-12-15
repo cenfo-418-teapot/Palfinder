@@ -23,9 +23,10 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Group type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Groups", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.DELETE })
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
+  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE })
 })
-@Index(name = "byName", fields = {"id"})
+@Index(name = "byName", fields = {"name","id"})
 public final class Group implements Model {
   public static final QueryField ID = field("Group", "id");
   public static final QueryField NAME = field("Group", "name");
@@ -37,9 +38,9 @@ public final class Group implements Model {
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="String") String image;
   private final @ModelField(targetType="Status") Status status;
-  private final @ModelField(targetType="Event") @HasMany(associatedWith = "group", type = Event.class) List<Event> events = null;
-  private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "group", type = GroupMembers.class) List<GroupMembers> users = null;
-  private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "group", type = TagGroup.class) List<TagGroup> tags = null;
+  private final @ModelField(targetType="Event") @HasMany(associatedWith = "groupEventsId", type = Event.class) List<Event> events = null;
+  private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "groupUsersId", type = GroupMembers.class) List<GroupMembers> users = null;
+  private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "groupTagsId", type = TagGroup.class) List<TagGroup> tags = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedOn;
   public String getId() {

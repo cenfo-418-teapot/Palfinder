@@ -1,19 +1,19 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-palfinder-dev-224623-authRole",
-      "UnauthRoleArn": "arn:aws:iam::802382637317:role/amplify-palfinder-dev-224623-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::802382637317:role/amplify-palfinder-dev-224623-authRole",
+      "AuthRoleName": "amplify-palfinder-dev-123630-authRole",
+      "UnauthRoleArn": "arn:aws:iam::802382637317:role/amplify-palfinder-dev-123630-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::802382637317:role/amplify-palfinder-dev-123630-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-palfinder-dev-224623-deployment",
-      "UnauthRoleName": "amplify-palfinder-dev-224623-unauthRole",
-      "StackName": "amplify-palfinder-dev-224623",
-      "StackId": "arn:aws:cloudformation:us-east-1:802382637317:stack/amplify-palfinder-dev-224623/d8b0ea90-36e0-11ec-bbaf-0a7fd7c86da5",
-      "AmplifyAppId": "d4b8xnoecljc5"
+      "DeploymentBucketName": "amplify-palfinder-dev-123630-deployment",
+      "UnauthRoleName": "amplify-palfinder-dev-123630-unauthRole",
+      "StackName": "amplify-palfinder-dev-123630",
+      "StackId": "arn:aws:cloudformation:us-east-1:802382637317:stack/amplify-palfinder-dev-123630/5f2f7a00-5cac-11ec-9da5-120965d60159",
+      "AmplifyAppId": "d1mo4a81bmza3l"
     },
     "categories": {
       "auth": {
-        "palfinder5211831d": {}
+        "palfinder23d8a86f": {}
       }
     }
   }

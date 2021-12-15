@@ -23,7 +23,8 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Tag type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Tags", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE })
+  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
+  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE, ModelOperation.DELETE })
 })
 public final class Tag implements Model {
   public static final QueryField ID = field("Tag", "id");
@@ -34,9 +35,9 @@ public final class Tag implements Model {
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="Int") Integer uses;
   private final @ModelField(targetType="TagStatus", isRequired = true) TagStatus status;
-  private final @ModelField(targetType="TagUser") @HasMany(associatedWith = "tag", type = TagUser.class) List<TagUser> users = null;
-  private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "tag", type = TagGroup.class) List<TagGroup> groups = null;
-  private final @ModelField(targetType="TagEvent") @HasMany(associatedWith = "tag", type = TagEvent.class) List<TagEvent> events = null;
+  private final @ModelField(targetType="TagUser") @HasMany(associatedWith = "tagUsersId", type = TagUser.class) List<TagUser> users = null;
+  private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "tagGroupsId", type = TagGroup.class) List<TagGroup> groups = null;
+  private final @ModelField(targetType="TagEvent") @HasMany(associatedWith = "tagEventsId", type = TagEvent.class) List<TagEvent> events = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedOn;
   public String getId() {

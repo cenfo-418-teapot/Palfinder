@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.core.Amplify
-import com.amplifyframework.datastore.generated.model.Group
-import com.amplifyframework.datastore.generated.model.GroupMembers
-import com.amplifyframework.datastore.generated.model.Status
-import com.amplifyframework.datastore.generated.model.User
+import com.amplifyframework.datastore.generated.model.*
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 import com.example.palfinder.backend.services.GroupService
@@ -224,7 +221,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         if (userIsMember != null) {
             progressLiveData.postValue("User was already a member of: ${group.name}")
         } else {
-            val member = GroupMembers.builder().user(currentUser.value).group(group.data).build()
+            val member = GroupMembers.builder().role(GroupRoles.PARTICIPANT).user(currentUser.value).group(group.data).build()
             if (currentUser.value != null){
                 Amplify.API.mutate(
                     ModelMutation.create(member),
