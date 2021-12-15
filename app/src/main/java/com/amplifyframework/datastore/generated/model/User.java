@@ -26,7 +26,6 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ })
 })
-@Index(name = "undefined", fields = {"id"})
 @Index(name = "byEmail", fields = {"email"})
 @Index(name = "byUsername", fields = {"username"})
 public final class User implements Model {
@@ -48,10 +47,10 @@ public final class User implements Model {
   private final @ModelField(targetType="String") String phoneNumber;
   private final @ModelField(targetType="String") String photo;
   private final @ModelField(targetType="UserStatus", isRequired = true) UserStatus status;
-  private final @ModelField(targetType="Friend") @HasMany(associatedWith = "friend", type = Friend.class) List<Friend> friends = null;
-  private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "user", type = GroupMembers.class) List<GroupMembers> groups = null;
-  private final @ModelField(targetType="EventMembers") @HasMany(associatedWith = "user", type = EventMembers.class) List<EventMembers> events = null;
-  private final @ModelField(targetType="TagUser") @HasMany(associatedWith = "user", type = TagUser.class) List<TagUser> tags = null;
+  private final @ModelField(targetType="Friend") @HasMany(associatedWith = "userFriendsId", type = Friend.class) List<Friend> friends = null;
+  private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "userGroupsId", type = GroupMembers.class) List<GroupMembers> groups = null;
+  private final @ModelField(targetType="EventMembers") @HasMany(associatedWith = "userEventsId", type = EventMembers.class) List<EventMembers> events = null;
+  private final @ModelField(targetType="TagUser") @HasMany(associatedWith = "userTagsId", type = TagUser.class) List<TagUser> tags = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedOn;
   public String getId() {

@@ -26,33 +26,23 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE, ModelOperation.DELETE })
 })
-@Index(name = "byUserEvent", fields = {"userID","eventID"})
-@Index(name = "byEventUser", fields = {"eventID","userID"})
 public final class EventMembers implements Model {
   public static final QueryField ID = field("EventMembers", "id");
-  public static final QueryField USER_ID = field("EventMembers", "userID");
-  public static final QueryField EVENT_ID = field("EventMembers", "eventID");
   public static final QueryField ROLE = field("EventMembers", "role");
-  public static final QueryField USER = field("EventMembers", "userID");
-  public static final QueryField EVENT = field("EventMembers", "eventID");
+  public static final QueryField USER = field("EventMembers", "userEventsId");
+  public static final QueryField EVENT = field("EventMembers", "eventMembersId");
+  public static final QueryField USER_EVENTS_ID = field("EventMembers", "userEventsId");
+  public static final QueryField EVENT_MEMBERS_ID = field("EventMembers", "eventMembersId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
-  private final @ModelField(targetType="ID", isRequired = true) String userID;
-  private final @ModelField(targetType="ID", isRequired = true) String eventID;
   private final @ModelField(targetType="EventRoles", isRequired = true) EventRoles role;
-  private final @ModelField(targetType="User", isRequired = true) @BelongsTo(targetName = "userID", type = User.class) User user;
-  private final @ModelField(targetType="Event", isRequired = true) @BelongsTo(targetName = "eventID", type = Event.class) Event event;
+  private final @ModelField(targetType="User", isRequired = true) @BelongsTo(targetName = "userEventsId", type = User.class) User user;
+  private final @ModelField(targetType="Event", isRequired = true) @BelongsTo(targetName = "eventMembersId", type = Event.class) Event event;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
+  private final @ModelField(targetType="ID") String userEventsId;
+  private final @ModelField(targetType="ID") String eventMembersId;
   public String getId() {
       return id;
-  }
-  
-  public String getUserId() {
-      return userID;
-  }
-  
-  public String getEventId() {
-      return eventID;
   }
   
   public EventRoles getRole() {
@@ -75,13 +65,21 @@ public final class EventMembers implements Model {
       return updatedAt;
   }
   
-  private EventMembers(String id, String userID, String eventID, EventRoles role, User user, Event event) {
+  public String getUserEventsId() {
+      return userEventsId;
+  }
+  
+  public String getEventMembersId() {
+      return eventMembersId;
+  }
+  
+  private EventMembers(String id, EventRoles role, User user, Event event, String userEventsId, String eventMembersId) {
     this.id = id;
-    this.userID = userID;
-    this.eventID = eventID;
     this.role = role;
     this.user = user;
     this.event = event;
+    this.userEventsId = userEventsId;
+    this.eventMembersId = eventMembersId;
   }
   
   @Override
@@ -93,13 +91,13 @@ public final class EventMembers implements Model {
       } else {
       EventMembers eventMembers = (EventMembers) obj;
       return ObjectsCompat.equals(getId(), eventMembers.getId()) &&
-              ObjectsCompat.equals(getUserId(), eventMembers.getUserId()) &&
-              ObjectsCompat.equals(getEventId(), eventMembers.getEventId()) &&
               ObjectsCompat.equals(getRole(), eventMembers.getRole()) &&
               ObjectsCompat.equals(getUser(), eventMembers.getUser()) &&
               ObjectsCompat.equals(getEvent(), eventMembers.getEvent()) &&
               ObjectsCompat.equals(getCreatedAt(), eventMembers.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), eventMembers.getUpdatedAt());
+              ObjectsCompat.equals(getUpdatedAt(), eventMembers.getUpdatedAt()) &&
+              ObjectsCompat.equals(getUserEventsId(), eventMembers.getUserEventsId()) &&
+              ObjectsCompat.equals(getEventMembersId(), eventMembers.getEventMembersId());
       }
   }
   
@@ -107,13 +105,13 @@ public final class EventMembers implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
-      .append(getUserId())
-      .append(getEventId())
       .append(getRole())
       .append(getUser())
       .append(getEvent())
       .append(getCreatedAt())
       .append(getUpdatedAt())
+      .append(getUserEventsId())
+      .append(getEventMembersId())
       .toString()
       .hashCode();
   }
@@ -123,18 +121,18 @@ public final class EventMembers implements Model {
     return new StringBuilder()
       .append("EventMembers {")
       .append("id=" + String.valueOf(getId()) + ", ")
-      .append("userID=" + String.valueOf(getUserId()) + ", ")
-      .append("eventID=" + String.valueOf(getEventId()) + ", ")
       .append("role=" + String.valueOf(getRole()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("event=" + String.valueOf(getEvent()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
-      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
+      .append("userEventsId=" + String.valueOf(getUserEventsId()) + ", ")
+      .append("eventMembersId=" + String.valueOf(getEventMembersId()))
       .append("}")
       .toString();
   }
   
-  public static UserIdStep builder() {
+  public static RoleStep builder() {
       return new Builder();
   }
   
@@ -159,22 +157,12 @@ public final class EventMembers implements Model {
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      userID,
-      eventID,
       role,
       user,
-      event);
+      event,
+      userEventsId,
+      eventMembersId);
   }
-  public interface UserIdStep {
-    EventIdStep userId(String userId);
-  }
-  
-
-  public interface EventIdStep {
-    RoleStep eventId(String eventId);
-  }
-  
-
   public interface RoleStep {
     UserStep role(EventRoles role);
   }
@@ -193,41 +181,29 @@ public final class EventMembers implements Model {
   public interface BuildStep {
     EventMembers build();
     BuildStep id(String id);
+    BuildStep userEventsId(String userEventsId);
+    BuildStep eventMembersId(String eventMembersId);
   }
   
 
-  public static class Builder implements UserIdStep, EventIdStep, RoleStep, UserStep, EventStep, BuildStep {
+  public static class Builder implements RoleStep, UserStep, EventStep, BuildStep {
     private String id;
-    private String userID;
-    private String eventID;
     private EventRoles role;
     private User user;
     private Event event;
+    private String userEventsId;
+    private String eventMembersId;
     @Override
      public EventMembers build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
         
         return new EventMembers(
           id,
-          userID,
-          eventID,
           role,
           user,
-          event);
-    }
-    
-    @Override
-     public EventIdStep userId(String userId) {
-        Objects.requireNonNull(userId);
-        this.userID = userId;
-        return this;
-    }
-    
-    @Override
-     public RoleStep eventId(String eventId) {
-        Objects.requireNonNull(eventId);
-        this.eventID = eventId;
-        return this;
+          event,
+          userEventsId,
+          eventMembersId);
     }
     
     @Override
@@ -251,6 +227,18 @@ public final class EventMembers implements Model {
         return this;
     }
     
+    @Override
+     public BuildStep userEventsId(String userEventsId) {
+        this.userEventsId = userEventsId;
+        return this;
+    }
+    
+    @Override
+     public BuildStep eventMembersId(String eventMembersId) {
+        this.eventMembersId = eventMembersId;
+        return this;
+    }
+    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -263,23 +251,13 @@ public final class EventMembers implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String userId, String eventId, EventRoles role, User user, Event event) {
+    private CopyOfBuilder(String id, EventRoles role, User user, Event event, String userEventsId, String eventMembersId) {
       super.id(id);
-      super.userId(userId)
-        .eventId(eventId)
-        .role(role)
+      super.role(role)
         .user(user)
-        .event(event);
-    }
-    
-    @Override
-     public CopyOfBuilder userId(String userId) {
-      return (CopyOfBuilder) super.userId(userId);
-    }
-    
-    @Override
-     public CopyOfBuilder eventId(String eventId) {
-      return (CopyOfBuilder) super.eventId(eventId);
+        .event(event)
+        .userEventsId(userEventsId)
+        .eventMembersId(eventMembersId);
     }
     
     @Override
@@ -295,6 +273,16 @@ public final class EventMembers implements Model {
     @Override
      public CopyOfBuilder event(Event event) {
       return (CopyOfBuilder) super.event(event);
+    }
+    
+    @Override
+     public CopyOfBuilder userEventsId(String userEventsId) {
+      return (CopyOfBuilder) super.userEventsId(userEventsId);
+    }
+    
+    @Override
+     public CopyOfBuilder eventMembersId(String eventMembersId) {
+      return (CopyOfBuilder) super.eventMembersId(eventMembersId);
     }
   }
   

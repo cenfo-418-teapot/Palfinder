@@ -28,20 +28,19 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 })
 @Index(name = "byEmail", fields = {"email"})
 @Index(name = "byUsername", fields = {"username"})
-@Index(name = "byFriends", fields = {"friendID","username"})
 public final class Friend implements Model {
   public static final QueryField ID = field("Friend", "id");
   public static final QueryField EMAIL = field("Friend", "email");
   public static final QueryField USERNAME = field("Friend", "username");
-  public static final QueryField FRIEND_ID = field("Friend", "friendID");
-  public static final QueryField FRIEND = field("Friend", "friendID");
+  public static final QueryField FRIEND = field("Friend", "userFriendsId");
+  public static final QueryField USER_FRIENDS_ID = field("Friend", "userFriendsId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String email;
   private final @ModelField(targetType="String", isRequired = true) String username;
-  private final @ModelField(targetType="ID", isRequired = true) String friendID;
-  private final @ModelField(targetType="User") @BelongsTo(targetName = "friendID", type = User.class) User friend;
+  private final @ModelField(targetType="User") @BelongsTo(targetName = "userFriendsId", type = User.class) User friend;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedOn;
+  private final @ModelField(targetType="ID") String userFriendsId;
   public String getId() {
       return id;
   }
@@ -52,10 +51,6 @@ public final class Friend implements Model {
   
   public String getUsername() {
       return username;
-  }
-  
-  public String getFriendId() {
-      return friendID;
   }
   
   public User getFriend() {
@@ -70,12 +65,16 @@ public final class Friend implements Model {
       return updatedOn;
   }
   
-  private Friend(String id, String email, String username, String friendID, User friend) {
+  public String getUserFriendsId() {
+      return userFriendsId;
+  }
+  
+  private Friend(String id, String email, String username, User friend, String userFriendsId) {
     this.id = id;
     this.email = email;
     this.username = username;
-    this.friendID = friendID;
     this.friend = friend;
+    this.userFriendsId = userFriendsId;
   }
   
   @Override
@@ -89,10 +88,10 @@ public final class Friend implements Model {
       return ObjectsCompat.equals(getId(), friend.getId()) &&
               ObjectsCompat.equals(getEmail(), friend.getEmail()) &&
               ObjectsCompat.equals(getUsername(), friend.getUsername()) &&
-              ObjectsCompat.equals(getFriendId(), friend.getFriendId()) &&
               ObjectsCompat.equals(getFriend(), friend.getFriend()) &&
               ObjectsCompat.equals(getCreatedOn(), friend.getCreatedOn()) &&
-              ObjectsCompat.equals(getUpdatedOn(), friend.getUpdatedOn());
+              ObjectsCompat.equals(getUpdatedOn(), friend.getUpdatedOn()) &&
+              ObjectsCompat.equals(getUserFriendsId(), friend.getUserFriendsId());
       }
   }
   
@@ -102,10 +101,10 @@ public final class Friend implements Model {
       .append(getId())
       .append(getEmail())
       .append(getUsername())
-      .append(getFriendId())
       .append(getFriend())
       .append(getCreatedOn())
       .append(getUpdatedOn())
+      .append(getUserFriendsId())
       .toString()
       .hashCode();
   }
@@ -117,10 +116,10 @@ public final class Friend implements Model {
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("email=" + String.valueOf(getEmail()) + ", ")
       .append("username=" + String.valueOf(getUsername()) + ", ")
-      .append("friendID=" + String.valueOf(getFriendId()) + ", ")
       .append("friend=" + String.valueOf(getFriend()) + ", ")
       .append("createdOn=" + String.valueOf(getCreatedOn()) + ", ")
-      .append("updatedOn=" + String.valueOf(getUpdatedOn()))
+      .append("updatedOn=" + String.valueOf(getUpdatedOn()) + ", ")
+      .append("userFriendsId=" + String.valueOf(getUserFriendsId()))
       .append("}")
       .toString();
   }
@@ -151,8 +150,8 @@ public final class Friend implements Model {
     return new CopyOfBuilder(id,
       email,
       username,
-      friendID,
-      friend);
+      friend,
+      userFriendsId);
   }
   public interface EmailStep {
     UsernameStep email(String email);
@@ -160,12 +159,7 @@ public final class Friend implements Model {
   
 
   public interface UsernameStep {
-    FriendIdStep username(String username);
-  }
-  
-
-  public interface FriendIdStep {
-    BuildStep friendId(String friendId);
+    BuildStep username(String username);
   }
   
 
@@ -173,15 +167,16 @@ public final class Friend implements Model {
     Friend build();
     BuildStep id(String id);
     BuildStep friend(User friend);
+    BuildStep userFriendsId(String userFriendsId);
   }
   
 
-  public static class Builder implements EmailStep, UsernameStep, FriendIdStep, BuildStep {
+  public static class Builder implements EmailStep, UsernameStep, BuildStep {
     private String id;
     private String email;
     private String username;
-    private String friendID;
     private User friend;
+    private String userFriendsId;
     @Override
      public Friend build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -190,8 +185,8 @@ public final class Friend implements Model {
           id,
           email,
           username,
-          friendID,
-          friend);
+          friend,
+          userFriendsId);
     }
     
     @Override
@@ -202,22 +197,21 @@ public final class Friend implements Model {
     }
     
     @Override
-     public FriendIdStep username(String username) {
+     public BuildStep username(String username) {
         Objects.requireNonNull(username);
         this.username = username;
         return this;
     }
     
     @Override
-     public BuildStep friendId(String friendId) {
-        Objects.requireNonNull(friendId);
-        this.friendID = friendId;
+     public BuildStep friend(User friend) {
+        this.friend = friend;
         return this;
     }
     
     @Override
-     public BuildStep friend(User friend) {
-        this.friend = friend;
+     public BuildStep userFriendsId(String userFriendsId) {
+        this.userFriendsId = userFriendsId;
         return this;
     }
     
@@ -233,12 +227,12 @@ public final class Friend implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String email, String username, String friendId, User friend) {
+    private CopyOfBuilder(String id, String email, String username, User friend, String userFriendsId) {
       super.id(id);
       super.email(email)
         .username(username)
-        .friendId(friendId)
-        .friend(friend);
+        .friend(friend)
+        .userFriendsId(userFriendsId);
     }
     
     @Override
@@ -252,13 +246,13 @@ public final class Friend implements Model {
     }
     
     @Override
-     public CopyOfBuilder friendId(String friendId) {
-      return (CopyOfBuilder) super.friendId(friendId);
+     public CopyOfBuilder friend(User friend) {
+      return (CopyOfBuilder) super.friend(friend);
     }
     
     @Override
-     public CopyOfBuilder friend(User friend) {
-      return (CopyOfBuilder) super.friend(friend);
+     public CopyOfBuilder userFriendsId(String userFriendsId) {
+      return (CopyOfBuilder) super.userFriendsId(userFriendsId);
     }
   }
   

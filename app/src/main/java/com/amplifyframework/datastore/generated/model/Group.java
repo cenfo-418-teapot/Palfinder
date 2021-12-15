@@ -38,9 +38,9 @@ public final class Group implements Model {
   private final @ModelField(targetType="String") String description;
   private final @ModelField(targetType="String") String image;
   private final @ModelField(targetType="Status") Status status;
-  private final @ModelField(targetType="Event") @HasMany(associatedWith = "group", type = Event.class) List<Event> events = null;
-  private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "group", type = GroupMembers.class) List<GroupMembers> users = null;
-  private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "group", type = TagGroup.class) List<TagGroup> tags = null;
+  private final @ModelField(targetType="Event") @HasMany(associatedWith = "groupEventsId", type = Event.class) List<Event> events = null;
+  private final @ModelField(targetType="GroupMembers") @HasMany(associatedWith = "groupUsersId", type = GroupMembers.class) List<GroupMembers> users = null;
+  private final @ModelField(targetType="TagGroup") @HasMany(associatedWith = "groupTagsId", type = TagGroup.class) List<TagGroup> tags = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedOn;
   public String getId() {
