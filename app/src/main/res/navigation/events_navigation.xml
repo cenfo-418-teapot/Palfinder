@@ -7,5 +7,15 @@
     <fragment
         android:id="@+id/eventListManager"
         android:name="com.example.palfinder.views.events.EventListFragment"
-        android:label="EvenListFragment" />
+        android:label="EvenListFragment" >
+        <action
+            android:id="@+id/action_eventListManager_to_eventDetail"
+            app:destination="@id/eventDetail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/eventDetail"
+        android:name="com.example.palfinder.views.events.EventDetail"
+        android:label="EventDetailFragment" />
+
 </navigation>

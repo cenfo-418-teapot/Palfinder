@@ -29,15 +29,21 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 @Index(name = "byEventUser", fields = {"eventID","userID"})
 public final class EventMembers implements Model {
   public static final QueryField ID = field("EventMembers", "id");
+  public static final QueryField ROLE = field("EventMembers", "role");
   public static final QueryField USER = field("EventMembers", "userID");
   public static final QueryField EVENT = field("EventMembers", "eventID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
+  private final @ModelField(targetType="EventRoles", isRequired = true) EventRoles role;
   private final @ModelField(targetType="User", isRequired = true) @BelongsTo(targetName = "userID", type = User.class) User user;
   private final @ModelField(targetType="Event", isRequired = true) @BelongsTo(targetName = "eventID", type = Event.class) Event event;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
       return id;
+  }
+  
+  public EventRoles getRole() {
+      return role;
   }
   
   public User getUser() {
@@ -56,8 +62,9 @@ public final class EventMembers implements Model {
       return updatedAt;
   }
   
-  private EventMembers(String id, User user, Event event) {
+  private EventMembers(String id, EventRoles role, User user, Event event) {
     this.id = id;
+    this.role = role;
     this.user = user;
     this.event = event;
   }
@@ -71,6 +78,7 @@ public final class EventMembers implements Model {
       } else {
       EventMembers eventMembers = (EventMembers) obj;
       return ObjectsCompat.equals(getId(), eventMembers.getId()) &&
+              ObjectsCompat.equals(getRole(), eventMembers.getRole()) &&
               ObjectsCompat.equals(getUser(), eventMembers.getUser()) &&
               ObjectsCompat.equals(getEvent(), eventMembers.getEvent()) &&
               ObjectsCompat.equals(getCreatedAt(), eventMembers.getCreatedAt()) &&
@@ -82,6 +90,7 @@ public final class EventMembers implements Model {
    public int hashCode() {
     return new StringBuilder()
       .append(getId())
+      .append(getRole())
       .append(getUser())
       .append(getEvent())
       .append(getCreatedAt())
@@ -95,6 +104,7 @@ public final class EventMembers implements Model {
     return new StringBuilder()
       .append("EventMembers {")
       .append("id=" + String.valueOf(getId()) + ", ")
+      .append("role=" + String.valueOf(getRole()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("event=" + String.valueOf(getEvent()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
@@ -103,7 +113,7 @@ public final class EventMembers implements Model {
       .toString();
   }
   
-  public static UserStep builder() {
+  public static RoleStep builder() {
       return new Builder();
   }
   
@@ -119,15 +129,22 @@ public final class EventMembers implements Model {
     return new EventMembers(
       id,
       null,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
+      role,
       user,
       event);
   }
+  public interface RoleStep {
+    UserStep role(EventRoles role);
+  }
+  
+
   public interface UserStep {
     EventStep user(User user);
   }
@@ -144,8 +161,9 @@ public final class EventMembers implements Model {
   }
   
 
-  public static class Builder implements UserStep, EventStep, BuildStep {
+  public static class Builder implements RoleStep, UserStep, EventStep, BuildStep {
     private String id;
+    private EventRoles role;
     private User user;
     private Event event;
     @Override
@@ -154,8 +172,16 @@ public final class EventMembers implements Model {
         
         return new EventMembers(
           id,
+          role,
           user,
           event);
+    }
+    
+    @Override
+     public UserStep role(EventRoles role) {
+        Objects.requireNonNull(role);
+        this.role = role;
+        return this;
     }
     
     @Override
@@ -184,10 +210,16 @@ public final class EventMembers implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, User user, Event event) {
+    private CopyOfBuilder(String id, EventRoles role, User user, Event event) {
       super.id(id);
-      super.user(user)
+      super.role(role)
+        .user(user)
         .event(event);
+    }
+    
+    @Override
+     public CopyOfBuilder role(EventRoles role) {
+      return (CopyOfBuilder) super.role(role);
     }
     
     @Override
