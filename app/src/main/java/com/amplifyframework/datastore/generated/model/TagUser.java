@@ -23,22 +23,17 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the TagUser type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "TagUsers", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
-  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE, ModelOperation.DELETE })
+  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class TagUser implements Model {
   public static final QueryField ID = field("TagUser", "id");
   public static final QueryField TAG = field("TagUser", "tagUsersId");
   public static final QueryField USER = field("TagUser", "userTagsId");
-  public static final QueryField USER_TAGS_ID = field("TagUser", "userTagsId");
-  public static final QueryField TAG_USERS_ID = field("TagUser", "tagUsersId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="Tag", isRequired = true) @BelongsTo(targetName = "tagUsersId", type = Tag.class) Tag tag;
   private final @ModelField(targetType="User", isRequired = true) @BelongsTo(targetName = "userTagsId", type = User.class) User user;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
-  private final @ModelField(targetType="ID") String userTagsId;
-  private final @ModelField(targetType="ID") String tagUsersId;
   public String getId() {
       return id;
   }
@@ -59,20 +54,10 @@ public final class TagUser implements Model {
       return updatedAt;
   }
   
-  public String getUserTagsId() {
-      return userTagsId;
-  }
-  
-  public String getTagUsersId() {
-      return tagUsersId;
-  }
-  
-  private TagUser(String id, Tag tag, User user, String userTagsId, String tagUsersId) {
+  private TagUser(String id, Tag tag, User user) {
     this.id = id;
     this.tag = tag;
     this.user = user;
-    this.userTagsId = userTagsId;
-    this.tagUsersId = tagUsersId;
   }
   
   @Override
@@ -87,9 +72,7 @@ public final class TagUser implements Model {
               ObjectsCompat.equals(getTag(), tagUser.getTag()) &&
               ObjectsCompat.equals(getUser(), tagUser.getUser()) &&
               ObjectsCompat.equals(getCreatedAt(), tagUser.getCreatedAt()) &&
-              ObjectsCompat.equals(getUpdatedAt(), tagUser.getUpdatedAt()) &&
-              ObjectsCompat.equals(getUserTagsId(), tagUser.getUserTagsId()) &&
-              ObjectsCompat.equals(getTagUsersId(), tagUser.getTagUsersId());
+              ObjectsCompat.equals(getUpdatedAt(), tagUser.getUpdatedAt());
       }
   }
   
@@ -101,8 +84,6 @@ public final class TagUser implements Model {
       .append(getUser())
       .append(getCreatedAt())
       .append(getUpdatedAt())
-      .append(getUserTagsId())
-      .append(getTagUsersId())
       .toString()
       .hashCode();
   }
@@ -115,9 +96,7 @@ public final class TagUser implements Model {
       .append("tag=" + String.valueOf(getTag()) + ", ")
       .append("user=" + String.valueOf(getUser()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
-      .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
-      .append("userTagsId=" + String.valueOf(getUserTagsId()) + ", ")
-      .append("tagUsersId=" + String.valueOf(getTagUsersId()))
+      .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
   }
@@ -138,8 +117,6 @@ public final class TagUser implements Model {
     return new TagUser(
       id,
       null,
-      null,
-      null,
       null
     );
   }
@@ -147,9 +124,7 @@ public final class TagUser implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       tag,
-      user,
-      userTagsId,
-      tagUsersId);
+      user);
   }
   public interface TagStep {
     UserStep tag(Tag tag);
@@ -164,8 +139,6 @@ public final class TagUser implements Model {
   public interface BuildStep {
     TagUser build();
     BuildStep id(String id);
-    BuildStep userTagsId(String userTagsId);
-    BuildStep tagUsersId(String tagUsersId);
   }
   
 
@@ -173,8 +146,6 @@ public final class TagUser implements Model {
     private String id;
     private Tag tag;
     private User user;
-    private String userTagsId;
-    private String tagUsersId;
     @Override
      public TagUser build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -182,9 +153,7 @@ public final class TagUser implements Model {
         return new TagUser(
           id,
           tag,
-          user,
-          userTagsId,
-          tagUsersId);
+          user);
     }
     
     @Override
@@ -201,18 +170,6 @@ public final class TagUser implements Model {
         return this;
     }
     
-    @Override
-     public BuildStep userTagsId(String userTagsId) {
-        this.userTagsId = userTagsId;
-        return this;
-    }
-    
-    @Override
-     public BuildStep tagUsersId(String tagUsersId) {
-        this.tagUsersId = tagUsersId;
-        return this;
-    }
-    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -225,12 +182,10 @@ public final class TagUser implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, Tag tag, User user, String userTagsId, String tagUsersId) {
+    private CopyOfBuilder(String id, Tag tag, User user) {
       super.id(id);
       super.tag(tag)
-        .user(user)
-        .userTagsId(userTagsId)
-        .tagUsersId(tagUsersId);
+        .user(user);
     }
     
     @Override
@@ -241,16 +196,6 @@ public final class TagUser implements Model {
     @Override
      public CopyOfBuilder user(User user) {
       return (CopyOfBuilder) super.user(user);
-    }
-    
-    @Override
-     public CopyOfBuilder userTagsId(String userTagsId) {
-      return (CopyOfBuilder) super.userTagsId(userTagsId);
-    }
-    
-    @Override
-     public CopyOfBuilder tagUsersId(String tagUsersId) {
-      return (CopyOfBuilder) super.tagUsersId(tagUsersId);
     }
   }
   

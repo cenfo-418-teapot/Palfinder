@@ -90,29 +90,42 @@ class SignInFragment : Fragment() {
         UserService.getUserByUsername(Amplify.Auth.currentUser.username,
             {
 //        If it doesn't, create a new object
-                val items = it.data.items as ArrayList
-                when {
-                    items.size == 0 -> {
-                        Log.i(TAG, "First Login from the user, will register in the DB")
-                        Amplify.Auth.fetchUserAttributes(
-                            { attrs ->
-                                val email =
-                                    attrs.find { value -> value.key.keyString == "email" }?.value
-                                createUserProfile(email ?: "unknown")
-                            },
-                            { error -> Log.e(TAG, "Failed to get user attributes", error) }
-                        )
+                if (it.data != null) {
+                    val items = it.data.items as ArrayList
+                    when {
+                        items.size == 0 -> {
+                            Log.i(TAG, "First Login from the user, will register in the DB")
+                            Amplify.Auth.fetchUserAttributes(
+                                { attrs ->
+                                    val email =
+                                        attrs.find { value -> value.key.keyString == "email" }?.value
+                                    createUserProfile(email ?: "unknown")
+                                },
+                                { error -> Log.e(TAG, "Failed to get user attributes", error) }
+                            )
+                        }
+                        items.stream().findFirst().get().status == UserStatus.INCOMPLETE -> {
+                            val user = items.stream().findFirst().get()
+                            val uid = user.id
+                            val i = Intent(activity, InitialAccountSetup::class.java)
+                            i.putExtra("uid", uid)
+                            UserData.setCurrentUser(user)
+                            startActivity(i)
+                            activity?.finish()
+                        }
+                        else -> startActivity(Intent(activity, HomeActivity::class.java))
                     }
-                    items.stream().findFirst().get().status == UserStatus.INCOMPLETE -> {
-                        val user = items.stream().findFirst().get()
-                        val uid = user.id
-                        val i = Intent(activity, InitialAccountSetup::class.java)
-                        i.putExtra("uid", uid)
-                        UserData.setCurrentUser(user)
-                        startActivity(i)
-                        activity?.finish()
-                    }
-                    else -> startActivity(Intent(activity, HomeActivity::class.java))
+                }
+                else {
+                    Log.i(TAG, "First Login from the user, will register in the DB")
+                    Amplify.Auth.fetchUserAttributes(
+                        { attrs ->
+                            val email =
+                                attrs.find { value -> value.key.keyString == "email" }?.value
+                            createUserProfile(email ?: "unknown")
+                        },
+                        { error -> Log.e(TAG, "Failed to get user attributes", error) }
+                    )
                 }
             },
             { Log.e(TAG, "Failed to get user by id", it) }

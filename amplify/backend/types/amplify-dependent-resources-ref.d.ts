@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
     "auth": {
-        "palfinder23d8a86f": {
+        "palfinder0d52aa30": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
             "UserPoolId": "string",
@@ -18,7 +18,7 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "storage": {
-        "s32c79b9db": {
+        "PalfinderS3Bucket": {
             "BucketName": "string",
             "Region": "string"
         }

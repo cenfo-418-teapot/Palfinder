@@ -24,8 +24,7 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Event type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Events", authRules = {
-  @AuthRule(allow = AuthStrategy.OWNER, ownerField = "owner", identityClaim = "cognito:username", provider = "userPools", operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
-  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ, ModelOperation.UPDATE })
+  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
 })
 public final class Event implements Model {
   public static final QueryField ID = field("Event", "id");
@@ -36,7 +35,6 @@ public final class Event implements Model {
   public static final QueryField WHEN = field("Event", "when");
   public static final QueryField STATUS = field("Event", "status");
   public static final QueryField GROUP = field("Event", "groupEventsId");
-  public static final QueryField GROUP_EVENTS_ID = field("Event", "groupEventsId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String", isRequired = true) String name;
   private final @ModelField(targetType="String") String description;
@@ -49,7 +47,6 @@ public final class Event implements Model {
   private final @ModelField(targetType="TagEvent") @HasMany(associatedWith = "eventTagsId", type = TagEvent.class) List<TagEvent> tags = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdOn;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedOn;
-  private final @ModelField(targetType="ID") String groupEventsId;
   public String getId() {
       return id;
   }
@@ -98,11 +95,7 @@ public final class Event implements Model {
       return updatedOn;
   }
   
-  public String getGroupEventsId() {
-      return groupEventsId;
-  }
-  
-  private Event(String id, String name, String description, String image, String location, Temporal.DateTime when, EventStatus status, Group group, String groupEventsId) {
+  private Event(String id, String name, String description, String image, String location, Temporal.DateTime when, EventStatus status, Group group) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -111,7 +104,6 @@ public final class Event implements Model {
     this.when = when;
     this.status = status;
     this.group = group;
-    this.groupEventsId = groupEventsId;
   }
   
   @Override
@@ -131,8 +123,7 @@ public final class Event implements Model {
               ObjectsCompat.equals(getStatus(), event.getStatus()) &&
               ObjectsCompat.equals(getGroup(), event.getGroup()) &&
               ObjectsCompat.equals(getCreatedOn(), event.getCreatedOn()) &&
-              ObjectsCompat.equals(getUpdatedOn(), event.getUpdatedOn()) &&
-              ObjectsCompat.equals(getGroupEventsId(), event.getGroupEventsId());
+              ObjectsCompat.equals(getUpdatedOn(), event.getUpdatedOn());
       }
   }
   
@@ -149,7 +140,6 @@ public final class Event implements Model {
       .append(getGroup())
       .append(getCreatedOn())
       .append(getUpdatedOn())
-      .append(getGroupEventsId())
       .toString()
       .hashCode();
   }
@@ -167,8 +157,7 @@ public final class Event implements Model {
       .append("status=" + String.valueOf(getStatus()) + ", ")
       .append("group=" + String.valueOf(getGroup()) + ", ")
       .append("createdOn=" + String.valueOf(getCreatedOn()) + ", ")
-      .append("updatedOn=" + String.valueOf(getUpdatedOn()) + ", ")
-      .append("groupEventsId=" + String.valueOf(getGroupEventsId()))
+      .append("updatedOn=" + String.valueOf(getUpdatedOn()))
       .append("}")
       .toString();
   }
@@ -194,7 +183,6 @@ public final class Event implements Model {
       null,
       null,
       null,
-      null,
       null
     );
   }
@@ -207,8 +195,7 @@ public final class Event implements Model {
       location,
       when,
       status,
-      group,
-      groupEventsId);
+      group);
   }
   public interface NameStep {
     WhenStep name(String name);
@@ -232,7 +219,6 @@ public final class Event implements Model {
     BuildStep image(String image);
     BuildStep location(String location);
     BuildStep group(Group group);
-    BuildStep groupEventsId(String groupEventsId);
   }
   
 
@@ -245,7 +231,6 @@ public final class Event implements Model {
     private String image;
     private String location;
     private Group group;
-    private String groupEventsId;
     @Override
      public Event build() {
         String id = this.id != null ? this.id : UUID.randomUUID().toString();
@@ -258,8 +243,7 @@ public final class Event implements Model {
           location,
           when,
           status,
-          group,
-          groupEventsId);
+          group);
     }
     
     @Override
@@ -307,12 +291,6 @@ public final class Event implements Model {
         return this;
     }
     
-    @Override
-     public BuildStep groupEventsId(String groupEventsId) {
-        this.groupEventsId = groupEventsId;
-        return this;
-    }
-    
     /** 
      * @param id id
      * @return Current Builder instance, for fluent method chaining
@@ -325,7 +303,7 @@ public final class Event implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String name, String description, String image, String location, Temporal.DateTime when, EventStatus status, Group group, String groupEventsId) {
+    private CopyOfBuilder(String id, String name, String description, String image, String location, Temporal.DateTime when, EventStatus status, Group group) {
       super.id(id);
       super.name(name)
         .when(when)
@@ -333,8 +311,7 @@ public final class Event implements Model {
         .description(description)
         .image(image)
         .location(location)
-        .group(group)
-        .groupEventsId(groupEventsId);
+        .group(group);
     }
     
     @Override
@@ -370,11 +347,6 @@ public final class Event implements Model {
     @Override
      public CopyOfBuilder group(Group group) {
       return (CopyOfBuilder) super.group(group);
-    }
-    
-    @Override
-     public CopyOfBuilder groupEventsId(String groupEventsId) {
-      return (CopyOfBuilder) super.groupEventsId(groupEventsId);
     }
   }
   

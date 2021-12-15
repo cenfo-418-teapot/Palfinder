@@ -32,6 +32,7 @@ class UserProfileDetailFragment : Fragment() {
             Amplify.Auth.signOut(
                 {
                     Log.i("AuthQuickstart", "Signed out successfully")
+                    UserData.setSignedIn(false)
                     startActivity(Intent(context, LoginActivity::class.java))
                 },
                 { Log.e("AuthQuickstart", "Sign out failed", it) }
