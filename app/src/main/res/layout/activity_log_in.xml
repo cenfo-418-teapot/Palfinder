@@ -13,13 +13,13 @@
         android:scaleType="centerCrop"
         android:src="@drawable/friends_landscape"
         app:altSrc="@color/primaryDark"
-        app:crossfade=".2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent=".25"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0"
+        app:crossfade=".2"
         app:overlay="true"
         app:warmth="0.7" />
 

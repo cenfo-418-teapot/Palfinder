@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Palfinder">
         <activity
+            android:name=".views.events.EventDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.search.SearchActivity"
             android:exported="true" />
         <activity
