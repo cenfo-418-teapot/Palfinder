@@ -342,7 +342,7 @@
                     android:layout_height="wrap_content"
                     style="@style/Paragraph"
                     android:padding="15dp"
-                    android:text="@string/group_list_no_groups"
+                    android:text="@string/group_list_no_members"
                     android:visibility="gone"/>
                 <ScrollView
                     android:id="@+id/sv_group_members"

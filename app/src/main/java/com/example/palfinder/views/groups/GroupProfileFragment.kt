@@ -137,7 +137,7 @@ class GroupProfile : Fragment(), OnShowProfileListener {
                 groupMembers,
                 this.group,
                 this)
-            if (groupMembers.isNullOrEmpty()) tv_no_members.visibility = View.GONE
+            if (!groupMembers.isNullOrEmpty()) tv_no_members.visibility = View.GONE
             else tv_no_members.visibility = View.VISIBLE
         })
     }
