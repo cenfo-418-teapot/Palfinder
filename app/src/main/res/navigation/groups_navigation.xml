@@ -32,6 +32,9 @@
             android:id="@+id/action_groupProfile_to_groupProfileEditFragment"
             app:destination="@id/groupProfileEditFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_groupProfile_to_creteEvent"
+            app:destination="@id/createEvent" />
     </fragment>
     <fragment
         android:id="@+id/groupUsersFragment"
@@ -73,5 +76,15 @@
         <action
             android:id="@+id/action_groupProfileEditFragment_to_groupListFragment"
             app:destination="@id/groupListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createEvent"
+        android:name="com.example.palfinder.views.events.EventEditFragment"
+        android:label="createEvent"
+        >
+
+        <action
+            android:id="@+id/action_creteEvent_to_groupProfile"
+            app:destination="@id/groupProfile" />
     </fragment>
 </navigation>

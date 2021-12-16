@@ -24,7 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.activity_home.bottom_navigation
 import kotlinx.android.synthetic.main.activity_search.*
 
-class SearchActivity : AppCompatActivity(R.layout.activity_search) {
+class           SearchActivity : AppCompatActivity(R.layout.activity_search) {
     private val steps = arrayListOf(
         Pair(R.id.mnuUsers, SearchUsersFragment()),
         Pair(R.id.mnuEvents, SearchEventsFragment()),
