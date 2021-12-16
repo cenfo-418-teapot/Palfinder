@@ -132,6 +132,7 @@
     <string name="btn_create">Create</string>
     <string name="btn_cancel">Cancel</string>
     <string name="search_user_hint">Search User</string>
+    <string name="search_general_hint">Search something...</string>
     <string name="title_activity_initial_account_setup">InitialAccountSetup</string>
     <string name="pick_tag">Pick Your Tags</string>
     <string name="account_preferences_title">Account Preferences</string>
