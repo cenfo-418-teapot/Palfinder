@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 class SearchActivity : AppCompatActivity(R.layout.activity_search) {
     private val steps = arrayListOf(
         Pair(R.id.mnuUsers, SearchUsersFragment()),
-        Pair(R.id.mnuEvents, SearchEventsFragment()),
+//        Pair(R.id.mnuEvents, SearchEventsFragment()),
         Pair(R.id.mnuGroups, SearchGroupsFragment()),
     )
 
@@ -76,7 +76,10 @@ class SearchActivity : AppCompatActivity(R.layout.activity_search) {
         bottom_navigation.menu.forEach {
             val isCurrent = it.itemId == id
             it.isEnabled = !isCurrent
-            if (isCurrent) supportActionBar?.title = it.title
+            if (isCurrent) {
+                supportActionBar?.title = it.title
+                tilSearch.hint = "Search ${it.title}"
+            }
         }
     }
 
