@@ -63,7 +63,7 @@ class GroupProfileEditFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_edit, container, false)
         view.btnCancel?.setOnClickListener {
-            goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
+            backToProfile(view)
         }
         view.captureImage.setOnClickListener {
             imageEdited = true
@@ -139,8 +139,8 @@ class GroupProfileEditFragment : Fragment() {
         etState.setAdapter(adapter)
     }
 
-    private fun goTo(tmpView: View, tmpIdElement: Int) {
-        Navigation.findNavController(tmpView).navigate(tmpIdElement)
+    private fun backToProfile(tmpView: View){
+        Navigation.findNavController(tmpView).popBackStack()
     }
 
     private fun observeTagsToAdd(view: View) {
@@ -148,7 +148,7 @@ class GroupProfileEditFragment : Fragment() {
             if(it == 0 && groupUpdated.value!! && tagsSelected){
                 group.tags = _tagsAdded.toList()
                 model.sendMessage(this.group)
-                goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
+                backToProfile(view)
             }
 
         })
@@ -164,7 +164,7 @@ class GroupProfileEditFragment : Fragment() {
                     ).show()
                     group.tags = _tagsAdded.toList()
                     model.sendMessage(this.group)
-                    goTo(view, R.id.action_groupProfileEditFragment_to_groupProfile)
+                    backToProfile(view)
                 } else {
                     tagsSelected = true
                     countTagsToAdd.postValue(countTags)

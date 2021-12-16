@@ -65,7 +65,7 @@ class GroupEditFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_edit, container, false)
         view.btnCancel?.setOnClickListener {
-            goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+            backToProfile(view)
         }
         view.captureImage.setOnClickListener {
             val i = Intent(
@@ -116,13 +116,14 @@ class GroupEditFragment : Fragment() {
         )
         etState.setAdapter(adapter)
     }
-    private fun goTo(tmpView: View, tmpIdElement: Int) {
-        Navigation.findNavController(tmpView).navigate(tmpIdElement)
+
+    private fun backToProfile(tmpView: View){
+        Navigation.findNavController(tmpView).popBackStack()
     }
 
     private fun observeTagsToAdd(view: View) {
         countTagsToAdd.observe(viewLifecycleOwner, {
-            if(it == 0 && groupCreated.value!! && tagsSelected) goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+            if(it == 0 && groupCreated.value!! && tagsSelected) backToProfile(view)
         })
         groupCreated = MutableLiveData(false)
         groupCreated.observe(viewLifecycleOwner, {
