@@ -120,19 +120,6 @@ class SearchGroupsFragment : Fragment() {
             if (finalImage != null) {
                 holder.imageView.setImageBitmap(item.image)
             }
-            holder.imageView.setOnClickListener {
-                val model = ViewModelProvider(requireActivity()).get(GroupSharedViewModel::class.java)
-                if (item != null) {
-                    model.sendMessage(item)
-                    it.context.startActivity(Intent(it.context, GroupProfileActivity::class.java))
-                } else {
-                    Toast.makeText(
-                        activity,
-                        "Cannot access this data to group profile: " + item,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-            }
             holder.btnJoin.visibility = View.GONE
         }
 
