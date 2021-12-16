@@ -356,6 +356,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2"
                         tools:context=".views.groups.GroupActivity"
                         tools:listitem="@layout/members_item" />
                 </ScrollView>

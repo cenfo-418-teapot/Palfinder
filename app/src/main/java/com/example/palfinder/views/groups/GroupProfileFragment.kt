@@ -137,7 +137,7 @@ class GroupProfile : Fragment(), OnShowProfileListener {
                 groupMembers,
                 this.group,
                 this)
-            if (groupMembers.size > 0) tv_no_members.visibility = View.GONE
+            if (groupMembers.isNullOrEmpty()) tv_no_members.visibility = View.GONE
             else tv_no_members.visibility = View.VISIBLE
         })
     }
@@ -148,6 +148,7 @@ class GroupProfile : Fragment(), OnShowProfileListener {
             Amplify.API.mutate(
                 ModelMutation.delete(member),
                 {
+                    this._groupMembers.value?.clear()
                     notifyMembers()
                     this.rv_members.isEnabled = false
                 },
@@ -183,7 +184,6 @@ class GroupProfile : Fragment(), OnShowProfileListener {
 
     private fun setGroupData() {
         _groupMembers.value = group.users?.toMutableList()
-//        notifyMembers()
         tv_privacy_subtitle.text = group.status.toString()
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         tvTitle.text = group.name

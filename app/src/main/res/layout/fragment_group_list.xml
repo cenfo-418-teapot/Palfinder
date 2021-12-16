@@ -179,7 +179,6 @@
                 android:paddingTop="20dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
-                android:paddingStart="40dp"
                 android:text="@string/group_list_my_suggested_subtitle"
                 android:textColor="@color/primary" />
 

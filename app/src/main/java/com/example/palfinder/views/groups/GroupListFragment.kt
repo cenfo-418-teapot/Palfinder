@@ -51,7 +51,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         view.nav_discover_groups.setOnClickListener { setFocus(view, 1) }
         view.nav_my_groups.setOnClickListener { setFocus(view, 2) }
         view.nav_create_group.setOnClickListener { setFocus(view, 3) }
-        view.refresh_groups.setOnClickListener { loadGroups(true) }
+        view.refresh_groups.setOnClickListener { loadGroups(false) }
 
         if(currentUser.value == null)
             retrieveUser()
@@ -67,6 +67,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 //        loadGroups(false)
+        firstRetrieve = true
         if(discovering)
             setFocus(view, 1)
         if(!discovering)
@@ -233,7 +234,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                     {
                         currentUser.value!!.groups.add(it.data)
                         progressLiveData.postValue("${currentUser.value!!.username} added to group ${group.name}")
-                        loadGroups(true)
+                        loadGroups(false)
                     },
                     { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${group.name}") }
                 )
@@ -248,7 +249,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 {
                     currentUser.value!!.groups.remove(it.data)
                     progressLiveData.postValue("${currentUser.value!!.username} removed from group ${member.group.name}")
-                    loadGroups(true)
+                    loadGroups(false)
                 },
                 { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${member.group.name}") }
             )

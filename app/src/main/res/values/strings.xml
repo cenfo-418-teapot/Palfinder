@@ -81,6 +81,7 @@
     <string name="group_profile_members_subtitle">Members</string>
     <string name="group_profile_view_all_members">View all</string>
     <string name="group_profile_remove_user">Remove</string>
+    <string name="group_profile_role_user">Role</string>
 
     <!-- Group Users List -->
     <string name="title_group_user_list">Group members</string>
@@ -148,5 +149,8 @@
     <string name="filters_label">Search Filters</string>
     <string name="initial_setup_label">Initial Account Setup</string>
     <string name="initial_setup_paragraph">Before you begin, please let us know a little more about you. This will make the experience tailored to you</string>
+    <string name="group_members_full_name_placeholder">Full Name</string>
+    <string name="group_members_username_placeholder">Username</string>
+    <string name="group_members_description_placeholder">TexTexTextttTextTexTexTexttt TextTexTex TextttTextTexTexTextttTextTexTexTextttTextTexTexTextttTextTexTexTextttT extTexTexTextttTextTexTe xTextttTextTexTexTextttT</string>
 
 </resources>
