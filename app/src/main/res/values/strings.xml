@@ -65,8 +65,9 @@
     <string name="group_list_my_groups_subtitle">My Groups</string>
     <string name="group_profile_join">Join</string>
     <string name="group_profile_joined">Joined</string>
+    <string name="group_profile_owner">Joined</string>
     <string name="search_group_hint">Find a group</string>
-    <string name="group_list_no_groups">There are currently no groups.</string>
+    <string name="group_list_no_groups">There are currently no groups in this section.</string>
     <string name="group_list_reload">Reload groups</string>
 
     <!-- Groups Profile  -->
@@ -80,6 +81,10 @@
     <string name="group_profile_next_events_subtitle">Next Events</string>
     <string name="group_profile_members_subtitle">Members</string>
     <string name="group_profile_view_all_members">View all</string>
+    <string name="group_profile_remove_user">Remove</string>
+    <string name="group_profile_role_user">Role</string>
+<!--    <string name="group_list_no_members">There are currently no members.</string>-->
+    <string name="group_list_no_members">Can\'t find the members right now.</string>
 
     <!-- Group Users List -->
     <string name="title_group_user_list">Group members</string>
@@ -127,6 +132,7 @@
     <string name="btn_create">Create</string>
     <string name="btn_cancel">Cancel</string>
     <string name="search_user_hint">Search User</string>
+    <string name="search_general_hint">Search something...</string>
     <string name="title_activity_initial_account_setup">InitialAccountSetup</string>
     <string name="pick_tag">Pick Your Tags</string>
     <string name="account_preferences_title">Account Preferences</string>
@@ -148,5 +154,8 @@
     <string name="filters_label">Search Filters</string>
     <string name="initial_setup_label">Initial Account Setup</string>
     <string name="initial_setup_paragraph">Before you begin, please let us know a little more about you. This will make the experience tailored to you</string>
+    <string name="group_members_full_name_placeholder">Full Name</string>
+    <string name="group_members_username_placeholder">Username</string>
+    <string name="group_members_description_placeholder">TexTexTextttTextTexTexTexttt TextTexTex TextttTextTexTexTextttTextTexTexTextttTextTexTexTextttTextTexTexTextttT extTexTexTextttTextTexTe xTextttTextTexTexTextttT</string>
 
 </resources>

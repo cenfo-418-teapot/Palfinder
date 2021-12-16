@@ -55,14 +55,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // #2 -> Add Amplify core lib
-    implementation 'com.amplifyframework:core:1.28.2'
+    implementation 'com.amplifyframework:core:1.31.0'
 //    implementation 'com.amplifyframework:aws-analytics-pinpoint:1.28.2'
 //    implementation 'com.amplifyframework:aws-api:1.28.2'
-    implementation 'com.amplifyframework:aws-auth-cognito:1.28.2'
+    implementation 'com.amplifyframework:aws-auth-cognito:1.31.0'
 //    implementation 'com.amplifyframework:aws-datastore:1.28.2'
 //    implementation 'com.amplifyframework:aws-predictions:1.28.2'
-    implementation 'com.amplifyframework:aws-storage-s3:1.28.2'
-    implementation 'com.amplifyframework:aws-api:1.28.2'
+    implementation 'com.amplifyframework:aws-storage-s3:1.31.0'
+    implementation 'com.amplifyframework:aws-api:1.31.0'
     // #3 -> Add support for Java 8 features
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }

@@ -65,7 +65,7 @@ class GroupEditFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_group_edit, container, false)
         view.btnCancel?.setOnClickListener {
-            goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+            backToProfile(view)
         }
         view.captureImage.setOnClickListener {
             val i = Intent(
@@ -116,13 +116,14 @@ class GroupEditFragment : Fragment() {
         )
         etState.setAdapter(adapter)
     }
-    private fun goTo(tmpView: View, tmpIdElement: Int) {
-        Navigation.findNavController(tmpView).navigate(tmpIdElement)
+
+    private fun backToProfile(tmpView: View){
+        Navigation.findNavController(tmpView).popBackStack()
     }
 
     private fun observeTagsToAdd(view: View) {
         countTagsToAdd.observe(viewLifecycleOwner, {
-            if(it == 0 && groupCreated.value!! && tagsSelected) goTo(view, R.id.action_groupEditFragment_to_groupListFragment)
+            if(it == 0 && groupCreated.value!! && tagsSelected) backToProfile(view)
         })
         groupCreated = MutableLiveData(false)
         groupCreated.observe(viewLifecycleOwner, {
@@ -132,6 +133,7 @@ class GroupEditFragment : Fragment() {
                 GroupAdditionalSetUp.tagsList.value?.forEach {
                     createTag(it, group)
                 }
+                addGroupToUser(group)
             }
         })
         tagsToAddLiveData.observe(viewLifecycleOwner, { tagsToAdd ->
@@ -147,7 +149,7 @@ class GroupEditFragment : Fragment() {
         currentTags: List<TagGroup>?,
         tag: Tag
     ) {
-        val groupTag = currentTags?.find { uTag -> uTag.tag.id == tag.id }
+        val groupTag = currentTags?.find { uTag -> uTag.tag.name == tag.name }
         if (groupTag == null) {
             val userTag = TagGroup.builder().tag(tag).group(group.data).build()
             Amplify.API.mutate(
@@ -226,6 +228,17 @@ class GroupEditFragment : Fragment() {
     private fun assignTagToGroup(tag: Tag) {
         _tagsToAdd.add(tag)
         tagsToAddLiveData.postValue(_tagsToAdd)
+    }
+
+    private fun addGroupToUser(group: GroupAdmin.GroupModel) {
+        val member = GroupMembers.builder().role(GroupRoles.OWNER).user(currentUser).group(group.data).groupUsersId(group.id).build()
+        Amplify.API.mutate(
+            ModelMutation.create(member),
+            {
+                Log.e(TAG, "${currentUser.username} was added as a owner member to ${group.name}")
+            },
+            { Log.e(TAG, "${currentUser.username} was not added as a member to ${group.name}") }
+        )
     }
 
     private fun validForm(): GroupAdmin.GroupModel {

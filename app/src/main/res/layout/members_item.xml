@@ -16,12 +16,13 @@
         android:orientation="vertical">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_image"
+            android:id="@+id/iv_user_picture"
             android:layout_width="match_parent"
             android:layout_height="@dimen/min_user_profile_width"
+            android:layout_gravity="center_horizontal"
             android:contentDescription="@string/group_image"
             android:scaleType="centerCrop"
-            android:src="@drawable/friends" />
+            android:src="@drawable/user_profile_avatar" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,35 +33,48 @@
             android:paddingVertical="@dimen/spacing_small">
 
             <TextView
-                android:id="@+id/tv_name"
+                android:id="@+id/tv_full_name"
                 style="@style/Headline5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_small"
-                android:text="Title" />
-
+                android:text="@string/group_members_full_name_placeholder" />
+            <TextView
+                android:id="@+id/tv_username"
+                style="@style/subtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/group_members_username_placeholder" />
             <TextView
                 android:id="@+id/tv_description"
                 style="@style/Paragraph"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_medium"
                 android:ellipsize="end"
                 android:maxLines="3"
-                android:text="TexTexTextttTextTexTexTexttt TextTexTex TextttTextTexTexTextttTextTexTexTextttTextTexTexTextttTextTexTexTextttT extTexTexTextttTextTexTe xTextttTextTexTexTextttT" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:visibility="gone"
+                android:text="@string/group_members_description_placeholder" />
 
             <Button
-                android:id="@+id/btnJoin"
+                android:id="@+id/btn_role"
                 style="@style/ButtonGhost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/group_profile_join"
-                android:focusable="true"/>
+                android:text="@string/group_profile_role_user"
+                android:focusable="true"
+                android:enabled="false"
+                android:textSize="14sp"/>
+
+            <Button
+                android:id="@+id/btn_remove"
+                style="@style/ButtonError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/group_profile_remove_user"
+                android:focusable="true"
+                android:textSize="14sp"/>
 
         </LinearLayout>
     </LinearLayout>

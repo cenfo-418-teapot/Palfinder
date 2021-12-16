@@ -48,6 +48,10 @@ object GroupAdmin {
         _groups.notifyObserver()
     }
 
+    fun clearGroups() {
+        this._groups.value?.clear()  //used when signing out
+    }
+
     data class GroupModel(
         val id: String,
         var name: String,
