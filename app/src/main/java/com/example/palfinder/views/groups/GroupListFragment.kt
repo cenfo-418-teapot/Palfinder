@@ -208,7 +208,6 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
     }
 
     override fun onJoinGroup(data: GroupAdmin.GroupModel?) {
-        GroupAdditionalSetUp.setGroup(data)
         groupToAddLiveData.postValue(data)
     }
 
