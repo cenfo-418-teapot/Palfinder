@@ -28,10 +28,6 @@ import android.R.attr.data
 import androidx.appcompat.app.AppCompatActivity
 import android.R.attr.data
 
-
-
-
-
 class UserProfileEditFragment : Fragment() {
     val GALLERY_REQUEST_CODE = 100
 
