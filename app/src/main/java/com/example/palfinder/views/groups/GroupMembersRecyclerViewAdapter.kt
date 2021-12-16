@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.GroupMembers
+import com.amplifyframework.datastore.generated.model.GroupRoles
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 
@@ -42,6 +43,7 @@ class GroupMembersRecyclerViewAdapter(
             holder.usernameView.text = finalUsername
             holder.descriptionView.text = finalUserDescription
             holder.btnRole.text = finalUserRole
+            if(item.role == GroupRoles.OWNER) holder.btnRemove.isEnabled = false
             if(listener !== null) {
                 holder.imageView.setOnClickListener {
 //                    listener.onClickViewProfile(item)

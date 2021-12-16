@@ -65,6 +65,7 @@
     <string name="group_list_my_groups_subtitle">My Groups</string>
     <string name="group_profile_join">Join</string>
     <string name="group_profile_joined">Joined</string>
+    <string name="group_profile_owner">Joined</string>
     <string name="search_group_hint">Find a group</string>
     <string name="group_list_no_groups">There are currently no groups.</string>
     <string name="group_list_reload">Reload groups</string>

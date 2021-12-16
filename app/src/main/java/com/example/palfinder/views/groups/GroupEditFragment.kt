@@ -132,6 +132,7 @@ class GroupEditFragment : Fragment() {
                 GroupAdditionalSetUp.tagsList.value?.forEach {
                     createTag(it, group)
                 }
+                addGroupToUser(group)
             }
         })
         tagsToAddLiveData.observe(viewLifecycleOwner, { tagsToAdd ->
@@ -226,6 +227,17 @@ class GroupEditFragment : Fragment() {
     private fun assignTagToGroup(tag: Tag) {
         _tagsToAdd.add(tag)
         tagsToAddLiveData.postValue(_tagsToAdd)
+    }
+
+    private fun addGroupToUser(group: GroupAdmin.GroupModel) {
+        val member = GroupMembers.builder().role(GroupRoles.OWNER).user(currentUser).group(group.data).groupUsersId(group.id).build()
+        Amplify.API.mutate(
+            ModelMutation.create(member),
+            {
+                Log.e(TAG, "${currentUser.username} was added as a owner member to ${group.name}")
+            },
+            { Log.e(TAG, "${currentUser.username} was not added as a member to ${group.name}") }
+        )
     }
 
     private fun validForm(): GroupAdmin.GroupModel {
