@@ -5,11 +5,11 @@
         android:enabled="true"
         android:icon="@drawable/ic_person"
         android:title="@string/mnuUsers"/>
-    <item
-        android:id="@+id/mnuEvents"
-        android:enabled="true"
-        android:icon="@drawable/ic_baseline_calendar_today_24"
-        android:title="@string/mnuEvents"/>
+<!--    <item-->
+<!--        android:id="@+id/mnuEvents"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/ic_baseline_calendar_today_24"-->
+<!--        android:title="@string/mnuEvents"/>-->
     <item
         android:id="@+id/mnuGroups"
         android:enabled="true"
