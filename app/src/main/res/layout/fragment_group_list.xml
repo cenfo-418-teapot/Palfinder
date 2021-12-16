@@ -179,6 +179,7 @@
                 android:paddingTop="20dp"
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp"
+                android:paddingStart="40dp"
                 android:text="@string/group_list_my_suggested_subtitle"
                 android:textColor="@color/primary" />
 
@@ -212,7 +213,6 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/group_list"
-                android:name="com.example.myapplication.ItemListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_vertical_margin"

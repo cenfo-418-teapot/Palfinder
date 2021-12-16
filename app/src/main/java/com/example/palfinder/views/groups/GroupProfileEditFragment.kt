@@ -187,7 +187,7 @@ class GroupProfileEditFragment : Fragment() {
         currentTags: List<TagGroup>?,
         tag: Tag
     ) {
-        val groupTag = currentTags?.find { uTag -> uTag.tag.id == tag.id }
+        val groupTag = currentTags?.find { uTag -> uTag.tag.name == tag.name }
         if (groupTag == null) {
             val tmpTag = TagGroup.builder().tag(tag).group(group.data).build()
             Amplify.API.mutate(

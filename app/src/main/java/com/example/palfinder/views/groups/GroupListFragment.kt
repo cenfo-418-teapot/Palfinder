@@ -38,6 +38,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 //    private var userGroups: List<GroupMembers>? = null
     private val groupToAddLiveData = MutableLiveData<GroupAdmin.GroupModel>()
     private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
+    private var firstRetrieve = true
     private var discovering = true
     private var recyclerViewUp = false
 
@@ -65,7 +66,12 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadGroups(false)
+//        loadGroups(false)
+        if(discovering)
+            setFocus(view, 1)
+        if(!discovering)
+            setFocus(view, 2)
+        firstRetrieve = false
     }
 
     private fun loadGroups(notify: Boolean) {
@@ -128,7 +134,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_suggested_subtitle)
                 discovering = true
-                GroupAdmin.notifyObserver()
+                loadGroups(!firstRetrieve)
             }
             2 -> {
                 underline_discover_groups.visibility = View.INVISIBLE
@@ -136,7 +142,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_groups_subtitle)
                 discovering = false
-                GroupAdmin.notifyObserver()
+                loadGroups(!firstRetrieve)
             }
             3 -> {
                 underline_discover_groups.visibility = View.INVISIBLE
@@ -185,7 +191,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                     sortedGroups.toMutableList(),
                     this,
                     currentUser.value!!.groups)
-                if (groups.size > 0) tv_no_groups.visibility = View.GONE
+                if (sortedGroups.isNotEmpty()) tv_no_groups.visibility = View.GONE
                 else tv_no_groups.visibility = View.VISIBLE
             })
     }
@@ -208,7 +214,6 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
     }
 
     override fun onJoinGroup(data: GroupAdmin.GroupModel?) {
-        GroupAdditionalSetUp.setGroup(data)
         groupToAddLiveData.postValue(data)
     }
 
@@ -221,7 +226,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         if (userIsMember != null) {
             progressLiveData.postValue("User was already a member of: ${group.name}")
         } else {
-            val member = GroupMembers.builder().role(GroupRoles.PARTICIPANT).user(currentUser.value).group(group.data).build()
+            val member = GroupMembers.builder().role(GroupRoles.PARTICIPANT).user(currentUser.value).group(group.data).groupUsersId(group.id).build()
             if (currentUser.value != null){
                 Amplify.API.mutate(
                     ModelMutation.create(member),

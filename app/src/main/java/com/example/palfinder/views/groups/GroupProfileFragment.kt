@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.api.graphql.model.ModelMutation
 import com.amplifyframework.core.Amplify
+import com.amplifyframework.datastore.generated.model.GroupMembers
 import com.amplifyframework.datastore.generated.model.TagGroup
 import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
@@ -35,10 +38,13 @@ import java.util.*
  * Use the [GroupProfile.newInstance] factory method to
  * create an instance of this fragment.
  */
-class GroupProfile : Fragment() {
+class GroupProfile : Fragment(), OnShowProfileListener {
     lateinit var group: GroupAdmin.GroupModel
     private val currentUser = MutableLiveData<User?>()
     private val messageToShow = MutableLiveData<String>()
+    private val _groupMembers = MutableLiveData<MutableList<GroupMembers>>(mutableListOf())
+    private fun groupMembers() : LiveData<MutableList<GroupMembers>> = _groupMembers
+    private val memberToRemoveLiveData = MutableLiveData<GroupMembers>()
     lateinit var model: GroupSharedViewModel
     private var canShare = false
     private var canMessaging = false
@@ -65,6 +71,7 @@ class GroupProfile : Fragment() {
             observeGroup(view)
         })
         observeMessages()
+        observerRemoveMember()
         return view
     }
 
@@ -87,6 +94,14 @@ class GroupProfile : Fragment() {
         }
     }
 
+    private fun observerRemoveMember() {
+        memberToRemoveLiveData.observe(viewLifecycleOwner, { memberToRemove ->
+            if (memberToRemove != null && currentUser.value != null) {
+                removeGroupFromUser(memberToRemove)
+            }
+        })
+    }
+
     private fun setFocus(view: View, navOption: Int){
         when(navOption) {
             1 -> {
@@ -107,6 +122,46 @@ class GroupProfile : Fragment() {
         }
     }
 
+    private fun <T> MutableLiveData<T>.notifyObserver() {
+        this.postValue(this.value)
+    }
+    private fun notifyMembers() {
+        this._groupMembers.notifyObserver()
+    }
+
+    private fun setupRecyclerView(recyclerView: RecyclerView) {
+        // add a touch gesture handler to manager the swipe to delete gesture
+        groupMembers().observe(viewLifecycleOwner, { groupMembers ->
+            Log.d(TAG, "Note observer received ${groupMembers.size} group members")
+            recyclerView.adapter = GroupMembersRecyclerViewAdapter(
+                groupMembers,
+                this.group,
+                this)
+            if (groupMembers.size > 0) tv_no_members.visibility = View.GONE
+            else tv_no_members.visibility = View.VISIBLE
+        })
+    }
+
+    private fun removeGroupFromUser(member: GroupMembers) {
+        if (currentUser.value != null){
+            this.rv_members.isEnabled = false
+            Amplify.API.mutate(
+                ModelMutation.delete(member),
+                {
+                    notifyMembers()
+                    this.rv_members.isEnabled = false
+                },
+                {
+                    Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${member.group.name}")
+                    this.rv_members.isEnabled = false
+                }
+            )
+        }
+    }
+
+    override fun onUnJoinGroup(data: GroupMembers?) {
+        memberToRemoveLiveData.postValue(data)
+    }
 
     private fun observeGroup(view: View) {
         if(!dataRetrieved){
@@ -116,6 +171,7 @@ class GroupProfile : Fragment() {
                 Log.d(TAG, "Group RECEIVED! " + group.name)
                 setGroupData()
                 observeShareGroup()
+                setupRecyclerView(rv_members)
                 view.edit_group.setOnClickListener{
                     model.sendMessage(group)
                     Navigation.findNavController(view)
@@ -126,11 +182,13 @@ class GroupProfile : Fragment() {
     }
 
     private fun setGroupData() {
+        _groupMembers.value = group.users?.toMutableList()
+//        notifyMembers()
         tv_privacy_subtitle.text = group.status.toString()
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
         tvTitle.text = group.name
         tv_group_description.text = group.description
-        iv_image_profile.setImageBitmap(group.image)
+        if(group.image != null) iv_image_profile.setImageBitmap(group.image)
         val tempTags: MutableList<String> = mutableListOf()
         if(!group.tags.isNullOrEmpty()) {
             tv_group_tag_list.visibility = View.GONE

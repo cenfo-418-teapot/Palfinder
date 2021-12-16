@@ -80,6 +80,7 @@
     <string name="group_profile_next_events_subtitle">Next Events</string>
     <string name="group_profile_members_subtitle">Members</string>
     <string name="group_profile_view_all_members">View all</string>
+    <string name="group_profile_remove_user">Remove</string>
 
     <!-- Group Users List -->
     <string name="title_group_user_list">Group members</string>
