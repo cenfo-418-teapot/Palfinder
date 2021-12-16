@@ -38,6 +38,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 //    private var userGroups: List<GroupMembers>? = null
     private val groupToAddLiveData = MutableLiveData<GroupAdmin.GroupModel>()
     private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
+    private var firstRetrieve = true
     private var discovering = true
     private var recyclerViewUp = false
 
@@ -50,7 +51,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         view.nav_discover_groups.setOnClickListener { setFocus(view, 1) }
         view.nav_my_groups.setOnClickListener { setFocus(view, 2) }
         view.nav_create_group.setOnClickListener { setFocus(view, 3) }
-        view.refresh_groups.setOnClickListener { loadGroups(true) }
+        view.refresh_groups.setOnClickListener { loadGroups(false) }
 
         if(currentUser.value == null)
             retrieveUser()
@@ -65,7 +66,13 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loadGroups(false)
+//        loadGroups(false)
+        firstRetrieve = true
+        if(discovering)
+            setFocus(view, 1)
+        if(!discovering)
+            setFocus(view, 2)
+        firstRetrieve = false
     }
 
     private fun loadGroups(notify: Boolean) {
@@ -128,7 +135,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_suggested_subtitle)
                 discovering = true
-                GroupAdmin.notifyObserver()
+                loadGroups(!firstRetrieve)
             }
             2 -> {
                 underline_discover_groups.visibility = View.INVISIBLE
@@ -136,7 +143,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 underline_create_group.visibility = View.INVISIBLE
                 tv_suggested_subtitle.text = getString(R.string.group_list_my_groups_subtitle)
                 discovering = false
-                GroupAdmin.notifyObserver()
+                loadGroups(!firstRetrieve)
             }
             3 -> {
                 underline_discover_groups.visibility = View.INVISIBLE
@@ -185,7 +192,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                     sortedGroups.toMutableList(),
                     this,
                     currentUser.value!!.groups)
-                if (groups.size > 0) tv_no_groups.visibility = View.GONE
+                if (sortedGroups.isNotEmpty()) tv_no_groups.visibility = View.GONE
                 else tv_no_groups.visibility = View.VISIBLE
             })
     }
@@ -220,14 +227,14 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         if (userIsMember != null) {
             progressLiveData.postValue("User was already a member of: ${group.name}")
         } else {
-            val member = GroupMembers.builder().role(GroupRoles.PARTICIPANT).user(currentUser.value).group(group.data).build()
+            val member = GroupMembers.builder().role(GroupRoles.PARTICIPANT).user(currentUser.value).group(group.data).groupUsersId(group.id).build()
             if (currentUser.value != null){
                 Amplify.API.mutate(
                     ModelMutation.create(member),
                     {
                         currentUser.value!!.groups.add(it.data)
                         progressLiveData.postValue("${currentUser.value!!.username} added to group ${group.name}")
-                        loadGroups(true)
+                        loadGroups(false)
                     },
                     { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${group.name}") }
                 )
@@ -242,7 +249,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                 {
                     currentUser.value!!.groups.remove(it.data)
                     progressLiveData.postValue("${currentUser.value!!.username} removed from group ${member.group.name}")
-                    loadGroups(true)
+                    loadGroups(false)
                 },
                 { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${member.group.name}") }
             )

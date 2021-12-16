@@ -23,17 +23,12 @@ object GroupService {
 
     private const val TAG = "GroupService"
 
-    fun updateGroups() {
-        val groupList = GroupAdmin.groups().value
-        val isEmpty = groupList?.isEmpty() ?: false
-
-        // query notes when signed in and we do not have Notes yet
-        if (isEmpty) {
-            this.queryGroups()
-        } else {
+    fun updateGroups(notify: Boolean = false) {
+        if(notify)
             GroupAdmin.resetGroups()
-            this.queryGroups()
-        }
+        else
+            GroupAdmin.clearGroups()
+        this.queryGroups()
     }
 
     fun updateGroupsSender() {
