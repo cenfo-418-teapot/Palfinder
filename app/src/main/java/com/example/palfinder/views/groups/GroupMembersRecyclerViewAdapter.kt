@@ -10,13 +10,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.datastore.generated.model.GroupMembers
 import com.amplifyframework.datastore.generated.model.GroupRoles
+import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
 
 class GroupMembersRecyclerViewAdapter(
     private val groupMembers: MutableList<GroupMembers>?,
     private val group: GroupAdmin.GroupModel,
-    private val listener: OnShowProfileListener?
+    private val listener: OnShowProfileListener?,
+    private val userLooking: User?
     ) :
     RecyclerView.Adapter<GroupMembersRecyclerViewAdapter.ViewHolder>() {
 
@@ -45,13 +47,16 @@ class GroupMembersRecyclerViewAdapter(
             holder.btnRole.text = finalUserRole
             if(item.role == GroupRoles.OWNER) holder.btnRemove.isEnabled = false
             if(listener !== null) {
-                holder.imageView.setOnClickListener {
-//                    listener.onClickViewProfile(item)
-                }
-                holder.btnRemove.setOnClickListener {
-                    Log.i(TAG, "Removed user ${finalUser.username} group: ${group.name}")
+//                val userLookingRole: GroupRoles
+                if(userLooking!!.id == item.user.id || item.role == GroupRoles.OWNER) {
+//                    userLookingRole = item.role
+                    holder.btnRemove.setOnClickListener {
+                        Log.i(TAG, "Removed user ${finalUser.username} group: ${group.name}")
+                        holder.btnRemove.isEnabled = false
+                        listener.onUnJoinGroup(item)
+                    }
+                } else {
                     holder.btnRemove.isEnabled = false
-                    listener.onUnJoinGroup(item)
                 }
             }
         }
