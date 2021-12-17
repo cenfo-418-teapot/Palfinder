@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/mnuHome"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/mnuHome"/>
+    <item
+        android:id="@+id/mnuProfile"
+        android:enabled="true"
+        android:icon="@drawable/ic_person"
+        android:title="@string/mnuProfile"/>
+    <item
+        android:id="@+id/mnuEvents"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_calendar_today_24"
+        android:title="@string/mnuEvents"/>
+    <item
+        android:id="@+id/mnuSearch"
+        android:enabled="true"
+        android:icon="@drawable/ic_search"
+        android:title="@string/mnuSearch"/>
+<!--    <item-->
+<!--        android:id="@+id/mnuNotifications"-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/ic_baseline_notifications_24"-->
+<!--        android:title="@string/mnuNotifications"/>-->
+</menu>

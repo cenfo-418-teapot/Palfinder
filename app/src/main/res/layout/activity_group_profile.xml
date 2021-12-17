@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.fragment.app.FragmentContainerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fcvGroupProfile"
+    android:name="com.example.palfinder.views.groups.GroupProfile"
+    style="@style/container"
+    tools:context=".views.groups.GroupProfileActivity"
+    tools:showIn="@layout/fragment_group_profile" />
