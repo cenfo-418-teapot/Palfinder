@@ -9,10 +9,6 @@
         android:id="@+id/mnuParticipantsList"
         android:enabled="true"
         android:icon="@drawable/ic_person"
-        android:title="@string/mnuEvents"/>
-    <item
-        android:id="@+id/mnuJoin"
-        android:enabled="true"
-        android:icon="@drawable/ic_groups"
-        android:title="@string/mnuGroups"/>
+        android:title="@string/mnuAdmins"/>
+
 </menu>

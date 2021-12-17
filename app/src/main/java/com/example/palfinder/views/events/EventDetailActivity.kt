@@ -47,8 +47,7 @@ class EventDetailActivity : AppCompatActivity(R.layout.activity_event_detail) {
 
     private val steps = arrayListOf(
         Pair(R.id.mnuDetailEvent, EventDetailFragment()),
-        Pair(R.id.mnuParticipantsList, SearchEventsFragment()),
-        Pair(R.id.mnuJoin, SearchGroupsFragment()),
+        Pair(R.id.mnuParticipantsList, eventAdminList()),
     )
 
     @RequiresApi(Build.VERSION_CODES.O)

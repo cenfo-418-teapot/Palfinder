@@ -146,6 +146,7 @@
     <string name="initial_setup_msg">Make sure the data here is what you wanted, feel free to go back and change what you need</string>
     <string name="mnuSearch">Search</string>
     <string name="mnuEvents">Events</string>
+    <string name="mnuAdmins">Admins</string>
     <string name="mnuHome">Home</string>
     <string name="mnuProfile">Profile</string>
     <string name="mnuNotifications">Notifications</string>
