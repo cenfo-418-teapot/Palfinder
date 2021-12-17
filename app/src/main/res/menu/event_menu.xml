@@ -5,10 +5,6 @@
         android:enabled="true"
         android:icon="@drawable/ic_baseline_info_24"
         android:title="@string/mnuEventDetail"/>
-    <item
-        android:id="@+id/mnuParticipantsList"
-        android:enabled="true"
-        android:icon="@drawable/ic_person"
-        android:title="@string/mnuAdmins"/>
+
 
 </menu>
