@@ -53,20 +53,17 @@ class EventsRecyclerViewAdapter(
         /*if (eventImage != null) {
             holder.imageView.setImageBitmap(item.image)
         }*/
-        holder.imageView.setOnClickListener {
-            Log.i("ObjetoFC ",objeto.toString())
-            val bundle = bundleOf("id" to item.id)
-            it.context.startActivity(Intent(it.context, EventActivity::class.java).apply {
-                putExtra("id", bundle)
-            })
-        }
+
 
         holder.btnEventDetail.setOnClickListener{
 
                 Log.i("ObjetoFC ",objeto.toString())
-            val bundle = bundleOf("id" to item.id)
+
+            val consola = objeto
+
            // goTo(it, R.id.action_eventListManager_to_eventDetail, bundle)
-            EventData.setCurrentEvent(item.data)
+            EventData.setCurrentEvent(item)
+
             it.context.startActivity(Intent(it.context, EventDetailActivity::class.java))
             }
         }
