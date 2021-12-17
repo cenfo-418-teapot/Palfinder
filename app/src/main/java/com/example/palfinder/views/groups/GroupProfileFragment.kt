@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.green
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,7 @@ import com.amplifyframework.datastore.generated.model.TagGroup
 import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.GroupAdmin
+import com.example.palfinder.backend.services.GroupService
 import com.example.palfinder.backend.services.UserData
 import com.example.palfinder.backend.services.UserService
 import com.google.android.material.chip.Chip
@@ -49,6 +51,7 @@ class GroupProfile : Fragment(), OnShowProfileListener {
     private var canShare = false
     private var canMessaging = false
     private var dataRetrieved = false
+    private var userCanEdit = MutableLiveData<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,10 +139,21 @@ class GroupProfile : Fragment(), OnShowProfileListener {
         // add a touch gesture handler to manager the swipe to delete gesture
         groupMembers().observe(viewLifecycleOwner, { groupMembers ->
             Log.d(TAG, "Note observer received ${groupMembers.size} group members")
+            var userCanEditSet = false
+            groupMembers.forEach { member ->
+                if(member.user.id == currentUser.value!!.id) {
+                    userCanEdit.postValue(true)
+                    userCanEditSet = true
+                    edit_group.visibility = View.VISIBLE
+                    return@forEach
+                }
+            }
+            if(!userCanEditSet) userCanEdit.postValue(false)
             recyclerView.adapter = GroupMembersRecyclerViewAdapter(
                 groupMembers,
                 this.group,
-                this)
+                this,
+                currentUser!!.value)
             if (!groupMembers.isNullOrEmpty()) tv_no_members.visibility = View.GONE
             else tv_no_members.visibility = View.VISIBLE
         })
@@ -151,7 +165,7 @@ class GroupProfile : Fragment(), OnShowProfileListener {
             Amplify.API.mutate(
                 ModelMutation.delete(member),
                 {
-                    this._groupMembers.value?.clear()
+                    this._groupMembers.value?.remove(member)
                     notifyMembers()
                     this.rv_members.isEnabled = false
                 },
@@ -196,23 +210,20 @@ class GroupProfile : Fragment(), OnShowProfileListener {
         if(!group.tags.isNullOrEmpty()) {
             tv_group_tag_list.visibility = View.GONE
             cgGroupTags.visibility = View.VISIBLE
-
             group.tags!!.forEach {
                 tempTags.add(it.tag.name)
             }
-            group.tags!!.forEach {
-                // in text
-//                val tempText: String = tv_group_tag_list.text.toString()
-//                tv_group_tag_list.text = tempText + " " + it.tag.name
-                // in chips
-                val chip = addProfileTagChips(it.tag.name, cgGroupTags)
-                chip?.setOnCloseIconClickListener { chp ->
-                    cgGroupTags.removeView(chp)
-                    deleteGroupTag(it) { response ->
-                        messageToShow.postValue(response)
+            userCanEdit.observe(viewLifecycleOwner, { canEdit ->
+                group.tags!!.forEach {
+                    val chip = addProfileTagChips(canEdit, it.tag.name, cgGroupTags)
+                    chip?.setOnCloseIconClickListener { chp ->
+                        cgGroupTags.removeView(chp)
+                        deleteGroupTag(it) { response ->
+                            messageToShow.postValue(response)
+                        }
                     }
                 }
-            }
+            })
         } else {
             tv_group_tag_list.visibility = View.VISIBLE
             cgGroupTags.visibility = View.GONE
@@ -258,18 +269,19 @@ class GroupProfile : Fragment(), OnShowProfileListener {
                 {
 //                    Log.e(TAG, "${currentUser.value!!.username} was a tag from to ${groupTag.group.name}")
                     textResponse("Cannot remove tag ${groupTag.tag.name}")
-                    addProfileTagChips(groupTag.tag.name, cgGroupTags)
+                    addProfileTagChips(userCanEdit.value!!, groupTag.tag.name, cgGroupTags)
                 }
             )
         }
     }
 
-    private fun addProfileTagChips(name: String, chipGroup: ChipGroup): Chip? {
+    private fun addProfileTagChips(userCanEdit: Boolean,name: String, chipGroup: ChipGroup): Chip? {
         val exists =
             chipGroup.checkedChipIds.any { id -> chipGroup.findViewById<Chip>(id).text == name }
         if (!exists) {
             val chip = layoutInflater.inflate(R.layout.group_tag, chipGroup, false) as Chip
             chip.text = name
+            chip.isCloseIconVisible = userCanEdit
             chip.setOnCloseIconClickListener {
                 GroupAdditionalSetUp.setTagsList(
                     GroupAdditionalSetUp.tagsList.value!!

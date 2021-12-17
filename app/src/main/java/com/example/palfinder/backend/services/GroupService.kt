@@ -23,6 +23,7 @@ object GroupService {
 
     private const val TAG = "GroupService"
 
+
     fun updateGroups(notify: Boolean = false) {
         if(notify)
             GroupAdmin.resetGroups()
@@ -76,7 +77,7 @@ object GroupService {
                 for (groupData in response.data) {
                     Log.i(TAG, groupData.name)
                     // TODO should add all the groups at once instead of one by one (each add triggers a UI refresh)
-                    GroupAdmin.addGroup(GroupAdmin.GroupModel.from(groupData))
+                    GroupAdmin.addGroup(GroupAdmin.GroupModel.from(groupData), false)
                 }
             },
             { error -> Log.e(TAG, "Query failure", error) }
