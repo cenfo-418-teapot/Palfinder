@@ -77,43 +77,6 @@
                 style="@style/Paragraph"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilState"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:hint="@string/lbl_status"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_baseline_remove_red_eye_24">
-
-            <AutoCompleteTextView
-                android:inputType="none"
-                android:id="@+id/etState"
-                style="@style/Paragraph"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:dropDownWidth="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/img_event_date"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/text_event_date"
-            app:errorEnabled="true"
-            app:startIconDrawable="@drawable/ic_date">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/event_date"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="datetime"
-                style="@style/Paragraph"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/img_event_description"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"

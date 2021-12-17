@@ -14,6 +14,8 @@ object EventManager {
 
     private val _events = MutableLiveData<MutableList<EventManager.EventModel>>(mutableListOf())
 
+    private val _members = MutableLiveData<MutableList<EventManager.EventModel>>(mutableListOf())
+
     private fun <T> MutableLiveData<T>.notifyObserver() {
         this.postValue(this.value)
     }

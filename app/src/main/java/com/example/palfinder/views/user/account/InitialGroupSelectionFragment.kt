@@ -24,7 +24,7 @@ class InitialGroupSelectionFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_initial_group_selection, container, false)
         view.rvGroups.visibility = View.GONE
-        GroupService.updateGroups()
+        GroupService.updateGroups(true)
         GroupAdmin.groups()
             .observe(viewLifecycleOwner, { groups ->
                 Log.d(TAG, "Note observer received ${groups.size} groups")
