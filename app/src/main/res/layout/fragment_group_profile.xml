@@ -57,7 +57,8 @@
                     android:focusable="true"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_edit_24" />
+                    app:srcCompat="@drawable/ic_baseline_edit_24"
+                    android:visibility="gone"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
@@ -344,11 +345,6 @@
                     android:padding="15dp"
                     android:text="@string/group_list_no_members"
                     android:visibility="gone"/>
-                <ScrollView
-                    android:id="@+id/sv_group_members"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="SpeakableTextPresentCheck">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_members"
@@ -359,7 +355,6 @@
                         app:spanCount="2"
                         tools:context=".views.groups.GroupActivity"
                         tools:listitem="@layout/members_item" />
-                </ScrollView>
             </LinearLayout>
         </LinearLayout>
 

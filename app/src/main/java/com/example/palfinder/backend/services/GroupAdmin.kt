@@ -33,10 +33,24 @@ object GroupAdmin {
             Log.e(TAG, "addGroup : group collection is null !!")
         }
     }
+    fun addGroup(n : GroupModel, notify: Boolean) {
+        val tmpGroups = _groups.value
+        if (tmpGroups != null) {
+            tmpGroups.add(n)
+            if(notify)
+                _groups.notifyObserver()
+        } else {
+            Log.e(TAG, "addGroup : group collection is null !!")
+        }
+    }
     fun deleteGroup(at: Int) : GroupModel?  {
         val group = _groups.value?.removeAt(at)
         _groups.notifyObserver()
         return group
+    }
+    fun deleteGroup(model: GroupModel) {
+        _groups.value?.remove(model)
+//        _groups.notifyObserver()
     }
 
     fun getGroup(at: Int): GroupModel? {
