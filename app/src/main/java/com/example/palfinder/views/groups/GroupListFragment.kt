@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.fragment_group_list.view.*
  */
 class GroupListFragment : Fragment(), OnViewProfileListener {
     private val progressLiveData = MutableLiveData<String>()
+    private val observeNewFocus = MutableLiveData<Int>()
 
     //    private lateinit var progressBar: ProgressBar
     private val currentUser = MutableLiveData<User?>()
@@ -40,7 +41,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
     private val groupToRemoveLiveData = MutableLiveData<GroupMembers>()
     private var firstRetrieve = true
     private var discovering = true
-    private var recyclerViewUp = false
+    private var joinActionInProgress = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,27 +52,33 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         view.nav_discover_groups.setOnClickListener { setFocus(view, 1) }
         view.nav_my_groups.setOnClickListener { setFocus(view, 2) }
         view.nav_create_group.setOnClickListener { setFocus(view, 3) }
-        view.refresh_groups.setOnClickListener { loadGroups(false) }
 
-        if(currentUser.value == null)
-            retrieveUser()
+        retrieveUser(view)
 
-        if(!recyclerViewUp)
-            observeCurrentUser()
 
-//        progressBar = requireActivity().findViewById(R.id.progressBar4)
-//        progressBar.progress = 0
+        observeCurrentUser()
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        loadGroups(false)
         firstRetrieve = true
+        view.refresh_groups.setOnClickListener {
+            if(!firstRetrieve)
+                GroupService.updateGroups(true)
+        }
+
         if(discovering)
             setFocus(view, 1)
         if(!discovering)
             setFocus(view, 2)
+        observeNewFocus.observe(viewLifecycleOwner, {value->
+            if(firstRetrieve){
+                setFocus(view, value)
+                firstRetrieve = false
+            }
+        })
         firstRetrieve = false
     }
 
@@ -83,7 +90,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
         }
     }
 
-    private fun retrieveUser() {
+    private fun retrieveUser(view: View) {
         UserService.getUserByUsername(
             Amplify.Auth.currentUser.username,
             {
@@ -98,14 +105,17 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
             },
             { Log.e(TAG, "Failed to get user by id", it) }
         )
+        observeJoinGroup(view)
+    }
 
+    private fun observeJoinGroup(view: View){
         groupToAddLiveData.observe(viewLifecycleOwner, { groupToAdd ->
-            if (groupToAdd != null && currentUser.value != null) {
-                addGroupToUser(currentUser.value!!.groups, groupToAdd)
+            if (joinActionInProgress && groupToAdd != null && currentUser.value != null) {
+                addGroupToUser(view, currentUser.value!!.groups, groupToAdd)
             }
         })
         groupToRemoveLiveData.observe(viewLifecycleOwner, { memberToRemove ->
-            if (memberToRemove != null && currentUser.value != null) {
+            if (joinActionInProgress && memberToRemove != null && currentUser.value != null) {
                 removeGroupFromUser(memberToRemove)
             }
         })
@@ -215,14 +225,16 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
     }
 
     override fun onJoinGroup(data: GroupAdmin.GroupModel?) {
+        joinActionInProgress = true
         groupToAddLiveData.postValue(data)
     }
 
     override fun onUnJoinGroup(data: GroupMembers?) {
+        joinActionInProgress = true
         groupToRemoveLiveData.postValue(data)
     }
 
-    private fun addGroupToUser(currentGroups: List<GroupMembers>?, group: GroupAdmin.GroupModel) {
+    private fun addGroupToUser(view: View, currentGroups: List<GroupMembers>?, group: GroupAdmin.GroupModel) {
         val userIsMember = currentGroups?.find { member -> member.group.id == group.id }
         if (userIsMember != null) {
             progressLiveData.postValue("User was already a member of: ${group.name}")
@@ -234,7 +246,9 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                     {
                         currentUser.value!!.groups.add(it.data)
                         progressLiveData.postValue("${currentUser.value!!.username} added to group ${group.name}")
-                        loadGroups(false)
+                        firstRetrieve = true
+                        observeNewFocus.postValue(2)
+                        joinActionInProgress = false
                     },
                     { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${group.name}") }
                 )
@@ -250,6 +264,7 @@ class GroupListFragment : Fragment(), OnViewProfileListener {
                     currentUser.value!!.groups.remove(it.data)
                     progressLiveData.postValue("${currentUser.value!!.username} removed from group ${member.group.name}")
                     loadGroups(false)
+                    joinActionInProgress = false
                 },
                 { Log.e(TAG, "${currentUser.value!!.username} was not added as a member to ${member.group.name}") }
             )
