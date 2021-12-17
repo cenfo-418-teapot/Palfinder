@@ -21,6 +21,7 @@ import com.amplifyframework.datastore.generated.model.User
 import com.example.palfinder.R
 import com.example.palfinder.backend.services.event.EventData
 import kotlinx.android.synthetic.main.activity_event_detail.*
+import kotlinx.android.synthetic.main.fragment_event_create.view.*
 import kotlinx.android.synthetic.main.fragment_event_detail1.*
 import kotlinx.android.synthetic.main.fragment_event_detail1.view.*
 import kotlinx.android.synthetic.main.fragment_search.view.*
@@ -31,14 +32,7 @@ class EventDetailFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        EventData.currentEvent.observe(viewLifecycleOwner, {
-            val pattern = "dd MMMM yyyy HH:mm a"
-            val simpleDateFormat = SimpleDateFormat(pattern)
-            val date: String = simpleDateFormat.format(it.`when`.toDate())
-            evetDate.text = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
-            eventDetailDescription.text = it.description
-            Log.i("Event Mnager ", it.toString())
-        })
+        Log.i("EventoRV", "Sirve esta pussy")
     }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -46,8 +40,17 @@ class EventDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_search, container, false)
-        initRecyclerView(view.rvSearch)
+        val view = inflater.inflate(R.layout.fragment_event_detail1, container, false)
+        //initRecyclerView(view.rvSearch)
+        EventData.currentEvent.observe(viewLifecycleOwner, {
+            val pattern = "dd MMMM yyyy HH:mm a"
+            val simpleDateFormat = SimpleDateFormat(pattern)
+            val date: String = simpleDateFormat.format(it.`when`.toDate())
+            view.evetDate.text = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
+            view.eventDetailDescription.text = it.description
+            view.eventDetailLocation.text = it.location
+            Log.i("Event Mnager ", it.toString())
+        })
         return view
     }
 

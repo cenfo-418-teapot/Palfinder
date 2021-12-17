@@ -47,7 +47,6 @@ class EventEditFragment : Fragment() {
                 var event = validateForm()
                 EventAPI.createEvent(event)
 
-                activity?.finish()
             } catch (e: IllegalStateException){
                 Log.e(TAG, "Error in Form")
             }
@@ -55,7 +54,7 @@ class EventEditFragment : Fragment() {
 
         view.btnCancel.setOnClickListener{
             toastFallo()
-            activity?.finish()
+            Navigation.findNavController(view).navigate(R.id.action_creteEvent_to_groupProfile)
         }
 
         return view

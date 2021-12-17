@@ -67,7 +67,10 @@ class GroupProfile : Fragment(), OnShowProfileListener {
             Navigation.findNavController(view).navigate(R.id.action_groupProfile_to_groupUsersFragment)
         }
         view.nav_add_user.setOnClickListener{ setFocus(view,1) }
-        view.nav_create_event.setOnClickListener{ setFocus(view, 2) }
+        view.nav_create_event.setOnClickListener{
+            setFocus(view, 2)
+            Navigation.findNavController(view).navigate(R.id.action_groupProfile_to_creteEvent)
+        }
         view.nav_share.setOnClickListener{ setFocus(view, 3) }
         retrieveUser()
         currentUser.observe(viewLifecycleOwner, {
