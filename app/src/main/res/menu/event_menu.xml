@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/mnuUsers"
+        android:id="@+id/mnuDetailEvent"
         android:enabled="true"
         android:icon="@drawable/ic_person"
-        android:title="@string/mnuUsers"/>
+        android:title="@string/mnuEventDetail"/>
     <item
-        android:id="@+id/mnuEvents"
+        android:id="@+id/mnuParticipantsList"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_calendar_today_24"
         android:title="@string/mnuEvents"/>
     <item
-        android:id="@+id/mnuGroups"
+        android:id="@+id/mnuJoin"
         android:enabled="true"
         android:icon="@drawable/ic_groups"
         android:title="@string/mnuGroups"/>

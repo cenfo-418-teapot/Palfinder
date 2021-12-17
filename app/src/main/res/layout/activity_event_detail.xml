@@ -47,7 +47,7 @@
         tools:ignore="NestedWeights" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+        android:id="@+id/bottom_navigationEvents"
         style="@style/BottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
