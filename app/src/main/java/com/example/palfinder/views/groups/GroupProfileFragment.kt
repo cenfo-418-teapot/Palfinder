@@ -224,6 +224,7 @@ class GroupProfile : Fragment(), OnShowProfileListener {
                     }
                 }
             })
+            userCanEdit.postValue(false)
         } else {
             tv_group_tag_list.visibility = View.VISIBLE
             cgGroupTags.visibility = View.GONE
