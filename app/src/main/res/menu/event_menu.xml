@@ -3,7 +3,7 @@
     <item
         android:id="@+id/mnuDetailEvent"
         android:enabled="true"
-        android:icon="@drawable/ic_person"
+        android:icon="@drawable/ic_baseline_info_24"
         android:title="@string/mnuEventDetail"/>
     <item
         android:id="@+id/mnuParticipantsList"
