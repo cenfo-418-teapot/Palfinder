@@ -36,6 +36,7 @@ class EventDetailFragment : Fragment() {
             val pattern = "dd MMMM yyyy HH:mm a"
             val simpleDateFormat = SimpleDateFormat(pattern)
             val date: String = simpleDateFormat.format(it.date?.toDate())
+
             view.evetDate.text = date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
             view.eventDetailDescription.text = it.description
             view.eventDetailLocation.text = it.location
